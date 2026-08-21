@@ -1,0 +1,39 @@
+---
+description: Rules for data, types, Supabase, and external integrations
+globs: data/**,types/**,lib/**,supabase/**
+alwaysApply: false
+---
+
+# Data & Content
+
+- Static content lives in `data/` as typed TypeScript exports.
+- All shared types are in `types/` and re-exported from `types/index.ts`.
+- Import types with `import type { X } from "@/types"`.
+
+# Supabase
+
+- Browser client: `lib/supabase/client.ts` (for client components).
+- Server client: `lib/supabase/server.ts` (for server components/route handlers).
+- Database types: `lib/supabase/types.ts` (will be auto-generated later).
+- Schema changes: Add SQL migrations in `supabase/migrations/`.
+- Never import Supabase in `components/` — data is passed via props from pages.
+
+# Video Providers
+
+- Provider logic is isolated in `lib/videos/providers.ts`.
+- Supports: YouTube, Loom.
+- Use `getEmbedUrl()` and `getThumbnailUrl()` — do not hardcode provider URLs elsewhere.
+- To add a provider: add an entry to the `providers` record. No UI changes needed.
+
+# Type Safety
+
+- Keep types in sync with data structures.
+- Prefer specific types over `any` or `unknown`.
+- When adding a new data entity, create its type in `types/` first.
+- Barrel-export from `types/index.ts`.
+
+# Environment Variables
+
+- Public (client-safe): `NEXT_PUBLIC_*`
+- Server-only: no prefix (never access in client components)
+- All variables documented in `.env.example`

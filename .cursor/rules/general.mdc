@@ -1,0 +1,33 @@
+---
+description: Core principles for all AI-assisted development in this project
+globs:
+alwaysApply: true
+---
+
+# Project
+
+Md Abdullah's portfolio — Automation & Integration Engineer. Not a generic developer portfolio.
+
+# Principles
+
+1. **Minimal change** — Make the smallest coherent change. Do not modify unrelated files or refactor unrelated code.
+2. **Existing code first** — Search for existing implementations, components, utilities, and types before creating new ones.
+3. **No invented content** — Never fabricate clients, testimonials, metrics, results, experience, or project details. Use placeholders.
+4. **Validate** — Run `npm run typecheck` and `npm run lint` after changes.
+
+# Conventions
+
+- TypeScript strict mode. No `any` unless absolutely necessary.
+- Files: kebab-case directories, camelCase for utility files, PascalCase for component files.
+- Imports: Use `@/` path alias (maps to project root).
+- Styling: Tailwind CSS + `cn()` from `@/lib/utils`. CSS variables for theme tokens.
+- Icons: lucide-react.
+
+# Commands
+
+```bash
+npm run dev        # Dev server
+npm run build      # Production build
+npm run lint       # ESLint
+npm run typecheck  # Type check
+```

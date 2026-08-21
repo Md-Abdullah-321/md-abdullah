@@ -1,0 +1,55 @@
+---
+description: Project architecture, file locations, and boundaries
+globs:
+alwaysApply: false
+---
+
+# Directory Responsibilities
+
+| Directory | Purpose | Does NOT contain |
+|-----------|---------|-----------------|
+| `app/` | Pages, layouts, route handlers | Business logic, reusable components |
+| `components/` | Reusable React components | Data fetching, Supabase imports |
+| `lib/` | Utilities, external integrations | React components, JSX |
+| `data/` | Static content/config exports | Runtime logic, API calls |
+| `types/` | TypeScript interfaces only | Runtime code |
+| `hooks/` | Custom React hooks | — |
+| `public/` | Static assets | — |
+| `supabase/` | Migrations, seed data | Application code |
+
+# Server/Client Boundaries
+
+- Default: Server Components.
+- `"use client"` only for: event handlers, useState, useEffect, browser APIs, motion animations.
+- Server-only: Supabase access, env vars (non-NEXT_PUBLIC_), cookies, headers.
+
+# Next.js 16 Conventions
+
+- Use `PageProps<"/route">` and `LayoutProps<"/route">` (globally available, no import needed).
+- `params` is a Promise — always `await props.params`.
+- Route handlers use standard Web `Request`/`Response` APIs.
+- Read `node_modules/next/dist/docs/` for API details when unsure.
+
+# Data Flow
+
+```
+UI (components/) → Page (app/) → lib/ modules → External services (Supabase, APIs)
+```
+
+Presentational components receive data via props. They never import from `lib/supabase/`.
+
+# Route Structure
+
+```
+/               → app/(marketing)/page.tsx
+/about          → app/(marketing)/about/page.tsx
+/work           → app/(marketing)/work/page.tsx
+/work/[slug]    → app/(marketing)/work/[slug]/page.tsx
+/services       → app/(marketing)/services/page.tsx
+/contact        → app/(marketing)/contact/page.tsx
+/api/health     → app/api/health/route.ts
+```
+
+# Adding New Routes
+
+Place new marketing pages in `app/(marketing)/`. The route group provides the shared layout (navigation + footer) without affecting URLs.

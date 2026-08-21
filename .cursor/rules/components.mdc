@@ -1,0 +1,40 @@
+---
+description: Rules for creating and modifying React components
+globs: components/**
+alwaysApply: false
+---
+
+# Component Rules
+
+1. **Search first** — Before creating a component, check if one already exists in `components/`.
+2. **Single responsibility** — Each component does one thing. Split at ~150 lines.
+3. **Composition over complexity** — Prefer composing small components over building monolithic ones.
+4. **No data fetching** — Components receive data via props. No Supabase, no fetch calls.
+5. **Server by default** — Only add `"use client"` when the component needs interactivity.
+
+# Component Locations
+
+| Type | Directory |
+|------|-----------|
+| shadcn/ui primitives | `components/ui/` |
+| Header, footer, containers | `components/layout/` |
+| Navigation menus | `components/navigation/` |
+| Page sections (hero, CTA) | `components/sections/` |
+| Case study components | `components/case-studies/` |
+| Video embeds, galleries | `components/media/` |
+| Architecture/workflow visuals | `components/diagrams/` |
+| Reusable shared elements | `components/shared/` |
+
+# Styling
+
+- Use Tailwind utility classes.
+- Use `cn()` from `@/lib/utils` for conditional classes.
+- Use CSS variables (defined in `app/globals.css`) for theme tokens.
+- Use `class-variance-authority` for component variants (buttons, badges, etc.).
+
+# shadcn/ui
+
+- Add components with `npx shadcn add <component>`.
+- Config is in `components.json`.
+- Installed primitives land in `components/ui/`.
+- Do not manually modify shadcn/ui files unless customizing behavior.

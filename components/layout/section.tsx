@@ -1,0 +1,28 @@
+import { cn } from "@/lib/utils";
+
+interface SectionProps {
+  children: React.ReactNode;
+  className?: string;
+  /** Reduce vertical padding for denser sections */
+  compact?: boolean;
+  /** HTML element to render */
+  as?: "section" | "div" | "article";
+}
+
+export function Section({
+  children,
+  className,
+  compact,
+  as: Component = "section",
+}: SectionProps) {
+  return (
+    <Component
+      className={cn(
+        compact ? "py-12 md:py-16" : "py-16 md:py-24 lg:py-32",
+        className
+      )}
+    >
+      {children}
+    </Component>
+  );
+}
