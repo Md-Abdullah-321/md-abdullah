@@ -61,6 +61,7 @@ export function ContactForm() {
           name="name"
           required
           autoComplete="name"
+          onFocus={() => track(EVENTS.CONTACT_FORM_STARTED)}
           className={cn(
             "mt-1.5 block w-full rounded-md border bg-background px-3 py-2.5 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             state.errors.name ? "border-destructive" : "border-input"
