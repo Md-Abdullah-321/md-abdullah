@@ -101,7 +101,7 @@ export default async function AboutPage() {
     <>
       {/* Hero */}
       <Section compact className="pt-20 md:pt-24">
-        <Container className="max-w-[1240px]">
+        <Container>
           <div className="grid items-start gap-10 lg:grid-cols-[1fr_340px] lg:gap-14 xl:grid-cols-[1fr_380px]">
             <div className="max-w-2xl">
               <SectionLabel>About</SectionLabel>
@@ -141,7 +141,7 @@ export default async function AboutPage() {
 
       {/* How I think */}
       <Section compact className="bg-surface-muted">
-        <Container className="max-w-[1240px]">
+        <Container>
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-14 lg:items-start">
             <div className="max-w-xl">
               <SectionLabel>How I think</SectionLabel>
@@ -198,7 +198,7 @@ export default async function AboutPage() {
 
       {/* Background */}
       <Section compact>
-        <Container className="max-w-[1240px]">
+        <Container>
           <div className="max-w-2xl">
             <SectionLabel>Background</SectionLabel>
             <H2 className="mt-2">How I got here</H2>
@@ -251,7 +251,7 @@ export default async function AboutPage() {
 
       {/* Capabilities */}
       <Section compact className="bg-surface-muted">
-        <Container className="max-w-[1240px]">
+        <Container>
           <div className="max-w-2xl">
             <SectionLabel>Capabilities</SectionLabel>
             <H2 className="mt-2">What I actually work on</H2>
@@ -282,7 +282,7 @@ export default async function AboutPage() {
 
       {/* Tools */}
       <Section compact className="pb-8 md:pb-12">
-        <Container className="max-w-[1240px]">
+        <Container>
           <div className="rounded-xl border border-border/70 bg-card p-6 md:p-8">
             <div className="max-w-2xl">
               <H2 as="h2">I don&apos;t start with the tool</H2>

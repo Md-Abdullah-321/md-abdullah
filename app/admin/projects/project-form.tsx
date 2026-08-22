@@ -1,9 +1,10 @@
 "use client";
 
 import { useActionState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { createProject, updateProject } from "./actions";
+
 
 interface ProjectData {
   id?: string;
@@ -311,7 +312,7 @@ export function ProjectForm({ project }: ProjectFormProps) {
           {isEditing ? "Save Changes" : "Create Project"}
         </Button>
         <Button variant="ghost" asChild>
-          <a href="/admin/projects">Cancel</a>
+          <Link href="/admin/projects">Cancel</Link>
         </Button>
       </div>
     </form>

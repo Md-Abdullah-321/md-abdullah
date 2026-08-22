@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { Instrument_Sans, Source_Sans_3 } from "next/font/google";
+import { JetBrains_Mono, Inter } from "next/font/google";
 import "./globals.css";
 
-const instrumentSans = Instrument_Sans({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["500", "600"],
-  variable: "--font-heading",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-mono",
   display: "swap",
 });
 
-const sourceSans = Source_Sans_3({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-body",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-sans",
   display: "swap",
 });
 
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     template: "%s | Md Abdullah",
   },
   description:
-    "Automation & Integration Engineer helping businesses connect their tools, automate repetitive work, and remove manual handoffs.",
+    "Automation & Integration Engineer designing robust backend pipelines, CRM architectures, and AI-assisted workflows.",
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
   ),
@@ -40,12 +40,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${instrumentSans.variable} ${sourceSans.variable}`}
+      className={`${inter.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen bg-background font-body antialiased">
+      <body className="min-h-screen bg-background font-sans text-foreground antialiased selection:bg-accent selection:text-accent-foreground">
         {children}
       </body>
     </html>
   );
 }
+
+

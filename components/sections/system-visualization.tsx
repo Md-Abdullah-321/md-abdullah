@@ -37,7 +37,7 @@ const capabilities = [
 export function SystemVisualization() {
   return (
     <section className="py-16 md:py-20 lg:py-24">
-      <Container className="max-w-[1240px]">
+      <Container>
         {/* Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-lg">

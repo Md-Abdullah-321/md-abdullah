@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BrandMark } from "@/components/ui/brand-mark";
 import { Container } from "@/components/layout/container";
 import { mainNavItems } from "@/data/navigation";
 import { MobileMenu } from "./mobile-menu";
@@ -8,12 +9,24 @@ import { NavLink } from "./nav-link";
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur-sm">
-      <Container className="max-w-[1240px]">
+    <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/90 backdrop-blur-md transition-colors">
+      <Container>
         <div className="flex h-14 items-center justify-between">
-          {/* Identity */}
-          <Link href="/" className="text-sm font-bold tracking-tight">
-            Md Abdullah
+          {/* Identity & Brand Signature */}
+          <Link
+            href="/"
+            className="group flex items-center gap-2.5 transition-opacity hover:opacity-90"
+            aria-label="Md Abdullah Home"
+          >
+            <BrandMark size="sm" className="text-foreground group-hover:text-primary transition-colors" />
+            <div className="flex items-center">
+              <span className="text-sm font-semibold tracking-tight text-foreground">
+                Md Abdullah
+              </span>
+              <span className="hidden sm:inline-block border-l border-border pl-2.5 ml-2.5 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+                Automation &amp; Systems
+              </span>
+            </div>
           </Link>
 
           {/* Desktop nav */}
@@ -31,10 +44,10 @@ export function Header() {
           </nav>
 
           {/* Desktop CTA + Mobile toggle */}
-          <div className="flex items-center gap-2">
-            <Button size="sm" asChild className="hidden md:inline-flex">
+          <div className="flex items-center gap-3">
+            <Button size="sm" variant="primary" asChild className="hidden md:inline-flex">
               <Link href="/contact">
-                Let&apos;s Talk
+                Start a Conversation
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </Button>
@@ -45,3 +58,4 @@ export function Header() {
     </header>
   );
 }
+

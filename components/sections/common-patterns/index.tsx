@@ -6,7 +6,7 @@ import { ProcessMobile } from "./process-mobile";
 export function CommonPatterns() {
   return (
     <section className="bg-surface-muted py-14 md:py-18 lg:py-20">
-      <Container className="max-w-[1240px]">
+      <Container>
         {/* Header */}
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-primary">

@@ -2,8 +2,8 @@
 
 /*
  * Design System Tokens
- * Visual identity: premium automation/systems engineering
- * Accent: refined indigo-violet (technical sophistication)
+ * Visual identity: Clean technical editorial portfolio with intelligent system visualization
+ * Direction: High-contrast warm off-white, crisp near-black typography, restrained purple accent
  */
 
 @theme inline {
@@ -31,23 +31,26 @@
   --color-popover-foreground: var(--popover-foreground);
 
   /* Fonts */
-  --font-sans: var(--font-body);
-  --font-body: var(--font-body);
-  --font-heading: var(--font-heading);
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-mono), monospace;
+  --font-mono: var(--font-mono), monospace;
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius));
-  --radius-lg: calc(var(--radius) + 4px);
-  --radius-xl: calc(var(--radius) + 8px);
-  --radius-2xl: calc(var(--radius) + 16px);
+
+  /* Restrained, architectural radius scale */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.375rem;
+  --radius-xl: 0.5rem;
+  --radius-2xl: 0.75rem;
   --radius-full: 9999px;
 
-  --shadow-xs: 0 1px 2px oklch(0 0 0 / 0.04);
-  --shadow-sm: 0 1px 3px oklch(0 0 0 / 0.06), 0 1px 2px oklch(0 0 0 / 0.04);
-  --shadow-md: 0 4px 6px oklch(0 0 0 / 0.06), 0 2px 4px oklch(0 0 0 / 0.04);
-  --shadow-lg: 0 10px 15px oklch(0 0 0 / 0.06), 0 4px 6px oklch(0 0 0 / 0.04);
-  --shadow-xl: 0 20px 25px oklch(0 0 0 / 0.08), 0 8px 10px oklch(0 0 0 / 0.04);
+  /* Crisp, subtle shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.06), 0 4px 6px rgba(0, 0, 0, 0.03);
+  --shadow-xl: 0 18px 30px rgba(0, 0, 0, 0.07), 0 6px 12px rgba(0, 0, 0, 0.04);
 
   --duration-fast: 150ms;
   --duration-normal: 250ms;
@@ -59,81 +62,81 @@
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* ─── Light Theme ─────────────────────────────────────── */
+/* ─── Light Theme (Warm Editorial Default) ─────────────── */
 
 :root {
-  --background: oklch(0.985 0.003 260);
-  --foreground: oklch(0.13 0.02 260);
+  --background: #fafaf8;
+  --foreground: #151515;
 
-  --surface: oklch(0.995 0.002 260);
-  --surface-muted: oklch(0.965 0.005 260);
+  --surface: #ffffff;
+  --surface-muted: #f3f3f0;
 
-  --muted: oklch(0.94 0.008 260);
-  --muted-foreground: oklch(0.42 0.02 260);
+  --muted: #eaeae6;
+  --muted-foreground: #666662;
 
-  --popover: oklch(0.995 0.002 260);
-  --popover-foreground: oklch(0.13 0.02 260);
+  --popover: #ffffff;
+  --popover-foreground: #151515;
 
-  --card: oklch(0.995 0.003 260);
-  --card-foreground: oklch(0.13 0.02 260);
+  --card: #ffffff;
+  --card-foreground: #151515;
 
-  --border: oklch(0.9 0.01 260);
-  --input: oklch(0.9 0.01 260);
+  --border: #e6e6e1;
+  --input: #e6e6e1;
 
-  /* Primary: refined indigo-violet */
-  --primary: oklch(0.45 0.2 275);
-  --primary-foreground: oklch(0.99 0 0);
+  /* Primary: Restrained deep purple accent for active states, indicators, key interactions */
+  --primary: #5538ee;
+  --primary-foreground: #ffffff;
 
-  --secondary: oklch(0.95 0.01 260);
-  --secondary-foreground: oklch(0.2 0.02 260);
+  --secondary: #f3f3f0;
+  --secondary-foreground: #151515;
 
-  --accent: oklch(0.93 0.015 275);
-  --accent-foreground: oklch(0.3 0.12 275);
+  --accent: #f2effe;
+  --accent-foreground: #4726dc;
 
-  --destructive: oklch(0.577 0.245 27.325);
-  --success: oklch(0.6 0.19 145);
-  --warning: oklch(0.75 0.18 75);
+  --destructive: #d93838;
+  --success: #15803d;
+  --warning: #b45309;
 
-  --ring: oklch(0.45 0.2 275);
+  --ring: #5538ee;
 
-  --radius: 0.625rem;
+  --radius: 0.25rem;
 }
 
-/* ─── Dark Theme ──────────────────────────────────────── */
+/* ─── Dark Theme (Restrained High-Contrast Dark) ────────── */
 
 .dark {
-  --background: oklch(0.11 0.015 260);
-  --foreground: oklch(0.95 0.005 260);
+  --background: #0e0e10;
+  --foreground: #f4f4f5;
 
-  --surface: oklch(0.145 0.015 260);
-  --surface-muted: oklch(0.125 0.012 260);
+  --surface: #141416;
+  --surface-muted: #1a1a1d;
 
-  --muted: oklch(0.2 0.015 260);
-  --muted-foreground: oklch(0.65 0.01 260);
+  --muted: #242428;
+  --muted-foreground: #9a9aa2;
 
-  --popover: oklch(0.145 0.015 260);
-  --popover-foreground: oklch(0.95 0.005 260);
+  --popover: #141416;
+  --popover-foreground: #f4f4f5;
 
-  --card: oklch(0.15 0.015 260);
-  --card-foreground: oklch(0.95 0.005 260);
+  --card: #141416;
+  --card-foreground: #f4f4f5;
 
-  --border: oklch(0.24 0.015 260);
-  --input: oklch(0.24 0.015 260);
+  --border: #27272b;
+  --input: #27272b;
 
-  --primary: oklch(0.7 0.18 275);
-  --primary-foreground: oklch(0.1 0.02 275);
+  --primary: #755eff;
+  --primary-foreground: #ffffff;
 
-  --secondary: oklch(0.2 0.015 260);
-  --secondary-foreground: oklch(0.95 0.005 260);
+  --secondary: #1a1a1d;
+  --secondary-foreground: #f4f4f5;
 
-  --accent: oklch(0.22 0.03 275);
-  --accent-foreground: oklch(0.85 0.1 275);
+  --accent: #211c38;
+  --accent-foreground: #b7a9ff;
 
-  --destructive: oklch(0.577 0.245 27.325);
-  --success: oklch(0.6 0.19 145);
-  --warning: oklch(0.75 0.18 75);
+  --destructive: #ef4444;
+  --success: #22c55e;
+  --warning: #f59e0b;
 
-  --ring: oklch(0.7 0.18 275);
+  --ring: #755eff;
 }
 
 /* ─── Base Styles ─────────────────────────────────────── */
@@ -145,6 +148,7 @@
 body {
   color: var(--foreground);
   background: var(--background);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
 /* ─── Focus Styles ────────────────────────────────────── */
@@ -167,24 +171,25 @@ body {
   }
 }
 
-/* ─── Data Flow Animation ─────────────────────────────── */
+/* ─── Technical Data & Wire Flow Animations ────────────── */
 
-@keyframes pulse-flow {
-  0%, 100% { opacity: 0.3; transform: scale(0.8); }
-  50% { opacity: 1; transform: scale(1); }
+@keyframes pulse-signal {
+  0%, 100% { opacity: 0.35; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.08); }
 }
 
-@keyframes line-draw {
-  from { stroke-dashoffset: 100; }
-  to { stroke-dashoffset: 0; }
+@keyframes wire-dash {
+  to {
+    stroke-dashoffset: -24;
+  }
 }
 
-.animate-pulse-flow {
-  animation: pulse-flow 2.5s ease-in-out infinite;
+.animate-pulse-signal {
+  animation: pulse-signal 2.2s ease-in-out infinite;
 }
 
-.animate-line-draw {
-  animation: line-draw 1.5s ease-out forwards;
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
+.animate-wire-dash {
+  stroke-dasharray: 4 4;
+  animation: wire-dash 1.2s linear infinite;
 }
+

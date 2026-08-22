@@ -1,8 +1,10 @@
 "use client";
 
 import { useActionState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { createTestimonial, updateTestimonial } from "./actions";
+
 
 interface TestimonialData {
   id?: string;
@@ -188,7 +190,7 @@ export function TestimonialForm({
           {isEditing ? "Save Changes" : "Add Testimonial"}
         </Button>
         <Button variant="ghost" asChild>
-          <a href="/admin/testimonials">Cancel</a>
+          <Link href="/admin/testimonials">Cancel</Link>
         </Button>
       </div>
     </form>

@@ -21,15 +21,21 @@ export function NavLink({ href, children, className, onClick }: NavLinkProps) {
       onClick={onClick}
       aria-current={isActive ? "page" : undefined}
       className={cn(
-        "rounded-md px-3 py-2 text-sm font-medium transition-colors",
+        "relative px-3 py-1.5 text-sm font-medium transition-colors",
         isActive
-          ? "text-foreground"
+          ? "text-foreground font-semibold"
           : "text-muted-foreground hover:text-foreground",
-        isActive && "bg-accent",
         className
       )}
     >
-      {children}
+      <span>{children}</span>
+      {isActive && (
+        <span
+          className="absolute bottom-0 left-3 right-3 h-[2px] bg-primary rounded-full"
+          aria-hidden="true"
+        />
+      )}
     </Link>
   );
 }
+

@@ -1,135 +1,201 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { entryNodes, engineModules, outcomeNodes, techStack } from "./data";
+import { useState } from "react";
+import { ArrowRight, CheckCircle2, Cpu, Database, Send, Sparkles, Terminal } from "lucide-react";
+import { systemStages, systemScenarios } from "./data";
 
-/**
- * Desktop system visualization.
- * Uses SVG for connections + CSS grid for node placement.
- * Three-tier layout: entries (top) → engine (center) → outcomes (bottom).
- */
-export function HeroSystemDesktop({ className }: { className?: string }) {
+export function HeroSystemDesktop() {
+  const [activeScenarioIndex, setActiveScenarioIndex] = useState(0);
+  const [hoveredStage, setHoveredStage] = useState<string | null>(null);
+
+  const currentScenario = systemScenarios[activeScenarioIndex];
+
+  const getStageIcon = (id: string) => {
+    switch (id) {
+      case "inputs":
+        return <Terminal className="h-3.5 w-3.5 text-muted-foreground" />;
+      case "processing":
+        return <Cpu className="h-3.5 w-3.5 text-primary" />;
+      case "crm":
+        return <Database className="h-3.5 w-3.5 text-muted-foreground" />;
+      case "outcomes":
+        return <Send className="h-3.5 w-3.5 text-muted-foreground" />;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className={cn("relative w-full", className)} aria-label="Business automation architecture" role="img">
-      {/* SVG connections layer */}
-      <svg
-        className="absolute inset-0 h-full w-full pointer-events-none"
-        viewBox="0 0 600 540"
-        preserveAspectRatio="xMidYMid meet"
-        fill="none"
-      >
-        <defs>
-          <radialGradient id="dsk-glow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.1" />
-            <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-
-        {/* Engine glow */}
-        <ellipse cx="300" cy="270" rx="130" ry="80" fill="url(#dsk-glow)" />
-
-        {/* Entry → Engine connections */}
-        <path d="M 80,70 Q 180,160 235,220" stroke="var(--primary)" strokeWidth="1.5" strokeOpacity="0.45" id="flow-a1" />
-        <path d="M 190,55 Q 240,140 260,210" stroke="var(--border)" strokeWidth="1" strokeOpacity="0.5" />
-        <path d="M 300,50 Q 300,130 300,210" stroke="var(--border)" strokeWidth="1" strokeOpacity="0.5" />
-        <path d="M 410,55 Q 360,140 340,210" stroke="var(--primary)" strokeWidth="1.5" strokeOpacity="0.35" id="flow-b1" />
-        <path d="M 520,70 Q 420,160 365,220" stroke="var(--border)" strokeWidth="1" strokeOpacity="0.5" />
-
-        {/* Engine → Outcome connections */}
-        <path d="M 235,320 Q 180,380 100,430" stroke="var(--border)" strokeWidth="1" strokeOpacity="0.5" />
-        <path d="M 260,330 Q 230,390 210,440" stroke="var(--border)" strokeWidth="1" strokeOpacity="0.5" />
-        <path d="M 300,335 Q 300,390 300,440" stroke="var(--border)" strokeWidth="1" strokeOpacity="0.5" />
-        <path d="M 340,330 Q 370,390 400,440" stroke="var(--border)" strokeWidth="1" strokeOpacity="0.5" />
-        <path d="M 365,320 Q 430,380 510,430" stroke="var(--primary)" strokeWidth="1.5" strokeOpacity="0.4" id="flow-a2" />
-
-        {/* Animated data particles — Flow A: Website → Engine → Follow-up */}
-        <circle r="4" fill="var(--primary)" opacity="0.75">
-          <animateMotion dur="3.5s" repeatCount="indefinite" begin="0s">
-            <mpath xlinkHref="#flow-a1" />
-          </animateMotion>
-        </circle>
-        <circle r="4" fill="var(--primary)" opacity="0.65">
-          <animateMotion dur="3.5s" repeatCount="indefinite" begin="1.8s">
-            <mpath xlinkHref="#flow-a2" />
-          </animateMotion>
-        </circle>
-
-        {/* Animated data particles — Flow B: Voice AI → Engine */}
-        <circle r="3.5" fill="var(--primary)" opacity="0.55">
-          <animateMotion dur="4.5s" repeatCount="indefinite" begin="1s">
-            <mpath xlinkHref="#flow-b1" />
-          </animateMotion>
-        </circle>
-
-        {/* Engine border rings */}
-        <ellipse cx="300" cy="270" rx="115" ry="65" stroke="var(--primary)" strokeWidth="1.5" strokeOpacity="0.3" />
-        <ellipse cx="300" cy="270" rx="100" ry="52" stroke="var(--primary)" strokeWidth="0.5" strokeOpacity="0.15" strokeDasharray="6 4" />
-      </svg>
-
-      {/* ─── HTML Content Layer ─── */}
-      <div className="relative grid h-[540px] grid-rows-[auto_1fr_auto] gap-0" style={{ width: "100%" }}>
-        {/* ── Top: Entry nodes ── */}
-        <div className="flex items-start justify-between px-4 pt-2">
-          {entryNodes.map((node) => {
-            const Icon = node.icon;
-            return (
-              <div
-                key={node.id}
-                className="flex items-center gap-1.5 rounded-lg border border-border bg-card px-2.5 py-1.5 text-[11px] font-medium shadow-sm transition-transform duration-200 hover:scale-105 hover:border-primary/30 hover:shadow-md"
-              >
-                <Icon className="h-3.5 w-3.5 text-primary" />
-                <span>{node.label}</span>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* ── Center: Engine ── */}
-        <div className="flex items-center justify-center">
-          <div className="flex flex-col items-center gap-2 rounded-2xl border-2 border-primary/30 bg-gradient-to-b from-primary/[0.06] to-primary/[0.02] px-8 py-5 shadow-lg backdrop-blur-sm">
-            <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-primary/60">
-              Automation Engine
-            </p>
-            <div className="flex items-center gap-4">
-              {engineModules.map((mod) => {
-                const Icon = mod.icon;
-                return (
-                  <div key={mod.id} className="flex flex-col items-center gap-1">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-primary/25 bg-primary/10 text-primary shadow-sm">
-                      <Icon className="h-4 w-4" />
-                    </div>
-                    <span className="text-[9px] font-semibold text-foreground/70">{mod.label}</span>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="flex items-center gap-1.5 pt-1">
-              <div className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse-flow" />
-              <span className="text-[9px] text-muted-foreground">System active · Data flowing</span>
-            </div>
-            {/* Tech markers */}
-            <p className="pt-1 text-[8px] text-muted-foreground/70">
-              {techStack.join(" · ")}
-            </p>
+    <div className="relative w-full rounded-lg border border-border bg-surface shadow-sm overflow-hidden text-foreground">
+      {/* ─── Header: System Control Bar ────────────────── */}
+      <div className="flex items-center justify-between border-b border-border bg-surface-muted/60 px-4 py-2.5">
+        <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-1.5">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+            </span>
+            <span className="font-mono text-[11px] font-medium uppercase tracking-wider text-foreground/80">
+              Live Pipeline Architecture
+            </span>
           </div>
+          <span className="hidden xl:inline-block text-border" aria-hidden="true">|</span>
+          <span className="hidden xl:inline-block font-mono text-[10px] text-muted-foreground">
+            Zero-latency webhook orchestration
+          </span>
         </div>
 
-        {/* ── Bottom: Outcome nodes ── */}
-        <div className="flex items-end justify-between px-4 pb-2">
-          {outcomeNodes.map((node) => {
-            const Icon = node.icon;
+        {/* Scenario Switcher Tabs */}
+        <div className="flex items-center gap-1 bg-background/80 p-0.5 rounded border border-border/80">
+          {systemScenarios.map((scenario, idx) => {
+            const isSelected = activeScenarioIndex === idx;
+            return (
+              <button
+                key={scenario.id}
+                onClick={() => setActiveScenarioIndex(idx)}
+                className={`px-2.5 py-1 text-[11px] font-mono rounded transition-colors ${
+                  isSelected
+                    ? "bg-foreground text-background font-medium shadow-xs"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {scenario.badge}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ─── Main Pipeline Grid: 4 Connected Stages ────── */}
+      <div className="p-4 bg-surface">
+        <div className="grid grid-cols-4 gap-2.5 relative">
+          {systemStages.map((stage, idx) => {
+            const isHovered = hoveredStage === stage.id;
+            const isLast = idx === systemStages.length - 1;
+
             return (
               <div
-                key={node.id}
-                className="flex items-center gap-1.5 rounded-lg border border-border/70 bg-card/80 px-2.5 py-1.5 text-[11px] font-medium text-muted-foreground shadow-sm transition-transform duration-200 hover:scale-105 hover:border-primary/20"
+                key={stage.id}
+                onMouseEnter={() => setHoveredStage(stage.id)}
+                onMouseLeave={() => setHoveredStage(null)}
+                className={`relative flex flex-col justify-between rounded border p-3 transition-all duration-150 ${
+                  isHovered
+                    ? "border-primary/50 bg-accent/20"
+                    : "border-border/80 bg-surface-muted/30 hover:border-border"
+                }`}
               >
-                <Icon className="h-3.5 w-3.5 text-muted-foreground/60" />
-                <span>{node.label}</span>
+                {/* Stage Header */}
+                <div>
+                  <div className="flex items-center justify-between pb-1.5 border-b border-border/60">
+                    <div className="flex items-center gap-1.5">
+                      {getStageIcon(stage.id)}
+                      <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        {stage.stepNumber}
+                      </span>
+                    </div>
+                    <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/70">
+                      {stage.id === "processing" ? "Engine" : "Node"}
+                    </span>
+                  </div>
+
+                  <div className="pt-2">
+                    <h4 className="text-[13px] font-semibold text-foreground leading-tight">
+                      {stage.title}
+                    </h4>
+                    <p className="text-[11px] text-muted-foreground leading-tight mt-0.5">
+                      {stage.subtitle}
+                    </p>
+                  </div>
+
+                  {/* Stage Items */}
+                  <div className="mt-3 space-y-1.5">
+                    {stage.items.map((item, itemIdx) => (
+                      <div
+                        key={itemIdx}
+                        className="rounded bg-background/90 border border-border/60 px-2 py-1.5 text-[11px]"
+                      >
+                        <div className="font-medium text-foreground leading-tight flex items-center justify-between">
+                          <span>{item.name}</span>
+                        </div>
+                        <div className="flex items-center justify-between mt-1 pt-1 border-t border-border/40 font-mono text-[9.5px] text-muted-foreground">
+                          <span>{item.detail}</span>
+                          {item.tech && (
+                            <span className="text-primary font-medium">{item.tech.split(" / ")[0]}</span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Arrow connector indicator */}
+                {!isLast && (
+                  <div
+                    className="absolute -right-2 top-1/2 -translate-y-1/2 z-10 hidden lg:flex h-4 w-4 items-center justify-center rounded-full bg-surface border border-border shadow-xs text-muted-foreground"
+                    aria-hidden="true"
+                  >
+                    <ArrowRight className="h-2.5 w-2.5" />
+                  </div>
+                )}
               </div>
             );
           })}
+        </div>
+
+        {/* ─── Live Execution Flow Story ───────────────── */}
+        <div className="mt-3 rounded border border-border/80 bg-surface-muted/40 p-3">
+          <div className="flex items-center justify-between pb-2 border-b border-border/60">
+            <div className="flex items-center gap-1.5">
+              <Sparkles className="h-3.5 w-3.5 text-primary" />
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-foreground">
+                Active Scenario: {currentScenario.name}
+              </span>
+            </div>
+            <div className="flex items-center gap-1 text-[11px] font-mono text-emerald-600 dark:text-emerald-400">
+              <CheckCircle2 className="h-3 w-3" />
+              <span>Automated in &lt;15s</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2 pt-2 text-[11.5px]">
+            <div className="rounded bg-background p-2 border border-border/60">
+              <span className="block font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
+                1. Captured Input
+              </span>
+              <span className="font-medium text-foreground mt-0.5 block leading-tight">
+                {currentScenario.input}
+              </span>
+            </div>
+            <div className="rounded bg-background p-2 border border-border/60">
+              <span className="block font-mono text-[9px] uppercase tracking-wider text-primary font-semibold">
+                2. AI &amp; Logic Decision
+              </span>
+              <span className="font-medium text-foreground mt-0.5 block leading-tight">
+                {currentScenario.aiAction}
+              </span>
+            </div>
+            <div className="rounded bg-background p-2 border border-border/60">
+              <span className="block font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
+                3. Direct Outcome
+              </span>
+              <span className="font-medium text-foreground mt-0.5 block leading-tight">
+                {currentScenario.outcome}
+              </span>
+            </div>
+          </div>
+
+          {/* Code/Payload Trace */}
+          <div className="mt-2 flex items-center justify-between rounded bg-foreground text-background px-3 py-1.5 font-mono text-[10px]">
+            <span className="text-muted-foreground">
+              payload: <span className="text-emerald-400">{`{ event: "${currentScenario.payload.event}", leadType: "${currentScenario.payload.leadType}", route: "${currentScenario.payload.routing}" }`}</span>
+            </span>
+            <span className="text-primary-foreground font-medium hidden sm:inline-block">
+              {currentScenario.payload.automation}
+            </span>
+          </div>
         </div>
       </div>
     </div>
   );
 }
+

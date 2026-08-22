@@ -33,7 +33,7 @@ export function Methodology() {
 
   return (
     <section className="py-16 md:py-20 lg:py-24">
-      <Container className="max-w-[1240px]">
+      <Container>
         {/* Header */}
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-primary">

@@ -1,8 +1,10 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { createProofItem, updateProofItem } from "./actions";
+
 
 interface ProofData {
   id?: string;
@@ -257,7 +259,7 @@ export function ProofForm({
           {isEditing ? "Save Changes" : "Create Proof Item"}
         </Button>
         <Button variant="ghost" asChild>
-          <a href="/admin/proof">Cancel</a>
+          <Link href="/admin/proof">Cancel</Link>
         </Button>
       </div>
     </form>

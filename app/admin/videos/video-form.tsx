@@ -1,10 +1,12 @@
 "use client";
 
 import { useActionState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getThumbnailUrl } from "@/lib/videos/providers";
 import type { VideoProvider } from "@/types";
 import { createVideo, updateVideo } from "./actions";
+
 
 interface VideoData {
   id?: string;
@@ -172,7 +174,7 @@ export function VideoForm({ video }: { video?: VideoData }) {
           {isEditing ? "Save Changes" : "Add Video"}
         </Button>
         <Button variant="ghost" asChild>
-          <a href="/admin/videos">Cancel</a>
+          <Link href="/admin/videos">Cancel</Link>
         </Button>
       </div>
     </form>

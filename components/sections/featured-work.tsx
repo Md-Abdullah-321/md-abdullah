@@ -99,7 +99,7 @@ export async function FeaturedWork() {
 
   return (
     <section className="bg-surface-muted py-14 md:py-18 lg:py-20">
-      <Container className="max-w-[1240px]">
+      <Container>
         {/* Header */}
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
           <div>

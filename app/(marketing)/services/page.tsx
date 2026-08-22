@@ -30,7 +30,7 @@ export default async function ServicesPage() {
 
   return (
     <Section className="pt-20 md:pt-28">
-      <Container className="max-w-[1240px]">
+      <Container>
         <div className="max-w-xl">
           <H1>Services</H1>
           <Body className="mt-4 text-muted-foreground">

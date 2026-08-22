@@ -1,8 +1,10 @@
 "use client";
 
 import { useActionState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { createService, updateService } from "./actions";
+
 
 interface ServiceData {
   id?: string;
@@ -195,7 +197,7 @@ export function ServiceForm({ service }: { service?: ServiceData }) {
           {isEditing ? "Save Changes" : "Create Service"}
         </Button>
         <Button variant="ghost" asChild>
-          <a href="/admin/services">Cancel</a>
+          <Link href="/admin/services">Cancel</Link>
         </Button>
       </div>
     </form>

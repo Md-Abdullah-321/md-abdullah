@@ -17,7 +17,7 @@ export async function Footer() {
 
   return (
     <footer className="border-t border-border bg-surface-muted">
-      <Container className="max-w-[1240px]">
+      <Container>
         {/* ─── Primary CTA Area ─── */}
         <div className="py-16 md:py-20">
           <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-primary">

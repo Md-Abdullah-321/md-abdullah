@@ -9,32 +9,23 @@ interface TypographyProps {
 }
 
 /**
- * Typography scale:
- *
- * Display:   42→48→56→64px  (headings font, weight 600, tight tracking)
- * H1:        36→42→48px
- * H2:        28→32→40px
- * H3:        22→24→28px
- * H4:        18px
- * BodyLarge: 18px
- * Body:      16px
- * BodySmall: 14px
- * Caption:   12px
- * Label:     13px
+ * Editorial Typography Scale:
+ * Controlled, readable, restrained, high typographic integrity.
  */
 const styles = {
   display:
-    "font-heading text-[2.625rem] font-semibold leading-[1.02] tracking-[-0.02em] sm:text-[3rem] md:text-[3.5rem] lg:text-[4rem]",
-  h1: "font-heading text-[2.25rem] font-semibold leading-[1.05] tracking-[-0.015em] sm:text-[2.625rem] md:text-[3rem]",
-  h2: "font-heading text-[1.75rem] font-semibold leading-[1.1] tracking-[-0.01em] sm:text-[2rem] md:text-[2.5rem]",
-  h3: "font-heading text-[1.375rem] font-semibold leading-[1.2] tracking-[-0.005em] sm:text-[1.5rem] md:text-[1.75rem]",
-  h4: "font-heading text-lg font-semibold leading-[1.3]",
-  bodyLarge: "text-lg leading-[1.6]",
-  body: "text-base leading-[1.6]",
-  bodySmall: "text-sm leading-[1.6]",
-  caption: "text-xs text-muted-foreground",
-  label: "text-[13px] font-medium leading-none",
+    "font-mono text-[2rem] sm:text-[2.5rem] lg:text-[2.875rem] font-semibold leading-[1.12] tracking-[-0.03em] text-foreground text-balance",
+  h1: "font-mono text-[1.75rem] sm:text-[2.125rem] md:text-[2.375rem] font-semibold leading-[1.15] tracking-[-0.025em] text-foreground text-balance",
+  h2: "font-mono text-[1.375rem] sm:text-[1.625rem] md:text-[1.875rem] font-semibold leading-[1.2] tracking-[-0.02em] text-foreground text-balance",
+  h3: "font-mono text-[1.125rem] sm:text-[1.25rem] font-semibold leading-[1.3] tracking-[-0.015em] text-foreground",
+  h4: "font-mono text-base font-semibold leading-[1.4] text-foreground",
+  bodyLarge: "font-sans text-base sm:text-[1.0625rem] leading-[1.65] text-muted-foreground max-w-[65ch]",
+  body: "font-sans text-sm sm:text-base leading-[1.6] text-muted-foreground max-w-[65ch]",
+  bodySmall: "font-sans text-xs sm:text-sm leading-[1.55] text-muted-foreground",
+  caption: "font-mono text-xs text-muted-foreground",
+  label: "font-mono text-[11px] sm:text-[12px] font-medium uppercase tracking-[0.08em] text-muted-foreground",
 } as const;
+
 
 const defaultElements: Record<keyof typeof styles, TypographyElement> = {
   display: "h1",
@@ -78,3 +69,4 @@ export const Caption = createTypography("caption");
 export const Label = createTypography("label");
 
 export const typographyStyles = styles;
+
