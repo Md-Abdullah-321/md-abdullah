@@ -102,7 +102,7 @@ export function Methodology() {
                 {step.description}
               </p>
               <div className="mt-4">
-                <MethodologyVisual activeStep={index} className="max-w-[340px]" />
+                <MethodologyVisual activeStep={index} className="max-w-full md:max-w-[340px]" />
               </div>
             </div>
           ))}
