@@ -18,7 +18,7 @@ export function Section({
   return (
     <Component
       className={cn(
-        compact ? "py-12 md:py-16" : "py-16 md:py-24 lg:py-32",
+        compact ? "py-12 md:py-16" : "py-16 md:py-24 lg:py-24",
         className
       )}
     >
