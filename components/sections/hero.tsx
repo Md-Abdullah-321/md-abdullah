@@ -21,7 +21,7 @@ export function Hero() {
               </div>
 
               {/* Headline */}
-              <h1 className="font-mono text-[1.85rem] sm:text-[2.25rem] lg:text-[2.6rem] font-semibold leading-[1.14] tracking-[-0.025em] text-foreground text-balance max-w-[16ch]">
+              <h1 className="font-mono text-[1.85rem] sm:text-[2.25rem] lg:text-[2.6rem] font-semibold leading-[1.14] tracking-[-0.025em] text-foreground text-balance max-w-[30ch]">
                 I connect the systems your business depends on.
               </h1>
 
