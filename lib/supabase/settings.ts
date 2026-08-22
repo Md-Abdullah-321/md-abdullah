@@ -43,7 +43,7 @@ const DEFAULTS: SiteSettings = {
   link_twitter: null,
   site_title: "Md Abdullah | Automation & Integration Engineer",
   site_description:
-    "Helping businesses streamline operations, connect systems, and eliminate manual work.",
+    "I help businesses connect their tools, automate repetitive work, and remove manual handoffs.",
   updated_at: "",
 };
 

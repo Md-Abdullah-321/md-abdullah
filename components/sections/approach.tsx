@@ -57,7 +57,7 @@ const steps: ApproachStep[] = [
     number: "06",
     title: "Improve",
     description:
-      "Test the complete workflow end-to-end, identify friction, and refine until it runs smoothly.",
+      "Test the full workflow, find what is still awkward, and keep refining until it runs smoothly.",
     icon: <RefreshCw className="h-4 w-4" />,
   },
 ];
@@ -73,9 +73,9 @@ export function Approach() {
           </p>
           <H2 className="mt-2">I start with the process, not the tool</H2>
           <Body className="mt-4 text-muted-foreground">
-            Every engagement follows the same structured approach — understand
-            the business first, then design and build a system that actually
-            fits how you work.
+            I don&apos;t start by asking which tool we should use. First I want
+            to understand how the business works today. Then I look at where
+            things get stuck and build from there.
           </Body>
         </div>
 

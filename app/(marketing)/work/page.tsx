@@ -17,12 +17,12 @@ export default async function WorkPage() {
 
   return (
     <Section className="pt-20 md:pt-28">
-      <Container>
+      <Container className="max-w-[1240px]">
         <div className="max-w-xl">
           <H1>Work</H1>
           <Body className="mt-4 text-muted-foreground">
-            Real automation and integration projects — each one started with a
-            business problem, not a technology decision.
+            Real automation and integration work. Each project started with a
+            business problem, not a technology choice.
           </Body>
         </div>
 

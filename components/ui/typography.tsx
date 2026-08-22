@@ -8,18 +8,32 @@ interface TypographyProps {
   as?: TypographyElement;
 }
 
+/**
+ * Typography scale:
+ *
+ * Display:   42→48→56→64px  (headings font, weight 600, tight tracking)
+ * H1:        36→42→48px
+ * H2:        28→32→40px
+ * H3:        22→24→28px
+ * H4:        18px
+ * BodyLarge: 18px
+ * Body:      16px
+ * BodySmall: 14px
+ * Caption:   12px
+ * Label:     13px
+ */
 const styles = {
   display:
-    "text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl",
-  h1: "text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl",
-  h2: "text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl",
-  h3: "text-xl font-semibold tracking-tight sm:text-2xl",
-  h4: "text-lg font-semibold tracking-tight",
-  bodyLarge: "text-lg leading-relaxed",
-  body: "text-base leading-relaxed",
-  bodySmall: "text-sm leading-relaxed",
+    "font-heading text-[2.625rem] font-semibold leading-[1.02] tracking-[-0.02em] sm:text-[3rem] md:text-[3.5rem] lg:text-[4rem]",
+  h1: "font-heading text-[2.25rem] font-semibold leading-[1.05] tracking-[-0.015em] sm:text-[2.625rem] md:text-[3rem]",
+  h2: "font-heading text-[1.75rem] font-semibold leading-[1.1] tracking-[-0.01em] sm:text-[2rem] md:text-[2.5rem]",
+  h3: "font-heading text-[1.375rem] font-semibold leading-[1.2] tracking-[-0.005em] sm:text-[1.5rem] md:text-[1.75rem]",
+  h4: "font-heading text-lg font-semibold leading-[1.3]",
+  bodyLarge: "text-lg leading-[1.6]",
+  body: "text-base leading-[1.6]",
+  bodySmall: "text-sm leading-[1.6]",
   caption: "text-xs text-muted-foreground",
-  label: "text-sm font-medium leading-none",
+  label: "text-[13px] font-medium leading-none",
 } as const;
 
 const defaultElements: Record<keyof typeof styles, TypographyElement> = {
@@ -63,5 +77,4 @@ export const BodySmall = createTypography("bodySmall");
 export const Caption = createTypography("caption");
 export const Label = createTypography("label");
 
-/** Utility: get raw class string for a typography variant */
 export const typographyStyles = styles;

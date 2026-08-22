@@ -80,6 +80,10 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
             placeholder="https://..."
             className="mt-1.5 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           />
+          <p className="mt-1 text-xs text-muted-foreground">
+            Direct image URL, or a Google Drive share link. The file must be shared as
+            &quot;Anyone with the link&quot;.
+          </p>
         </div>
       </fieldset>
 

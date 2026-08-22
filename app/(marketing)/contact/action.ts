@@ -89,14 +89,14 @@ export async function submitContactForm(
       },
     });
 
-    const { error } = await supabase.from("contact_submissions").insert({
+    const { error, data: insertedData } = await supabase.from("contact_submissions").insert({
       name: data.name,
       email: data.email,
       company: data.company || null,
       message: data.message,
       systems: data.systems || null,
       status: "new",
-    });
+    }).select("id").single();
 
     if (error) {
       console.error("[Contact] Supabase insert error:", error.message);
@@ -107,9 +107,22 @@ export async function submitContactForm(
       };
     }
 
-    // TODO: Send email notification via Resend when configured
-    // const resendKey = process.env.RESEND_API_KEY;
-    // const contactEmail = process.env.CONTACT_EMAIL;
+    // Send email notification (non-blocking — failure doesn't affect submission)
+    try {
+      const { notifyContactSubmission } = await import("@/lib/email/notifications");
+      await notifyContactSubmission({
+        id: insertedData?.id,
+        name: data.name,
+        email: data.email,
+        company: data.company || null,
+        message: data.message,
+        systems: data.systems || null,
+        submittedAt: new Date(),
+      });
+    } catch (emailErr) {
+      console.error("[Contact] Email notification error:", emailErr);
+      // Non-fatal — submission is already stored
+    }
 
     return {
       success: true,

@@ -40,8 +40,8 @@ export async function ServicesOverview() {
             </p>
             <H2 className="mt-2">What I help businesses build</H2>
             <Body className="mt-2 text-muted-foreground">
-              Most projects combine several of these — they&apos;re connected
-              capabilities, not isolated offerings.
+              Most projects combine a few of these. They work together, not as
+              separate one-off fixes.
             </Body>
           </div>
           <Button variant="ghost" size="sm" asChild>
@@ -91,8 +91,8 @@ export async function ServicesOverview() {
         </div>
 
         <p className="mt-8 text-center text-sm text-muted-foreground">
-          A typical engagement touches two or three of these areas — the goal is
-          always one connected system, not five separate projects.
+          A typical project touches two or three of these areas. The goal is
+          one workflow that works, not five separate fixes.
         </p>
       </Container>
     </Section>

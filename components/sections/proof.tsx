@@ -105,9 +105,9 @@ export async function Proof() {
           <p className="text-sm font-medium tracking-wide text-muted-foreground">
             Credibility
           </p>
-          <H2 className="mt-2">Evidence behind the work</H2>
+          <H2 className="mt-2">Proof from the work</H2>
           <Body className="mt-2 text-muted-foreground">
-            Real feedback, real systems, real results — not marketing claims.
+            Client feedback, project walkthroughs, and other proof from real work.
           </Body>
         </div>
 

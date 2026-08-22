@@ -7,7 +7,7 @@ import { ContactForm } from "./contact-form";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Discuss your automation, integration, or systems challenge. No technical knowledge required — just explain the problem.",
+    "Tell me about your automation, integration, or workflow problem. No technical knowledge required. Just explain what is happening.",
 };
 
 export default function ContactPage() {
@@ -23,7 +23,7 @@ export default function ContactPage() {
             <H1 className="mt-2">Tell me what&apos;s not working</H1>
             <Body className="mt-4 text-muted-foreground">
               You don&apos;t need to know the technical solution. Describe the
-              process, the frustration, or the opportunity — and I&apos;ll
+              process, what is frustrating, or what you want to change. I&apos;ll
               explain how I&apos;d approach it.
             </Body>
 

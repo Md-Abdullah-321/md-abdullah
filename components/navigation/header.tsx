@@ -9,7 +9,7 @@ import { NavLink } from "./nav-link";
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur-sm">
-      <Container>
+      <Container className="max-w-[1240px]">
         <div className="flex h-14 items-center justify-between">
           {/* Identity */}
           <Link href="/" className="text-sm font-bold tracking-tight">

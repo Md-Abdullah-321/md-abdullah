@@ -37,7 +37,7 @@ export function generateWebsiteJsonLd(settings: SiteSettings) {
     url: SITE_URL,
     description:
       settings.site_description ||
-      "Automation & Integration Engineer helping businesses streamline operations.",
+      "Automation & Integration Engineer helping businesses connect their tools and automate repetitive work.",
   };
 }
 

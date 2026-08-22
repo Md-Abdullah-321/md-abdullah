@@ -184,7 +184,7 @@ export default async function CaseStudyPage(
         <div className="mt-16 rounded-lg border border-border bg-card p-8 text-center">
           <p className="text-lg font-semibold">Have a similar problem?</p>
           <p className="mt-2 text-sm text-muted-foreground">
-            Let&apos;s discuss how I&apos;d approach it for your business.
+            Tell me what&apos;s happening and we can figure out what makes sense for your business.
           </p>
           <Button className="mt-4" asChild>
             <Link href="/contact">

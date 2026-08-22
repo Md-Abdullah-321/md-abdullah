@@ -1,6 +1,6 @@
 import { Hero } from "@/components/sections/hero";
-import { ProblemRecognition } from "@/components/sections/problem-recognition";
-import { Approach } from "@/components/sections/approach";
+import { CommonPatterns } from "@/components/sections/common-patterns";
+import { Methodology } from "@/components/sections/methodology";
 import { SystemVisualization } from "@/components/sections/system-visualization";
 import { FeaturedWork } from "@/components/sections/featured-work";
 import { Proof } from "@/components/sections/proof";
@@ -21,8 +21,8 @@ export default async function HomePage() {
       <JsonLd data={generatePersonJsonLd(settings)} />
       <JsonLd data={generateWebsiteJsonLd(settings)} />
       <Hero />
-      <ProblemRecognition />
-      <Approach />
+      <CommonPatterns />
+      <Methodology />
       <SystemVisualization />
       <FeaturedWork />
       <Proof />

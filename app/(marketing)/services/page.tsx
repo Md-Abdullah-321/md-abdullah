@@ -30,11 +30,11 @@ export default async function ServicesPage() {
 
   return (
     <Section className="pt-20 md:pt-28">
-      <Container>
+      <Container className="max-w-[1240px]">
         <div className="max-w-xl">
           <H1>Services</H1>
           <Body className="mt-4 text-muted-foreground">
-            Each engagement starts with a business problem — not a technology
+            Each project starts with a business problem, not a technology
             decision. Here&apos;s what I help businesses build.
           </Body>
         </div>

@@ -67,6 +67,7 @@ export async function saveSettings(
   }
 
   revalidatePath("/");
+  revalidatePath("/about");
   revalidatePath("/admin/settings");
   return { success: true };
 }

@@ -30,7 +30,7 @@ export function track<E extends EventName>(
     : [properties: EventPayloads[E]]
 ): void {
   try {
-    const properties = args[0] as Record<string, unknown> | undefined;
+    const properties = args[0] as Record<string, string | number | boolean | null> | undefined;
     vercelTrack(event, properties);
   } catch {
     // Analytics must never break the application

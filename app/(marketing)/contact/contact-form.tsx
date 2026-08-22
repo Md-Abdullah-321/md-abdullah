@@ -130,7 +130,7 @@ export function ContactForm() {
             "mt-1.5 block w-full resize-y rounded-md border bg-background px-3 py-2.5 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             state.errors.message ? "border-destructive" : "border-input"
           )}
-          placeholder="Describe the process, workflow, or system you'd like to improve. You don't need to know the technical solution — just explain what's happening and what you'd like to change."
+          placeholder="Describe the process or workflow you want to improve. You don't need to know the technical solution. Just explain what's happening and what you'd like to change."
           aria-describedby={state.errors.message ? "message-error" : undefined}
         />
         {state.errors.message && (
