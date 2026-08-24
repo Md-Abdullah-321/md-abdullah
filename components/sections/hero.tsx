@@ -34,7 +34,7 @@ function UpworkProof() {
               <span className="text-xs text-muted-foreground">Top Rated</span>
             </div>
           </div>
-          <p className="font-mono text-xs text-muted-foreground">10+ clients</p>
+          <p className="font-mono text-xs text-muted-foreground">20+ clients</p>
         </div>
         <div className="mt-5 border-t border-border/70 pt-4">
           <div className="flex items-center gap-3">
