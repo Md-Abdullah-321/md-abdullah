@@ -1,0 +1,17 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+
+interface Result { success: boolean; error?: string }
+function slugify(value: string) { return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); }
+function parse(formData: FormData) {
+  const title = String(formData.get("title") ?? "").trim();
+  return { title, slug: String(formData.get("slug") ?? "").trim() || slugify(title), category: String(formData.get("category") ?? "").trim(), website_url: String(formData.get("website_url") ?? "").trim() || null, short_description: String(formData.get("short_description") ?? "").trim(), problem: String(formData.get("problem") ?? "").trim(), solution: String(formData.get("solution") ?? "").trim(), outcome: String(formData.get("outcome") ?? "").trim(), context: String(formData.get("context") ?? "").trim(), workflow: String(formData.get("workflow") ?? "").trim(), architecture: String(formData.get("architecture") ?? "").trim(), before_state: String(formData.get("before_state") ?? "").trim(), after_state: String(formData.get("after_state") ?? "").trim(), technologies: String(formData.get("technologies") ?? "").split(",").map((item) => item.trim()).filter(Boolean), video_id: String(formData.get("video_id") ?? "").trim() || null, testimonial_id: String(formData.get("testimonial_id") ?? "").trim() || null, featured: formData.get("featured") === "on", published: formData.get("published") === "on", sort_order: Number(formData.get("sort_order") ?? 0) || 0 };
+}
+function validate(data: ReturnType<typeof parse>) { if (!data.title) return "Title is required."; if (!/^[a-z0-9-]+$/.test(data.slug)) return "Slug must contain only lowercase letters, numbers, and dashes."; if (data.website_url && !/^https?:\/\/[^\s]+$/i.test(data.website_url)) return "Website URL must start with http:// or https://."; return null; }
+function revalidate(slug?: string) { revalidatePath("/"); revalidatePath("/work"); revalidatePath("/admin/projects"); if (slug) revalidatePath(`/work/${slug}`); }
+
+export async function createProjectWithRelations(_prev: Result, formData: FormData): Promise<Result> { const data = parse(formData); const validationError = validate(data); if (validationError) return { success: false, error: validationError }; const supabase = await createClient(); const { data: existing } = await supabase.from("projects").select("id").eq("slug", data.slug).maybeSingle(); if (existing) return { success: false, error: "A project with this slug already exists." }; const { error } = await supabase.from("projects").insert(data); if (error) return { success: false, error: "Failed to create project." }; revalidate(data.slug); redirect("/admin/projects"); }
+export async function updateProjectWithRelations(id: string, _prev: Result, formData: FormData): Promise<Result> { const data = parse(formData); const validationError = validate(data); if (validationError) return { success: false, error: validationError }; const supabase = await createClient(); const { data: existing } = await supabase.from("projects").select("id").eq("slug", data.slug).neq("id", id).maybeSingle(); if (existing) return { success: false, error: "A project with this slug already exists." }; const { error } = await supabase.from("projects").update(data).eq("id", id); if (error) return { success: false, error: "Failed to save project." }; revalidate(data.slug); return { success: true }; }

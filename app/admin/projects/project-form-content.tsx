@@ -1,0 +1,26 @@
+"use client";
+
+import { useActionState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { RichTextField } from "@/components/admin/rich-text-field";
+import { createProjectWithContent, updateProjectWithContent } from "./project-content-actions";
+
+interface ProjectData { id?: string; title: string; slug: string; category: string; website_url?: string | null; short_description: string; problem: string; solution: string; outcome: string; context: string; workflow: string; architecture: string; before_state: string; after_state: string; technologies: string[]; featured: boolean; published: boolean; sort_order: number }
+const initialResult = { success: false, error: undefined as string | undefined };
+const inputClass = "mt-1.5 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
+
+function TextField({ id, label, value, placeholder }: { id: string; label: string; value?: string | null; placeholder?: string }) { return <div><label htmlFor={id} className="block text-sm font-medium">{label}</label><input id={id} name={id} defaultValue={value ?? ""} placeholder={placeholder} className={inputClass} /></div>; }
+
+export function ProjectFormContent({ project }: { project?: ProjectData }) {
+  const editing = Boolean(project?.id);
+  const action = editing ? updateProjectWithContent.bind(null, project!.id!) : createProjectWithContent;
+  const [state, formAction, pending] = useActionState(action, initialResult);
+  return <form action={formAction} className="space-y-10">{state.error && <div className="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive">{state.error}</div>}{state.success && editing && <div className="rounded-md bg-success/10 px-4 py-3 text-sm text-success">Project saved successfully.</div>}
+    <fieldset className="space-y-5"><legend className="text-lg font-semibold">Project Details</legend><div className="grid gap-4 sm:grid-cols-2"><TextField id="title" label="Title" value={project?.title} /><TextField id="slug" label="Slug" value={project?.slug} placeholder="auto-generated-from-title" /></div><div className="grid gap-4 sm:grid-cols-2"><TextField id="category" label="Category" value={project?.category} placeholder="CRM · Automation" /><TextField id="website_url" label="Website URL" value={project?.website_url} placeholder="https://example.com" /></div><p className="-mt-2 text-xs text-muted-foreground">Leave Website URL empty if this project does not have a public website.</p><RichTextField id="short_description" name="short_description" label="Short Description" defaultValue={project?.short_description} rows={3} placeholder="Brief overview for project listings" /></fieldset>
+    <fieldset className="space-y-5"><legend className="text-lg font-semibold">Technologies</legend><TextField id="technologies" label="Technology names" value={project?.technologies?.join(", ")} placeholder="CRM, Automation, API" /></fieldset>
+    <fieldset className="space-y-5"><legend className="text-lg font-semibold">Case Study</legend><RichTextField id="context" name="context" label="Business Context" defaultValue={project?.context} /><RichTextField id="problem" name="problem" label="Problem" defaultValue={project?.problem} /><RichTextField id="solution" name="solution" label="Solution" defaultValue={project?.solution} /><RichTextField id="outcome" name="outcome" label="Outcome" defaultValue={project?.outcome} rows={4} /><div className="grid gap-5 sm:grid-cols-2"><RichTextField id="before_state" name="before_state" label="Before State" defaultValue={project?.before_state} rows={4} /><RichTextField id="after_state" name="after_state" label="After State" defaultValue={project?.after_state} rows={4} /></div><RichTextField id="workflow" name="workflow" label="Workflow" defaultValue={project?.workflow} /><RichTextField id="architecture" name="architecture" label="Architecture" defaultValue={project?.architecture} /></fieldset>
+    <fieldset className="space-y-5"><legend className="text-lg font-semibold">Publishing</legend><div className="grid gap-4 sm:grid-cols-3"><label className="flex items-center gap-2 text-sm font-medium"><input type="checkbox" name="published" defaultChecked={project?.published ?? false} className="h-4 w-4 rounded border-input" /> Published</label><label className="flex items-center gap-2 text-sm font-medium"><input type="checkbox" name="featured" defaultChecked={project?.featured ?? false} className="h-4 w-4 rounded border-input" /> Featured on homepage</label><div><label htmlFor="sort_order" className="block text-sm font-medium">Sort Order</label><input type="number" id="sort_order" name="sort_order" defaultValue={project?.sort_order ?? 0} className="mt-1.5 block w-20 rounded-md border border-input bg-background px-3 py-2 text-sm" /></div></div></fieldset>
+    <div className="flex items-center gap-3 border-t border-border pt-6"><Button type="submit" loading={pending}>{editing ? "Save Changes" : "Create Project"}</Button><Button variant="ghost" asChild><Link href="/admin/projects">Cancel</Link></Button></div>
+  </form>;
+}

@@ -1,65 +1,23 @@
 import type { Metadata } from "next";
+import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
-import { H1, Body } from "@/components/ui/typography";
-import { ContactForm } from "./contact-form";
+import { getSiteSettings } from "@/lib/supabase/settings";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description:
-    "Tell me about your automation, integration, or workflow problem. No technical knowledge required. Just explain what is happening.",
-};
+export const metadata: Metadata = { title: "Contact", description: "Tell Md Abdullah what is taking too much time in your business and start a direct conversation." };
 
-export default function ContactPage() {
-  return (
-    <Section className="pt-20 md:pt-28">
-      <Container>
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
-          {/* Left — Intro */}
-          <div className="max-w-md">
-            <p className="text-sm font-medium tracking-wide text-muted-foreground">
-              Let&apos;s talk
-            </p>
-            <H1 className="mt-2">Tell me what&apos;s not working</H1>
-            <Body className="mt-4 text-muted-foreground">
-              You don&apos;t need to know the technical solution. Describe the
-              process, what is frustrating, or what you want to change. I&apos;ll
-              explain how I&apos;d approach it.
-            </Body>
+function ContactRow({ number, name, detail, description, href, action, primary, external }: { number: string; name: string; detail: string; description: string; href: string; action: string; primary?: boolean; external?: boolean }) {
+  return <a className={`group grid gap-5 border-t border-border/80 px-5 py-7 transition-colors duration-200 hover:border-primary/50 sm:grid-cols-[54px_0.8fr_1.2fr_auto] sm:items-center sm:gap-6 sm:px-6 sm:py-9 ${primary ? "bg-accent/45" : ""}`} href={href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined}><span className="font-mono text-sm font-semibold tracking-[-0.04em] text-primary">{number.padStart(2, "0")}</span><div><p className="font-mono text-sm font-semibold tracking-[0.12em] text-foreground">{name}</p><p className="mt-2 text-sm text-foreground/80">{detail}</p></div><p className="max-w-md text-sm leading-6 text-muted-foreground">{description}</p><span className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold tracking-[0.08em] text-foreground transition-colors group-hover:text-primary">{action}<ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></span></a>;
+}
 
-            <div className="mt-8 space-y-4 border-t border-border pt-8">
-              <div>
-                <p className="text-sm font-medium">What happens next?</p>
-                <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
-                  <li className="flex gap-2">
-                    <span className="font-medium text-foreground">1.</span>
-                    I&apos;ll review your message and understand the situation.
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="font-medium text-foreground">2.</span>
-                    I&apos;ll reply with initial thoughts on how to approach it.
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="font-medium text-foreground">3.</span>
-                    We&apos;ll have a conversation about whether it makes sense
-                    to work together.
-                  </li>
-                </ul>
-              </div>
+export default async function ContactPage() {
+  const settings = await getSiteSettings();
+  const email = settings.public_email || "mdabdullah.dev@gmail.com";
+  const whatsappUrl = process.env.NEXT_PUBLIC_WHATSAPP_URL;
+  let number = 2;
 
-              <p className="text-xs text-muted-foreground">
-                No commitment. No sales pressure. Just a genuine conversation
-                about your process.
-              </p>
-            </div>
-          </div>
-
-          {/* Right — Form */}
-          <div>
-            <ContactForm />
-          </div>
-        </div>
-      </Container>
-    </Section>
-  );
+  return <main className="relative isolate overflow-hidden bg-background"><div className="pointer-events-none absolute -right-72 -top-24 -z-10 h-[42rem] w-[42rem] rounded-full bg-accent/45 blur-3xl" /><div className="pointer-events-none absolute -left-72 bottom-24 -z-10 h-[34rem] w-[34rem] rounded-full border border-primary/[0.07] bg-primary/[0.025]" />
+    <Section className="pt-20 md:pt-32 lg:pt-40"><Container><header className="max-w-4xl"><p className="font-mono text-[11px] font-semibold tracking-[0.18em] text-primary">LET&apos;S TALK</p><h1 className="mt-6 max-w-4xl font-mono text-4xl font-semibold leading-[1.01] tracking-[-0.07em] text-foreground sm:text-6xl lg:text-8xl">Tell me what you&apos;re<br /><span className="text-primary">trying to fix.</span></h1><p className="mt-8 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">If something in your business is taking too much time, tell me what is happening. You do not need to know the technical solution. I&apos;ll take a look and tell you how I&apos;d approach it.</p></header><div className="mt-16 max-w-6xl border-b border-border/80"><ContactRow number="1" name="EMAIL" detail={email} description="Best for project details, requirements and longer conversations." action="Send an email" href={`mailto:${email}`} primary />{whatsappUrl && <ContactRow number={String(number++)} name="WHATSAPP" detail="Start a direct conversation." description="Best if you want to ask a quick question or discuss an idea." action="Open WhatsApp" href={whatsappUrl} external />}{settings.link_upwork && <ContactRow number={String(number++)} name="UPWORK" detail="Client work and reviews" description="See my work history, client reviews and recent projects." action="View my Upwork profile" href={settings.link_upwork} external />}{settings.link_linkedin && <ContactRow number={String(number++)} name="LINKEDIN" detail="Professional connection" description="Connect with me professionally or start a conversation." action="Connect on LinkedIn" href={settings.link_linkedin} external />}</div></Container></Section>
+    <Section className="pt-0 md:pt-0"><Container><div className="flex flex-col gap-4 border-t border-border/80 pt-7 sm:flex-row sm:items-baseline sm:justify-between"><div><p className="font-mono text-[11px] font-semibold tracking-[0.18em] text-muted-foreground">PREFER ANOTHER WAY?</p><p className="mt-3 text-sm text-muted-foreground">Email is usually the easiest place to start.</p></div><a className="inline-flex items-center gap-2 font-mono text-xs font-semibold text-foreground transition-colors hover:text-primary" href={`mailto:${email}`}>{email}<ArrowUpRight className="h-4 w-4" /></a></div></Container></Section>
+  </main>;
 }
