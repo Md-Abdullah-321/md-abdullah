@@ -98,19 +98,40 @@
   --ring: #58bd6d;
 }
 
-* { border-color: var(--border); }
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-  background-image: radial-gradient(circle at 92% 2%, rgb(234 246 236 / 0.58), transparent 28rem), radial-gradient(circle at -8% 88%, rgb(243 250 244 / 0.82), transparent 24rem);
+  background-image:
+    radial-gradient(
+      circle at 92% 2%,
+      rgb(234 246 236 / 0.58),
+      transparent 28rem
+    ),
+    radial-gradient(
+      circle at -8% 88%,
+      rgb(243 250 244 / 0.82),
+      transparent 24rem
+    );
 }
 
-:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -119,16 +140,36 @@ body {
 }
 
 @keyframes pulse-signal {
-  0%, 100% { opacity: 0.35; transform: scale(0.9); }
-  50% { opacity: 1; transform: scale(1.08); }
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
 }
 
-@keyframes wire-dash { to { stroke-dashoffset: -24; } }
+@keyframes wire-dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
 
-.animate-pulse-signal { animation: pulse-signal 2.2s ease-in-out infinite; }
-.animate-wire-dash { stroke-dasharray: 4 4; animation: wire-dash 1.2s linear infinite; }
+.animate-pulse-signal {
+  animation: pulse-signal 2.2s ease-in-out infinite;
+}
+.animate-wire-dash {
+  stroke-dasharray: 4 4;
+  animation: wire-dash 1.2s linear infinite;
+}
 
 .dot-grid {
-  background-image: radial-gradient(circle, rgb(46 158 69 / 0.14) 1px, transparent 1px);
+  background-image: radial-gradient(
+    circle,
+    rgb(46 158 69 / 0.14) 1px,
+    transparent 1px
+  );
   background-size: 12px 12px;
 }
