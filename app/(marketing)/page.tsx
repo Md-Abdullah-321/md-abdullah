@@ -6,6 +6,7 @@ import { FeaturedWork } from "@/components/sections/featured-work";
 import { Proof } from "@/components/sections/proof";
 import { ServicesOverview } from "@/components/sections/services-overview";
 import { FinalCTA } from "@/components/sections/final-cta";
+import { HomepageAtmosphere } from "@/components/layout/homepage-atmosphere";
 import { getSiteSettings } from "@/lib/supabase/settings";
 import {
   generatePersonJsonLd,
@@ -20,14 +21,16 @@ export default async function HomePage() {
     <>
       <JsonLd data={generatePersonJsonLd(settings)} />
       <JsonLd data={generateWebsiteJsonLd(settings)} />
-      <Hero />
-      <CommonPatterns />
-      <Methodology />
-      <SystemVisualization />
-      <FeaturedWork />
-      <Proof />
-      <ServicesOverview />
-      <FinalCTA />
+      <HomepageAtmosphere>
+        <Hero />
+        <CommonPatterns />
+        <Methodology />
+        <SystemVisualization />
+        <FeaturedWork />
+        <Proof />
+        <ServicesOverview />
+        <FinalCTA />
+      </HomepageAtmosphere>
     </>
   );
 }

@@ -11,17 +11,12 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary:
-          "bg-foreground text-background hover:bg-foreground/90 shadow-xs active:scale-[0.99]",
-        secondary:
-          "bg-surface-muted text-foreground border border-border hover:bg-muted/70 hover:border-foreground/20",
-        outline:
-          "border border-border bg-surface/50 text-foreground hover:bg-surface-muted hover:border-foreground/30",
+        primary: "bg-foreground text-background shadow-xs hover:bg-foreground/90 active:scale-[0.99]",
+        secondary: "bg-surface-muted text-foreground border border-border hover:bg-muted/70 hover:border-foreground/20",
+        outline: "border border-border bg-surface text-foreground hover:bg-surface-muted hover:border-foreground/30",
         ghost: "hover:bg-surface-muted text-foreground",
-        accent:
-          "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 active:scale-[0.99]",
-        destructive:
-          "bg-destructive text-primary-foreground hover:bg-destructive/90",
+        accent: "bg-primary text-primary-foreground shadow-xs hover:bg-accent-foreground active:scale-[0.99]",
+        destructive: "bg-destructive text-primary-foreground hover:bg-destructive/90",
         link: "text-foreground underline-offset-4 hover:underline hover:text-primary p-0 h-auto font-normal",
       },
       size: {
@@ -31,29 +26,19 @@ const buttonVariants = cva(
         icon: "h-9 w-9",
       },
     },
-    defaultVariants: {
-      variant: "primary",
-      size: "md",
-    },
+    defaultVariants: { variant: "primary", size: "md" },
   }
 );
 
-interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
   loading?: boolean;
   icon?: React.ReactNode;
-  /** Render as child element (e.g., Link) instead of button */
   asChild?: boolean;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    { className, variant, size, loading, icon, children, disabled, asChild, ...props },
-    ref
-  ) => {
+  ({ className, variant, size, loading, icon, children, disabled, asChild, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
-
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
@@ -63,18 +48,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {loading ? (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-            {children}
-          </>
+          <><Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />{children}</>
         ) : icon ? (
-          <>
-            <span aria-hidden="true">{icon}</span>
-            {children}
-          </>
-        ) : (
-          children
-        )}
+          <><span aria-hidden="true">{icon}</span>{children}</>
+        ) : children}
       </Comp>
     );
   }
@@ -83,4 +60,3 @@ Button.displayName = "Button";
 
 export { Button, buttonVariants };
 export type { ButtonProps };
-

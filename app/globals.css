@@ -1,11 +1,5 @@
 @import "tailwindcss";
 
-/*
- * Design System Tokens
- * Visual identity: Clean technical editorial portfolio with intelligent system visualization
- * Direction: High-contrast warm off-white, crisp near-black typography, restrained purple accent
- */
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -29,141 +23,94 @@
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
-
-  /* Fonts */
   --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-mono), monospace;
   --font-mono: var(--font-mono), monospace;
-
-
-  /* Restrained, architectural radius scale */
-  --radius-sm: 0.125rem;
-  --radius-md: 0.25rem;
-  --radius-lg: 0.375rem;
-  --radius-xl: 0.5rem;
-  --radius-2xl: 0.75rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1.125rem;
   --radius-full: 9999px;
-
-  /* Crisp, subtle shadows */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.03);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.03);
-  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.06), 0 4px 6px rgba(0, 0, 0, 0.03);
-  --shadow-xl: 0 18px 30px rgba(0, 0, 0, 0.07), 0 6px 12px rgba(0, 0, 0, 0.04);
-
+  --shadow-xs: 0 1px 2px rgb(16 24 40 / 0.03);
+  --shadow-sm: 0 1px 3px rgb(16 24 40 / 0.05), 0 1px 2px rgb(16 24 40 / 0.03);
+  --shadow-md: 0 12px 35px rgb(16 24 40 / 0.06);
+  --shadow-lg: 0 16px 40px rgb(16 24 40 / 0.07);
+  --shadow-xl: 0 24px 56px rgb(16 24 40 / 0.08);
   --duration-fast: 150ms;
   --duration-normal: 250ms;
   --duration-moderate: 400ms;
   --duration-slow: 700ms;
-
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* ─── Light Theme (Warm Editorial Default) ─────────────── */
-
 :root {
-  --background: #fafaf8;
-  --foreground: #151515;
-
+  --background: #fbfcfa;
+  --foreground: #101828;
   --surface: #ffffff;
-  --surface-muted: #f3f3f0;
-
-  --muted: #eaeae6;
-  --muted-foreground: #666662;
-
+  --surface-muted: #f3f6f1;
+  --muted: #edf1ec;
+  --muted-foreground: #667085;
   --popover: #ffffff;
-  --popover-foreground: #151515;
-
+  --popover-foreground: #101828;
   --card: #ffffff;
-  --card-foreground: #151515;
-
-  --border: #e6e6e1;
-  --input: #e6e6e1;
-
-  /* Primary: Restrained deep purple accent for active states, indicators, key interactions */
-  --primary: #5538ee;
+  --card-foreground: #101828;
+  --border: #e4e8e3;
+  --input: #e4e8e3;
+  --primary: #2e9e45;
   --primary-foreground: #ffffff;
-
-  --secondary: #f3f3f0;
-  --secondary-foreground: #151515;
-
-  --accent: #f2effe;
-  --accent-foreground: #4726dc;
-
+  --secondary: #f3f6f1;
+  --secondary-foreground: #101828;
+  --accent: #eaf6ec;
+  --accent-foreground: #218739;
   --destructive: #d93838;
-  --success: #15803d;
+  --success: #2e9e45;
   --warning: #b45309;
-
-  --ring: #5538ee;
-
-  --radius: 0.25rem;
+  --ring: #2e9e45;
+  --radius: 0.75rem;
 }
-
-/* ─── Dark Theme (Restrained High-Contrast Dark) ────────── */
 
 .dark {
-  --background: #0e0e10;
-  --foreground: #f4f4f5;
-
-  --surface: #141416;
-  --surface-muted: #1a1a1d;
-
-  --muted: #242428;
-  --muted-foreground: #9a9aa2;
-
-  --popover: #141416;
-  --popover-foreground: #f4f4f5;
-
-  --card: #141416;
-  --card-foreground: #f4f4f5;
-
-  --border: #27272b;
-  --input: #27272b;
-
-  --primary: #755eff;
-  --primary-foreground: #ffffff;
-
-  --secondary: #1a1a1d;
-  --secondary-foreground: #f4f4f5;
-
-  --accent: #211c38;
-  --accent-foreground: #b7a9ff;
-
+  --background: #101814;
+  --foreground: #f4f8f3;
+  --surface: #17211a;
+  --surface-muted: #1d2a20;
+  --muted: #29362c;
+  --muted-foreground: #a7b6aa;
+  --popover: #17211a;
+  --popover-foreground: #f4f8f3;
+  --card: #17211a;
+  --card-foreground: #f4f8f3;
+  --border: #304235;
+  --input: #304235;
+  --primary: #58bd6d;
+  --primary-foreground: #0d1a10;
+  --secondary: #1d2a20;
+  --secondary-foreground: #f4f8f3;
+  --accent: #1f3b25;
+  --accent-foreground: #a5e0af;
   --destructive: #ef4444;
-  --success: #22c55e;
+  --success: #58bd6d;
   --warning: #f59e0b;
-
-  --ring: #755eff;
+  --ring: #58bd6d;
 }
 
-/* ─── Base Styles ─────────────────────────────────────── */
-
-* {
-  border-color: var(--border);
-}
+* { border-color: var(--border); }
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  background-image: radial-gradient(circle at 92% 2%, rgb(234 246 236 / 0.58), transparent 28rem), radial-gradient(circle at -8% 88%, rgb(243 250 244 / 0.82), transparent 24rem);
 }
 
-/* ─── Focus Styles ────────────────────────────────────── */
-
-:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 2px;
-}
-
-/* ─── Reduced Motion ──────────────────────────────────── */
+:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -171,25 +118,17 @@ body {
   }
 }
 
-/* ─── Technical Data & Wire Flow Animations ────────────── */
-
 @keyframes pulse-signal {
   0%, 100% { opacity: 0.35; transform: scale(0.9); }
   50% { opacity: 1; transform: scale(1.08); }
 }
 
-@keyframes wire-dash {
-  to {
-    stroke-dashoffset: -24;
-  }
-}
+@keyframes wire-dash { to { stroke-dashoffset: -24; } }
 
-.animate-pulse-signal {
-  animation: pulse-signal 2.2s ease-in-out infinite;
-}
+.animate-pulse-signal { animation: pulse-signal 2.2s ease-in-out infinite; }
+.animate-wire-dash { stroke-dasharray: 4 4; animation: wire-dash 1.2s linear infinite; }
 
-.animate-wire-dash {
-  stroke-dasharray: 4 4;
-  animation: wire-dash 1.2s linear infinite;
+.dot-grid {
+  background-image: radial-gradient(circle, rgb(46 158 69 / 0.14) 1px, transparent 1px);
+  background-size: 12px 12px;
 }
-
