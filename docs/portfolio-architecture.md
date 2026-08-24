@@ -37,20 +37,21 @@ No additional pages planned. Avoid creating routes unless they serve a clear vis
 
 The homepage tells a story from problem recognition to trust to action.
 
-| # | Section | Purpose | Visitor Outcome |
-|---|---------|---------|-----------------|
-| 1 | **Hero** | Positioning + identity | "This person solves the exact kind of problem I have." |
-| 2 | **Problem Recognition** | Name the pain | "We actually deal with some of this." |
-| 3 | **Approach** | How I work | "He has a process, not just random tool installation." |
-| 4 | **System Visual** | Show what gets built | "I can see how our systems would connect." |
-| 5 | **Featured Work** | Proof via case studies | "He's done this before for real businesses." |
-| 6 | **Testimonials** | Social proof | "Other business people trust him." |
-| 7 | **Services Overview** | What's available | "I understand what I could hire him for." |
-| 8 | **CTA / Contact** | Conversion | "I should reach out." |
+| #   | Section                 | Purpose                | Visitor Outcome                                        |
+| --- | ----------------------- | ---------------------- | ------------------------------------------------------ |
+| 1   | **Hero**                | Positioning + identity | "This person solves the exact kind of problem I have." |
+| 2   | **Problem Recognition** | Name the pain          | "We actually deal with some of this."                  |
+| 3   | **Approach**            | How I work             | "He has a process, not just random tool installation." |
+| 4   | **System Visual**       | Show what gets built   | "I can see how our systems would connect."             |
+| 5   | **Featured Work**       | Proof via case studies | "He's done this before for real businesses."           |
+| 6   | **Testimonials**        | Social proof           | "Other business people trust him."                     |
+| 7   | **Services Overview**   | What's available       | "I understand what I could hire him for."              |
+| 8   | **CTA / Contact**       | Conversion             | "I should reach out."                                  |
 
 ### Section Details
 
 **1. Hero**
+
 - Positioning headline (business-language, not tech jargon)
 - One-sentence supporting explanation
 - Primary CTA: "Start a Conversation" / "Book a Call"
@@ -58,12 +59,14 @@ The homepage tells a story from problem recognition to trust to action.
 - Optional: short personal intro video (Loom, 60-90s)
 
 **2. Problem Recognition**
+
 - 4-6 common operational pain points in business language
 - Presented as relatable scenarios, not generic marketing claims
 - Visual: possibly icons or subtle illustrations
 - No fear-mongering — recognition-based
 
 Example pain points:
+
 - Leads falling through follow-up gaps
 - Teams copying data between systems manually
 - CRM full of outdated or duplicate records
@@ -72,6 +75,7 @@ Example pain points:
 - Customers waiting too long for responses
 
 **3. Approach (How I Work)**
+
 - Step-based progression showing methodology
 - Uses Workflow component (already built)
 - Steps: Understand → Map → Design → Build → Monitor
@@ -79,6 +83,7 @@ Example pain points:
 - Communicates: "I'm not just plugging in tools — I'm designing systems"
 
 **4. System Visual**
+
 - Interactive or animated diagram showing connected business systems
 - Example flow: Website → CRM → Automation → AI → Communication → Calendar
 - Uses Workflow/diagram components
@@ -86,6 +91,7 @@ Example pain points:
 - Must work as a static diagram on mobile (no interaction required)
 
 **5. Featured Work**
+
 - 2-3 highlighted case studies (featured: true in data model)
 - Each shows: business context → problem → outcome (brief)
 - Strong CTA per project: "View Case Study" or "Watch Walkthrough"
@@ -93,18 +99,21 @@ Example pain points:
 - Each card tells a mini business story
 
 **6. Testimonials**
+
 - 2-3 testimonials from real clients
 - Name, role, company, quote
 - Linked to relevant project when available (projectSlug)
 - Simple, credible presentation — no star ratings, no carousel
 
 **7. Services Overview**
+
 - Brief version of the services page
 - Problem-first framing for each service category
 - Links to /services for full detail
 - 3-5 cards maximum
 
 **8. CTA / Contact**
+
 - Restatement of value proposition
 - Simple contact prompt: "Tell me what you're trying to improve"
 - Links to /contact
@@ -116,21 +125,21 @@ Example pain points:
 
 Flexible — not every project uses every section.
 
-| Section | Required | Content |
-|---------|----------|---------|
-| Header | Yes | Title, short description, key outcome |
-| Context | Yes | Business situation, who the client is |
-| Problem | Yes | What wasn't working (business language) |
-| Previous Process | No | Before state — manual steps, bottlenecks |
-| Solution Strategy | Yes | Approach taken, decisions made |
-| System Architecture | No | Diagram of connected systems |
-| Workflow | No | Step-by-step automation flow |
-| Implementation | No | Technical details (secondary to business story) |
-| Video Walkthrough | No | Loom/YouTube showing the system in action |
-| Outcome | Yes | What changed — measurable when available |
-| Technologies | Yes | Listed at bottom, not leading the story |
-| Testimonial | No | Client quote if available |
-| CTA | Yes | "Have a similar problem?" → contact |
+| Section             | Required | Content                                         |
+| ------------------- | -------- | ----------------------------------------------- |
+| Header              | Yes      | Title, short description, key outcome           |
+| Context             | Yes      | Business situation, who the client is           |
+| Problem             | Yes      | What wasn't working (business language)         |
+| Previous Process    | No       | Before state — manual steps, bottlenecks        |
+| Solution Strategy   | Yes      | Approach taken, decisions made                  |
+| System Architecture | No       | Diagram of connected systems                    |
+| Workflow            | No       | Step-by-step automation flow                    |
+| Implementation      | No       | Technical details (secondary to business story) |
+| Video Walkthrough   | No       | Loom/YouTube showing the system in action       |
+| Outcome             | Yes      | What changed — measurable when available        |
+| Technologies        | Yes      | Listed at bottom, not leading the story         |
+| Testimonial         | No       | Client quote if available                       |
+| CTA                 | Yes      | "Have a similar problem?" → contact             |
 
 **Key principle:** The case study reads as a business story first. Technology appears as supporting evidence, never as the headline.
 
@@ -165,6 +174,7 @@ ContactSubmission
 The existing TypeScript types (`types/project.ts`, `types/video.ts`, `types/testimonial.ts`, `types/common.ts`) already cover these entities well. No new types needed.
 
 **One refinement needed later:** The `Service` type should eventually gain:
+
 - `problemStatement: string` — what business problem it solves
 - `outcomes: string[]` — what results look like
 - `relatedProjectSlugs: string[]` — links to proof
@@ -177,12 +187,12 @@ This can be added when real content is written. No type changes now.
 
 ### Video Types and Placement
 
-| Type | Provider | Where Used | Purpose |
-|------|----------|-----------|---------|
-| Personal intro | Loom | Hero section (optional) | Build trust, humanize |
-| Project walkthrough | Loom or YouTube | Case study page | Show the actual system working |
-| Before/after demo | Loom | Case study page | Visualize improvement |
-| Process explanation | YouTube | Services page or blog (future) | Educate on approach |
+| Type                | Provider        | Where Used                     | Purpose                        |
+| ------------------- | --------------- | ------------------------------ | ------------------------------ |
+| Personal intro      | Loom            | Hero section (optional)        | Build trust, humanize          |
+| Project walkthrough | Loom or YouTube | Case study page                | Show the actual system working |
+| Before/after demo   | Loom            | Case study page                | Visualize improvement          |
+| Process explanation | YouTube         | Services page or blog (future) | Educate on approach            |
 
 ### Guidelines
 
@@ -196,6 +206,7 @@ This can be added when real content is written. No type changes now.
 ### Hero Video Decision
 
 The hero section **may** include a short personal intro video. This is optional and should be:
+
 - 60-90 seconds
 - Hosted on Loom
 - Positioned as secondary to the headline (not auto-playing, not dominating)
@@ -207,23 +218,23 @@ The hero section **may** include a short personal intro video. This is optional 
 
 ### Worth Building
 
-| Element | Location | Value |
-|---------|----------|-------|
-| System flow diagram | Homepage section 4 | Shows connected systems visually — high comprehension value |
-| Workflow step animation | Homepage section 3 | Makes methodology tangible with sequential reveal |
-| Before/after comparison | Case study pages | Directly communicates improvement |
-| Click-to-play video | Multiple | Avoids heavy loading, gives user control |
+| Element                 | Location           | Value                                                       |
+| ----------------------- | ------------------ | ----------------------------------------------------------- |
+| System flow diagram     | Homepage section 4 | Shows connected systems visually — high comprehension value |
+| Workflow step animation | Homepage section 3 | Makes methodology tangible with sequential reveal           |
+| Before/after comparison | Case study pages   | Directly communicates improvement                           |
+| Click-to-play video     | Multiple           | Avoids heavy loading, gives user control                    |
 
 ### Not Worth Building
 
-| Element | Reason |
-|---------|--------|
-| Full process simulator | Too complex, diminishing returns for conversion |
-| Drag-and-drop workflow builder | Not a portfolio concern — it's a product feature |
-| Animated background patterns | Decoration, not communication |
-| Parallax scrolling effects | Often distracting, hurts mobile performance |
-| 3D elements | Off-brand for business-focused audience |
-| Animated counters/metrics | Feels generic; static numbers with context are more credible |
+| Element                        | Reason                                                       |
+| ------------------------------ | ------------------------------------------------------------ |
+| Full process simulator         | Too complex, diminishing returns for conversion              |
+| Drag-and-drop workflow builder | Not a portfolio concern — it's a product feature             |
+| Animated background patterns   | Decoration, not communication                                |
+| Parallax scrolling effects     | Often distracting, hurts mobile performance                  |
+| 3D elements                    | Off-brand for business-focused audience                      |
+| Animated counters/metrics      | Feels generic; static numbers with context are more credible |
 
 ### Implementation Priority
 
@@ -270,11 +281,13 @@ CTA: Take action
 ### CTA Language Direction
 
 Avoid aggressive sales language. Use:
+
 - "Start a conversation"
 - "Tell me what you're working on"
 - "Let's talk about your process"
 
 Not:
+
 - "Get a free audit"
 - "Book your strategy session NOW"
 - "Limited spots available"
@@ -283,15 +296,15 @@ Not:
 
 ## Mobile Considerations
 
-| Section | Desktop | Mobile Adaptation |
-|---------|---------|-------------------|
-| Hero | Side-by-side text + visual | Stacked, text first |
-| Problem Recognition | Multi-column grid | Single column, scrollable |
-| Approach Workflow | Horizontal steps | Vertical steps (already supported by Workflow component) |
-| System Visual | Interactive diagram | Static simplified version with clear labels |
-| Featured Work | Cards with hover states | Cards with full info visible (no hover dependency) |
-| Testimonials | Side-by-side | Stacked |
-| Contact Form | Centered form | Full-width form |
+| Section             | Desktop                    | Mobile Adaptation                                        |
+| ------------------- | -------------------------- | -------------------------------------------------------- |
+| Hero                | Side-by-side text + visual | Stacked, text first                                      |
+| Problem Recognition | Multi-column grid          | Single column, scrollable                                |
+| Approach Workflow   | Horizontal steps           | Vertical steps (already supported by Workflow component) |
+| System Visual       | Interactive diagram        | Static simplified version with clear labels              |
+| Featured Work       | Cards with hover states    | Cards with full info visible (no hover dependency)       |
+| Testimonials        | Side-by-side               | Stacked                                                  |
+| Contact Form        | Centered form              | Full-width form                                          |
 
 **Key rule:** No information should require hover to access. Mobile users see everything directly.
 
@@ -299,16 +312,16 @@ Not:
 
 ## Performance Strategy
 
-| Risk | Mitigation |
-|------|-----------|
-| Video embeds | Lazy-load with thumbnail + click-to-play (already implemented) |
-| Hero image/video | Use Next.js Image with priority. Video only loads on interaction. |
-| Animations | Use Motion's `whileInView` — don't animate off-screen elements. Respect reduced-motion. |
-| System diagram | SVG-based or CSS-based, not canvas. Keep DOM minimal. |
-| Images in case studies | Next.js Image with appropriate `sizes` attribute. WebP/AVIF via Vercel. |
-| Third-party scripts | None on initial load. No analytics until decided. |
-| Font loading | Geist is loaded via `next/font` (already optimized, font-display: swap). |
-| Route transitions | Leverage Next.js App Router prefetching. No full-page reloads. |
+| Risk                   | Mitigation                                                                              |
+| ---------------------- | --------------------------------------------------------------------------------------- |
+| Video embeds           | Lazy-load with thumbnail + click-to-play (already implemented)                          |
+| Hero image/video       | Use Next.js Image with priority. Video only loads on interaction.                       |
+| Animations             | Use Motion's `whileInView` — don't animate off-screen elements. Respect reduced-motion. |
+| System diagram         | SVG-based or CSS-based, not canvas. Keep DOM minimal.                                   |
+| Images in case studies | Next.js Image with appropriate `sizes` attribute. WebP/AVIF via Vercel.                 |
+| Third-party scripts    | None on initial load. No analytics until decided.                                       |
+| Font loading           | Geist is loaded via `next/font` (already optimized, font-display: swap).                |
+| Route transitions      | Leverage Next.js App Router prefetching. No full-page reloads.                          |
 
 **Target:** Largest Contentful Paint under 2.5s on mobile 4G.
 
@@ -334,17 +347,17 @@ Future prompts can reference sections by name:
 
 ### Component Mapping
 
-| Section | Primary Components |
-|---------|-------------------|
-| Hero | Container, Section, Button, Typography (Display, Body) |
-| Problem Recognition | Container, Section, Card, Typography (H2, Body) |
-| Approach | Container, Section, Workflow, WorkflowNode, WorkflowConnector |
-| System Visual | Container, Section, custom diagram (to be built) |
-| Featured Work | Container, Section, Card, Button, Typography |
-| Testimonials | Container, Section, Card, Typography |
-| Services Overview | Container, Section, Card, Button |
-| CTA | Container, Section, Button, Typography |
-| Case Study Page | Container, Section, Typography, VideoEmbed, Workflow |
+| Section             | Primary Components                                            |
+| ------------------- | ------------------------------------------------------------- |
+| Hero                | Container, Section, Button, Typography (Display, Body)        |
+| Problem Recognition | Container, Section, Card, Typography (H2, Body)               |
+| Approach            | Container, Section, Workflow, WorkflowNode, WorkflowConnector |
+| System Visual       | Container, Section, custom diagram (to be built)              |
+| Featured Work       | Container, Section, Card, Button, Typography                  |
+| Testimonials        | Container, Section, Card, Typography                          |
+| Services Overview   | Container, Section, Card, Button                              |
+| CTA                 | Container, Section, Button, Typography                        |
+| Case Study Page     | Container, Section, Typography, VideoEmbed, Workflow          |
 
 ---
 
