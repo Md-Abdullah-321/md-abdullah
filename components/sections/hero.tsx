@@ -2,7 +2,7 @@ import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/reveal";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import Link from "next/link";
+import { TrackLink } from "@/components/analytics/track-link";
 import { HeroVideo } from "./hero-video";
 import { UpworkProof } from "./upworkproof";
 
@@ -83,16 +83,22 @@ export function Hero({ proof }: { proof?: HeroProofData | null }) {
                 className="flex flex-col items-stretch gap-3 pt-1 sm:flex-row sm:items-center"
               >
                 <Button size="lg" variant="primary" asChild>
-                  <Link href="/contact">
+                  <TrackLink
+                    href="/contact"
+                    event={{ event: "cta_click", cta_name: "start_a_conversation", location: "hero" }}
+                  >
                     Start a Conversation
                     <ArrowRight className="h-4 w-4" />
-                  </Link>
+                  </TrackLink>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
-                  <Link href="/work">
+                  <TrackLink
+                    href="/work"
+                    event={{ event: "cta_click", cta_name: "see_my_work", location: "hero" }}
+                  >
                     See My Work
                     <ArrowUpRight className="h-4 w-4" />
-                  </Link>
+                  </TrackLink>
                 </Button>
               </Reveal>
             </div>

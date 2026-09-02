@@ -4,6 +4,7 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import { TrackLink } from "@/components/analytics/track-link";
 
 /* ─── ProjectRow ──────────────────────────────────────
  * The homepage project presentation — one editorial row
@@ -52,6 +53,8 @@ export function ProjectRow({
             videoId={project.video.video_id}
             title={project.video.title || project.title}
             thumbnail={project.video.thumbnail_url ?? undefined}
+            projectName={project.title}
+            projectSlug={project.slug}
           />
         </Reveal>
       )}
@@ -99,18 +102,24 @@ export function ProjectRow({
               {viewLabel} <ArrowRight className="h-3.5 w-3.5" />
             </Link>
             {project.website_url && (
-              <a
+              <TrackLink
                 href={project.website_url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
+                event={{
+                  event: "project_website_click",
+                  project_name: project.title,
+                  project_slug: project.slug,
+                  project_category: project.category || undefined,
+                }}
               >
                 {renderInline(
                   project.website_label || "Visit Website",
                   `website-${project.id}`
                 )}{" "}
                 <ArrowUpRight className="h-3.5 w-3.5" />
-              </a>
+              </TrackLink>
             )}
           </div>
         </RevealItem>

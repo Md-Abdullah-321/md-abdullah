@@ -1,10 +1,10 @@
-import Link from "next/link";
 import { ArrowRight, MessageSquare } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { H2, Body } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import { RevealGroup, RevealItem } from "@/components/motion/reveal";
+import { TrackLink } from "@/components/analytics/track-link";
 
 /* ─── FinalCTA ─────────────────────────────────────────
  * One CTA design for the whole site. The homepage uses
@@ -65,13 +65,21 @@ export function FinalCTA({
             <RevealItem variant="body">
               <div className="flex flex-col gap-3 pt-2 sm:flex-row">
                 <Button size="lg" asChild>
-                  <Link href={primaryHref}>
+                  <TrackLink
+                    href={primaryHref}
+                    event={{ event: "cta_click", cta_name: "start_a_conversation", location: "next_step" }}
+                  >
                     {primaryLabel}
                     <ArrowRight className="h-4 w-4" />
-                  </Link>
+                  </TrackLink>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
-                  <Link href={secondaryHref}>{secondaryLabel}</Link>
+                  <TrackLink
+                    href={secondaryHref}
+                    event={{ event: "cta_click", cta_name: "see_my_work", location: "next_step" }}
+                  >
+                    {secondaryLabel}
+                  </TrackLink>
                 </Button>
               </div>
             </RevealItem>

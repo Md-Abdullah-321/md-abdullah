@@ -6,8 +6,9 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BrandMark } from "@/components/ui/brand-mark";
 import { Container } from "@/components/layout/container";
-import { mainNavItems } from "@/data/navigation";
+import { mainNavItems, NAV_DESTINATIONS } from "@/data/navigation";
 import { cn } from "@/lib/utils";
+import { pushDataLayerEvent } from "@/lib/analytics/data-layer";
 import { MobileMenu } from "./mobile-menu";
 import { NavLink } from "./nav-link";
 
@@ -39,6 +40,13 @@ export function Header() {
             href="/"
             className="group flex items-center gap-2.5 transition-opacity hover:opacity-90"
             aria-label="Md Abdullah Home"
+            onClick={() =>
+              pushDataLayerEvent({
+                event: "nav_click",
+                destination: "home",
+                location: "header",
+              })
+            }
           >
             <BrandMark size="sm" className="text-foreground group-hover:text-primary transition-colors" />
             <div className="flex items-center">
@@ -58,17 +66,42 @@ export function Header() {
           >
             {mainNavItems
               .filter((item) => item.href !== "/contact")
-              .map((item) => (
-                <NavLink key={item.href} href={item.href}>
-                  {item.label}
-                </NavLink>
-              ))}
+              .map((item) => {
+                const destination = NAV_DESTINATIONS[item.href];
+                return (
+                  <NavLink
+                    key={item.href}
+                    href={item.href}
+                    onClick={
+                      destination
+                        ? () =>
+                            pushDataLayerEvent({
+                              event: "nav_click",
+                              destination,
+                              location: "header",
+                            })
+                        : undefined
+                    }
+                  >
+                    {item.label}
+                  </NavLink>
+                );
+              })}
           </nav>
 
           {/* Desktop CTA + Mobile toggle */}
           <div className="flex items-center gap-3">
             <Button size="sm" variant="primary" asChild className="hidden md:inline-flex">
-              <Link href="/contact">
+              <Link
+                href="/contact"
+                onClick={() =>
+                  pushDataLayerEvent({
+                    event: "cta_click",
+                    cta_name: "start_a_conversation",
+                    location: "header",
+                  })
+                }
+              >
                 Start a Conversation
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>

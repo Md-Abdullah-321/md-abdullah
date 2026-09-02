@@ -5,7 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { mainNavItems } from "@/data/navigation";
+import { mainNavItems, NAV_DESTINATIONS } from "@/data/navigation";
+import { pushDataLayerEvent } from "@/lib/analytics/data-layer";
 
 export function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -65,6 +66,7 @@ export function MobileMenu() {
             <div className="flex flex-col gap-1">
               {mainNavItems.map((item) => {
                 const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+                const destination = NAV_DESTINATIONS[item.href];
                 return (
                   <Link
                     key={item.href}
@@ -74,7 +76,16 @@ export function MobileMenu() {
                         ? "bg-surface-muted text-foreground font-semibold"
                         : "text-muted-foreground hover:text-foreground hover:bg-surface-muted/50"
                     }`}
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => {
+                      setIsOpen(false);
+                      if (destination) {
+                        pushDataLayerEvent({
+                          event: "nav_click",
+                          destination,
+                          location: "mobile_menu",
+                        });
+                      }
+                    }}
                   >
                     <span>{item.label}</span>
                     {isActive && (
@@ -86,7 +97,17 @@ export function MobileMenu() {
             </div>
             <div className="mt-5 border-t border-border pt-4">
               <Button size="lg" variant="primary" className="w-full justify-center" asChild>
-                <Link href="/contact" onClick={() => setIsOpen(false)}>
+                <Link
+                  href="/contact"
+                  onClick={() => {
+                    setIsOpen(false);
+                    pushDataLayerEvent({
+                      event: "cta_click",
+                      cta_name: "start_a_conversation",
+                      location: "mobile_menu",
+                    });
+                  }}
+                >
                   Start a Conversation
                   <ArrowRight className="h-4 w-4" />
                 </Link>

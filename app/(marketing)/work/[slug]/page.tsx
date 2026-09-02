@@ -18,6 +18,8 @@ import { FinalCTA } from "@/components/sections/final-cta";
 import { UpworkProof } from "@/components/sections/upworkproof";
 import { renderInline, RichText, stripInlineMarkdown } from "@/components/ui/rich-text";
 import { getProjectBySlugWithRelations } from "@/lib/supabase/project-relations";
+import { ProjectViewTracker } from "@/components/analytics/project-view-tracker";
+import { TrackLink } from "@/components/analytics/track-link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -51,6 +53,7 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
 
   return (
     <HomepageAtmosphere>
+      <ProjectViewTracker slug={project.slug} name={project.title} category={project.category} />
       {/* ─── Intro + project video ─── */}
       <section className="pt-12 md:pt-20 lg:pt-24">
         <Container>
@@ -92,18 +95,24 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
             )}
             {project.website_url && (
               <RevealItem variant="body">
-                <a
+                <TrackLink
                   href={project.website_url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-primary"
+                  event={{
+                    event: "project_website_click",
+                    project_name: project.title,
+                    project_slug: project.slug,
+                    project_category: project.category || undefined,
+                  }}
                 >
                   {renderInline(
                     project.website_label || "Visit Website",
                     "website-label"
                   )}{" "}
                   <ArrowUpRight className="h-4 w-4" />
-                </a>
+                </TrackLink>
               </RevealItem>
             )}
           </RevealGroup>
@@ -115,6 +124,8 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
                 videoId={project.video.video_id}
                 title={project.video.title}
                 thumbnail={project.video.thumbnail_url ?? undefined}
+                projectName={project.title}
+                projectSlug={project.slug}
               />
             </Reveal>
           )}

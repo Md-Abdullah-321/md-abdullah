@@ -4,58 +4,18 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Play, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { pushDataLayerEvent } from "@/lib/analytics/data-layer";
+import {
+  loadYouTubeApi,
+  watchYouTubePlayback,
+  YOUTUBE_NOCOOKIE_HOST,
+  type YouTubePlayer,
+} from "@/lib/videos/youtube";
 
 interface HeroVideoProps {
   videoId?: string;
   title?: string;
   className?: string;
-}
-
-type YouTubePlayer = {
-  destroy: () => void;
-  pauseVideo: () => void;
-  playVideo: () => void;
-  setVolume: (volume: number) => void;
-  unMute: () => void;
-};
-
-type YouTubeApi = {
-  Player: new (
-    element: HTMLElement,
-    options: {
-      videoId: string;
-      playerVars: Record<string, number | string>;
-      events: {
-        onReady: (event: { target: YouTubePlayer }) => void;
-      };
-    }
-  ) => YouTubePlayer;
-};
-
-declare global {
-  interface Window {
-    YT?: YouTubeApi;
-    onYouTubeIframeAPIReady?: () => void;
-  }
-}
-
-function loadYouTubeApi() {
-  if (window.YT) return Promise.resolve(window.YT);
-
-  return new Promise<YouTubeApi>((resolve) => {
-    const previousCallback = window.onYouTubeIframeAPIReady;
-    window.onYouTubeIframeAPIReady = () => {
-      previousCallback?.();
-      if (window.YT) resolve(window.YT);
-    };
-
-    if (!document.querySelector('script[src="https://www.youtube.com/iframe_api"]')) {
-      const script = document.createElement("script");
-      script.src = "https://www.youtube.com/iframe_api";
-      script.async = true;
-      document.body.appendChild(script);
-    }
-  });
 }
 
 export function HeroVideo({
@@ -90,12 +50,14 @@ export function HeroVideo({
   useEffect(() => {
     if (!isOpen || !playerMountRef.current) return;
     let disposed = false;
+    let stopWatching: (() => void) | null = null;
 
     loadYouTubeApi().then((YouTube) => {
       if (disposed || !playerMountRef.current) return;
 
-      playerRef.current = new YouTube.Player(playerMountRef.current, {
+      const player = new YouTube.Player(playerMountRef.current, {
         videoId,
+        host: YOUTUBE_NOCOOKIE_HOST,
         playerVars: {
           autoplay: 1,
           cc_load_policy: 0,
@@ -117,15 +79,37 @@ export function HeroVideo({
           },
         },
       });
+      playerRef.current = player;
+
+      stopWatching = watchYouTubePlayback(player, {
+        onProgress: (progress_percent) => {
+          pushDataLayerEvent({
+            event: "video_progress",
+            video_name: title,
+            video_provider: "youtube",
+            progress_percent,
+          });
+        },
+        onComplete: () => {
+          pushDataLayerEvent({
+            event: "video_complete",
+            video_name: title,
+            video_provider: "youtube",
+          });
+        },
+      });
     });
 
     return () => {
       disposed = true;
-      playerRef.current?.pauseVideo();
-      playerRef.current?.destroy();
-      playerRef.current = null;
+      stopWatching?.();
+      if (playerRef.current) {
+        playerRef.current.pauseVideo();
+        playerRef.current.destroy();
+        playerRef.current = null;
+      }
     };
-  }, [isOpen, videoId]);
+  }, [isOpen, videoId, title]);
 
   function closeModal() {
     setIsOpen(false);
@@ -144,7 +128,14 @@ export function HeroVideo({
       <button
         ref={previewRef}
         type="button"
-        onClick={() => setIsOpen(true)}
+        onClick={() => {
+          pushDataLayerEvent({
+            event: "video_play",
+            video_name: title,
+            video_provider: "youtube",
+          });
+          setIsOpen(true);
+        }}
         className="group relative block aspect-video w-full overflow-hidden rounded-[5px] border border-border/70 bg-[#101828] shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         aria-label={`Open video: ${title}`}
       >

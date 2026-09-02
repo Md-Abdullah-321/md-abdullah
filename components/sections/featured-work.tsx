@@ -4,7 +4,7 @@ import { H2 } from "@/components/ui/typography";
 import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { getFeaturedProjectsWithWebsite } from "@/lib/supabase/project-content";
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { TrackLink } from "@/components/analytics/track-link";
 import { ProjectRow } from "./project-row";
 
 export async function FeaturedWork() {
@@ -35,9 +35,12 @@ export async function FeaturedWork() {
           </div>
           <RevealItem variant="body">
             <Button variant="ghost" size="sm" asChild>
-              <Link href="/work">
+              <TrackLink
+                href="/work"
+                event={{ event: "cta_click", cta_name: "all_work", location: "featured_work" }}
+              >
                 All work <ArrowRight className="h-4 w-4" />
-              </Link>
+              </TrackLink>
             </Button>
           </RevealItem>
         </RevealGroup>

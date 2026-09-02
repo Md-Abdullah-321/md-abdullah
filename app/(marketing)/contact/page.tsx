@@ -3,6 +3,7 @@ import { Section } from "@/components/layout/section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { getSiteSettings } from "@/lib/supabase/settings";
 import { cn } from "@/lib/utils";
+import { ContactLink } from "@/components/analytics/contact-link";
 import { ArrowUpRight, Mail } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -117,11 +118,12 @@ function ContactRow({
   method: ContactMethod;
 }) {
   return (
-    <a
+    <ContactLink
       className="group block"
       href={method.href}
-      target={method.external ? "_blank" : undefined}
-      rel={method.external ? "noopener noreferrer" : undefined}
+      contactMethod={method.kind}
+      location="contact_page"
+      external={method.external}
     >
       {/* Mobile card — mirrors the hero UpworkProof card. */}
       <div className="relative overflow-hidden rounded-xl border border-border bg-surface p-5 shadow-sm sm:hidden">
@@ -194,7 +196,7 @@ function ContactRow({
           <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
         </span>
       </div>
-    </a>
+    </ContactLink>
   );
 }
 
@@ -299,13 +301,15 @@ export default async function ContactPage() {
                   Email is usually the easiest place to start.
                 </p>
               </div>
-              <a
+              <ContactLink
                 className="inline-flex items-center gap-2 font-mono text-xs font-semibold text-foreground transition-colors hover:text-primary"
                 href={`mailto:${email}`}
+                contactMethod="email"
+                location="contact_page"
               >
                 {email}
                 <ArrowUpRight className="h-4 w-4" />
-              </a>
+              </ContactLink>
             </Reveal>
           </Container>
         </Section>
