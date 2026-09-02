@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, Inter } from "next/font/google";
+import { GoogleTagManager } from "@/components/analytics/google-tag-manager";
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-background font-sans text-foreground antialiased selection:bg-accent selection:text-accent-foreground">
+        <GoogleTagManager />
         {children}
       </body>
     </html>
