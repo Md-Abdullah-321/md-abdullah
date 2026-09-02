@@ -1,0 +1,14 @@
+# Content & data handling
+
+- All user-facing content (contact details, testimonials, project data) must come from the backend/CMS and render dynamically — never hardcoded in the frontend. Confidence: 0.9
+- Distinguishes the small set of truly editable values (e.g., email, WhatsApp/Upwork/LinkedIn URLs in Admin → Settings) from constant presentation (labels, descriptions, CTA text, numbering, layout), which belongs in frontend code, not the database. Confidence: 0.85
+- Never rewrite, reword, or "improve" the user's copy — preserve exact wording everywhere (page copy, labels, CTA text, testimonials). Confidence: 0.85
+- Never invent metrics, statistics, testimonials, or other claims; use actual verified information only. Confidence: 0.85
+- Preserve existing content and records when changing the system: don't rewrite stored content, don't run destructive migrations, don't reformat/migrate data unless there is a deliberate compatibility strategy. Confidence: 0.8
+- When a schema change is genuinely required, provide the exact SQL migration (e.g., for Supabase) for the user to run rather than leaving it implicit. Confidence: 0.8
+- The stored content format and the frontend rendering must stay compatible: before changing an editor/serializer, inspect the current pipeline (Markdown vs HTML vs structured JSON) and keep what the editor produces aligned with what the public renderer understands — no format mismatch (e.g., editor emitting HTML while the frontend expects Markdown) without a deliberate conversion strategy, and no requirement to manually re-save existing records. Confidence: 0.8
+- Prefer storing a reference/ID to an existing record over duplicating its content into another table or settings row — one record is the single source of truth so later edits propagate everywhere automatically. Confidence: 0.85
+- Store semantic plain-text values in data fields — never presentation markup such as `**bold**` delimiters typed by the admin; the field holds meaning and the frontend decides the visual treatment. Confidence: 0.75
+- Truncation and the "..." ellipsis are purely a frontend presentation concern: never store pre-sliced/truncated text or a literal ellipsis in the CMS/database — keep the complete content stored and let the presenting component clamp it visually. Confidence: 0.8
+- Content placement should be explicitly configured (admin chooses which testimonial/record fills a slot) rather than random or auto-newest selection; when nothing is selected, fall back deterministically and never render an arbitrary record or break the page. Confidence: 0.7
+- Public pages must respect existing publish/status flags: an explicitly selected but unpublished/inactive record must not display; drafts never leak to the public site. Confidence: 0.75

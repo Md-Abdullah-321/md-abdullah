@@ -92,6 +92,36 @@ export async function getPublishedServices() {
 
 /* ─── Testimonials ────────────────────────────────────── */
 
+/** Testimonial for the homepage Hero proof card.
+ *  Uses the explicitly configured settings.hero_testimonial_id when it is set
+ *  and published; otherwise falls back to the most recent published
+ *  testimonial. Returns null only when no published testimonial exists. */
+export async function getHomepageHeroTestimonial(heroTestimonialId: string | null) {
+  try {
+    const supabase = await createClient();
+    const fields = "id, quote, highlight_text, client_name, company";
+    if (heroTestimonialId) {
+      const { data } = await supabase
+        .from("testimonials")
+        .select(fields)
+        .eq("id", heroTestimonialId)
+        .eq("published", true)
+        .maybeSingle();
+      if (data) return data;
+    }
+    const { data } = await supabase
+      .from("testimonials")
+      .select(fields)
+      .eq("published", true)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    return data ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export async function getPublishedTestimonials() {
   try {
     const supabase = await createClient();

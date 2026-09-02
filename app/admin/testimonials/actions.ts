@@ -8,6 +8,7 @@ import { createClient } from "@/lib/supabase/server";
 
 interface TestimonialFormData {
   quote: string;
+  highlight_text: string;
   client_name: string;
   client_role: string;
   company: string;
@@ -27,6 +28,7 @@ interface ActionResult {
 function parseFormData(formData: FormData): TestimonialFormData {
   return {
     quote: (formData.get("quote") as string)?.trim() ?? "",
+    highlight_text: (formData.get("highlight_text") as string)?.trim() ?? "",
     client_name: (formData.get("client_name") as string)?.trim() ?? "",
     client_role: (formData.get("client_role") as string)?.trim() ?? "",
     company: (formData.get("company") as string)?.trim() ?? "",
@@ -42,12 +44,14 @@ function validate(data: TestimonialFormData): string | null {
   if (data.quote.length > 2000) return "Quote must be under 2000 characters.";
   if (!data.client_name) return "Client name is required.";
   if (data.client_name.length > 100) return "Client name must be under 100 characters.";
+  if (data.highlight_text.length > 200) return "Highlight text must be under 200 characters.";
   return null;
 }
 
 function toDbRecord(data: TestimonialFormData) {
   return {
     quote: data.quote,
+    highlight_text: data.highlight_text || null,
     client_name: data.client_name,
     client_role: data.client_role,
     company: data.company,

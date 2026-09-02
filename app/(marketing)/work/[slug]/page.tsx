@@ -214,6 +214,7 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
           <SectionHeading label="CLIENT PROOF" title="What the client said." />
           <UpworkProof
             quote={project.testimonial.quote}
+            highlight={project.testimonial.highlight_text ?? null}
             attribution={`${project.testimonial.client_name}${
               project.testimonial.company
                 ? ` · ${project.testimonial.company}`

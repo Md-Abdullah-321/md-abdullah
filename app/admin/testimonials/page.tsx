@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getTestimonials } from "@/lib/supabase/admin";
+import { getSiteSettings } from "@/lib/supabase/settings";
 import { TestimonialsTable } from "./testimonials-table";
 
 export default async function AdminTestimonialsPage() {
@@ -14,6 +15,9 @@ export default async function AdminTestimonialsPage() {
     console.error("[Admin] Failed to load testimonials:", e);
     error = e instanceof Error ? e.message : "Failed to load testimonials.";
   }
+
+  const settings = await getSiteSettings();
+  const heroTestimonialId = settings.hero_testimonial_id;
 
   return (
     <div>
@@ -51,7 +55,7 @@ export default async function AdminTestimonialsPage() {
             </Button>
           </div>
         ) : (
-          <TestimonialsTable testimonials={testimonials} />
+          <TestimonialsTable testimonials={testimonials} heroTestimonialId={heroTestimonialId} />
         )}
       </div>
     </div>

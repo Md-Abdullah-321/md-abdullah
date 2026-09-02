@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Shell(type:*)",
+      "Shell(del:*)",
+      "Shell(npm:*)",
+      "Shell(dir /b \"%COMMANDCODE_SCRATCHPAD%\" 2>nul & echo --- & where npx)",
+      "powershell",
+      "Shell(npx tsx \"C:\\Users\\USER\\AppData\\Local\\Temp\\commandcode\\C--Users-USER-OneDrive-Desktop-md-abdullah-portfolio\\taste-onboarding-0d7bceb4-5cd2-423b-9457-6a278180f897\\scratchpad\\editor-utils.test.ts\")",
+      "Shell(node -e \"const v='- alpha beta'; const i=v.indexOf('alpha')+5; console.log('caret abs', i); console.log('rel', i - 0); const contentStart=2; const before=v.slice(contentStart, i); const after=v.slice(i); console.log(JSON.stringify({before, after})); const contIndent=' '; const nl='- '+before+'\\\\n'+contIndent+after; console.log(JSON.stringify(nl));\")",
+      "Shell(del \"C:\\Users\\USER\\AppData\\Local\\Temp\\commandcode\\C--Users-USER-OneDrive-Desktop-md-abdullah-portfolio\\taste-onboarding-0d7bceb4-5cd2-423b-9457-6a278180f897\\scratchpad\\editor-utils.test.ts\" 2>nul & git status --short)"
+    ],
+    "deny": [],
+    "defaultMode": "default"
+  }
+}

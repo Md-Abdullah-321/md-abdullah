@@ -7,9 +7,20 @@ import { ServicesOverview } from "@/components/sections/services-overview";
 import { FinalCTA } from "@/components/sections/final-cta";
 import { HomepageAtmosphere } from "@/components/layout/homepage-atmosphere";
 import { getSiteSettings } from "@/lib/supabase/settings";
+import { getHomepageHeroTestimonial } from "@/lib/supabase/queries";
 import { generatePersonJsonLd, generateWebsiteJsonLd, JsonLd } from "@/lib/seo/structured-data";
 
 export default async function HomePage() {
   const settings = await getSiteSettings();
-  return <><JsonLd data={generatePersonJsonLd(settings)} /><JsonLd data={generateWebsiteJsonLd(settings)} /><HomepageAtmosphere><Hero /><CommonPatterns /><Methodology /><SystemVisualization /><FeaturedWork /><ServicesOverview /><FinalCTA /></HomepageAtmosphere></>;
+  const heroTestimonial = await getHomepageHeroTestimonial(settings.hero_testimonial_id);
+  const heroProof = heroTestimonial
+    ? {
+        quote: heroTestimonial.quote,
+        highlight: heroTestimonial.highlight_text,
+        attribution: heroTestimonial.company
+          ? `${heroTestimonial.client_name} · ${heroTestimonial.company}`
+          : heroTestimonial.client_name,
+      }
+    : null;
+  return <><JsonLd data={generatePersonJsonLd(settings)} /><JsonLd data={generateWebsiteJsonLd(settings)} /><HomepageAtmosphere><Hero proof={heroProof} /><CommonPatterns /><Methodology /><SystemVisualization /><FeaturedWork /><ServicesOverview /><FinalCTA /></HomepageAtmosphere></>;
 }

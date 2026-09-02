@@ -1,0 +1,14 @@
+# Architecture & code taste
+
+- Prefers one shared implementation over duplicates: a single rich-text field component used for both create and edit, one shared Markdown renderer for all project content, one testimonial component reused across pages. Confidence: 0.9
+- When a shared component must present differently by context (e.g., homepage hero preview vs. project-detail full quote), keep the single component and add an explicit presentation/variant prop (e.g., `variant="hero" | "detail"`) — never duplicate the component or change the underlying data per context. Confidence: 0.85
+- Reuse existing components, design tokens, and libraries; avoid introducing new dependencies, parallel animation libraries (e.g., not both GSAP and Motion), or replacement frameworks unless the current implementation fundamentally cannot support the requirement. Confidence: 0.85
+- Which renderer is used should be decided by the field's type/architecture (e.g., `field.type === "richtext"` always renders the rich-text editor), not by record state or context (create vs. edit). Confidence: 0.85
+- Content-editing commands must produce real semantic structure (actual list syntax/structure), never cosmetic characters or phantom empty nodes, and editors should follow standard text-editing conventions: Enter continues a list, Enter on an empty item exits it, Shift+Enter is a soft line break, Backspace behaves naturally, and undo/redo round-trips. The editor should feel predictable, not fight the user. Confidence: 0.8
+- Editor/form fields must not be reinitialized on every state change: avoid uncontrolled/controlled conflicts and never lose cursor position or selection across typing, formatting, or toolbar actions. Confidence: 0.75
+- Sanitize all admin/user-controlled content before rendering and block unsafe URLs/protocols; avoid raw `dangerouslySetInnerHTML` with un-sanitized content. Confidence: 0.8
+- Keep the backend and database structure stable; prefer fixes at the rendering/application layer and only touch the database when genuinely required (add columns only where genuinely needed, never for content that is static presentation copy). Confidence: 0.85
+, Enter on an empty item exits it, Shift+Enter is a soft line break, Backspace behaves naturally, and undo/redo round-trips. The editor should feel predictable, not fight the user. Confidence: 0.8
+- Editor/form fields must not be reinitialized on every state change: avoid uncontrolled/controlled conflicts and never lose cursor position or selection across typing, formatting, or toolbar actions. Confidence: 0.75
+- Sanitize all admin/user-controlled content before rendering and block unsafe URLs/protocols; avoid raw `dangerouslySetInnerHTML` with un-sanitized content. Confidence: 0.8
+- Keep the backend and database structure stable; prefer fixes at the rendering/application layer and only touch the database when genuinely required. Confidence: 0.8

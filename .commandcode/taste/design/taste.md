@@ -1,0 +1,17 @@
+# Design taste
+
+- Wants the entire site to feel like one cohesive design system — every page (homepage, Work, Project Detail, Contact, testimonials) must share the same typography, spacing, borders, accent color, mono labels, and container rhythm. Confidence: 0.9
+- Treats the existing homepage and its components as the visual source of truth: when building or changing a new page/section, reuse and adapt existing homepage components and design language instead of creating a parallel look. Confidence: 0.9
+- Explicitly rejects "generic SaaS / AI-generated template" aesthetics: no repeated icon+title+description cards, no pills everywhere, no excessive rounded containers, heavy shadows, gradients sprayed around, glassmorphism, or fake dashboard/diagram graphics. Confidence: 0.9
+- Prefers a restrained "premium editorial / technical" character where typography, thin dividers, whitespace, and careful alignment carry the design rather than decoration. Confidence: 0.85
+- When the same content type appears in multiple places, wants the exact same approved component used everywhere (e.g., homepage `upworkproof` reused for project testimonials) — identical layout, only the data changes. Confidence: 0.85
+- Motion should be subtle and nearly invisible in effect: small fades/translations (roughly 8–20px), opacity + transform only, short staggers, elements settle once they enter (no constant scroll-linked movement), and prefers-reduced-motion respected. Confidence: 0.85
+- Do not use animation to compensate for layout problems, and do not fill intentional whitespace with extra cards or decorative elements — whitespace is part of the design. Confidence: 0.8
+- Mobile should be deliberately designed (compact, less animation, no wasted left whitespace, no horizontal overflow, wider reading area) rather than a simple stacking of the desktop layout. Confidence: 0.8
+- For row-based layouts (e.g., the contact methods list), alignment must come from one shared fixed CSS grid definition — no per-row margins, negative margins, or individual positioning hacks. Confidence: 0.8
+- Decorative/background shapes must stay behind content and never cross text, icons, or borders or reduce readability. Confidence: 0.7
+- Admin/UI controls must be accessible: toolbar and button controls need accessible labels, meaningful active states (e.g., aria-pressed), keyboard operability with visible focus, and `type="button"` when inside a form so they never submit it. Confidence: 0.8
+- When an optional value is missing, never render an empty joiner/separator — e.g., show only the client name when company is empty, not "Name · ". Confidence: 0.6
+- Truncates long text previews visually: prefers CSS line-clamping (e.g., `line-clamp-3`) so the browser decides the cutoff per width/font/breakpoint, and explicitly rejects JavaScript string slicing (`substring`, `slice`, split, character/word counts) because character counts ignore responsive width, font size, and mobile vs desktop. Confidence: 0.9
+- Wants card previews compact and scannable: roughly 2–3 lines with a visual ellipsis, full text when the content is short, never a long block that inflates a card's height. Confidence: 0.8
+- When content looks unnecessarily narrow inside a card, remove the specific layout constraint causing it (stray max-width/fixed width/narrow column/excess padding) so the text fills the available content width and aligns with the card's content edges — fix the actual constraint rather than compensating with font-size or global padding tweaks. Confidence: 0.7

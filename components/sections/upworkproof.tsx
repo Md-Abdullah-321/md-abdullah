@@ -19,6 +19,11 @@ interface UpworkProofProps {
   quote: string;
   /** Footer line, e.g. "Latest project · GHL + Automation" or "Client · Company". */
   attribution: string;
+  /** Short phrase highlighted under the quote, e.g. "Would work with again". */
+  highlight?: string | null;
+  /** Presentation context: "hero" clamps the quote to a short preview
+   *  (line-clamp), "detail" (default) shows the full testimonial. */
+  variant?: "hero" | "detail";
   className?: string;
   /** Overrides for the quote paragraph, e.g. "max-w-none" for full width. */
   quoteClassName?: string;
@@ -27,9 +32,12 @@ interface UpworkProofProps {
 export function UpworkProof({
   quote,
   attribution,
+  highlight,
+  variant = "detail",
   className,
   quoteClassName,
 }: UpworkProofProps) {
+  const clamp = variant === "hero";
   return (
     <aside
       className={cn(
@@ -66,24 +74,28 @@ export function UpworkProof({
           </div>
           <p
             className={cn(
-              "mt-3 max-w-[38ch] text-sm leading-relaxed text-foreground/85",
+              clamp
+                ? "mt-3 line-clamp-3 text-sm leading-relaxed text-foreground/85"
+                : "mt-3 max-w-[38ch] text-sm leading-relaxed text-foreground/85",
               quoteClassName
             )}
           >
             &quot;{quote}&quot;
           </p>
-          <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
-            <span className="flex h-4 w-4 items-center justify-center rounded-full bg-primary text-primary-foreground">
-              <Check
-                className="h-2.5 w-2.5"
-                strokeWidth={3}
-                aria-hidden="true"
-              />
-            </span>
-            <span className="font-medium text-foreground/80">
-              Would work with again
-            </span>
-          </div>
+          {highlight ? (
+            <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
+              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                <Check
+                  className="h-2.5 w-2.5"
+                  strokeWidth={3}
+                  aria-hidden="true"
+                />
+              </span>
+              <span className="font-medium text-foreground/80">
+                {highlight}
+              </span>
+            </div>
+          ) : null}
         </RevealItem>
         <RevealItem>
           <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.13em] text-muted-foreground/70">

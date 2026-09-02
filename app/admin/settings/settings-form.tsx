@@ -7,7 +7,22 @@ import { saveSettings } from "./action";
 
 const initialResult = { success: false, error: undefined as string | undefined };
 
-export function SettingsForm({ settings }: { settings: SiteSettings }) {
+const inputClass =
+  "mt-1.5 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
+
+interface TestimonialOption {
+  id: string;
+  client_name: string;
+  company: string | null;
+}
+
+export function SettingsForm({
+  settings,
+  testimonials,
+}: {
+  settings: SiteSettings;
+  testimonials: TestimonialOption[];
+}) {
   const boundAction = saveSettings.bind(null, settings.id);
   const [state, formAction, isPending] = useActionState(boundAction, initialResult);
 
@@ -163,6 +178,34 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
             <label htmlFor="link_twitter" className="block text-sm font-medium">Twitter / X</label>
             <input type="url" id="link_twitter" name="link_twitter" defaultValue={settings.link_twitter ?? ""} placeholder="https://x.com/..." className="mt-1.5 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
           </div>
+        </div>
+      </fieldset>
+
+      {/* Homepage */}
+      <fieldset className="space-y-4">
+        <legend className="text-lg font-semibold">Homepage</legend>
+        <div>
+          <label htmlFor="hero_testimonial_id" className="block text-sm font-medium">
+            Homepage Hero Testimonial
+          </label>
+          <select
+            id="hero_testimonial_id"
+            name="hero_testimonial_id"
+            defaultValue={settings.hero_testimonial_id ?? ""}
+            className={inputClass}
+          >
+            <option value="">Most recent published testimonial</option>
+            {testimonials.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.client_name}
+                {t.company ? ` · ${t.company}` : ""}
+              </option>
+            ))}
+          </select>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Displayed in the Homepage Hero proof card. Shows the most recent
+            published testimonial when left empty.
+          </p>
         </div>
       </fieldset>
 

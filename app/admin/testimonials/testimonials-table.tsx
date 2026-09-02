@@ -16,7 +16,13 @@ interface TestimonialRow {
   project_id: string | null;
 }
 
-export function TestimonialsTable({ testimonials }: { testimonials: TestimonialRow[] }) {
+export function TestimonialsTable({
+  testimonials,
+  heroTestimonialId,
+}: {
+  testimonials: TestimonialRow[];
+  heroTestimonialId: string | null;
+}) {
   return (
     <div className="overflow-x-auto rounded-lg border border-border">
       <table className="w-full text-sm">
@@ -31,7 +37,11 @@ export function TestimonialsTable({ testimonials }: { testimonials: TestimonialR
         </thead>
         <tbody>
           {testimonials.map((t) => (
-            <TestimonialRowItem key={t.id} testimonial={t} />
+            <TestimonialRowItem
+              key={t.id}
+              testimonial={t}
+              isHero={t.id === heroTestimonialId}
+            />
           ))}
         </tbody>
       </table>
@@ -39,7 +49,13 @@ export function TestimonialsTable({ testimonials }: { testimonials: TestimonialR
   );
 }
 
-function TestimonialRowItem({ testimonial }: { testimonial: TestimonialRow }) {
+function TestimonialRowItem({
+  testimonial,
+  isHero,
+}: {
+  testimonial: TestimonialRow;
+  isHero: boolean;
+}) {
   const [isPending, startTransition] = useTransition();
 
   function handlePublishToggle() {
@@ -73,6 +89,11 @@ function TestimonialRowItem({ testimonial }: { testimonial: TestimonialRow }) {
         <p className="font-medium">{testimonial.client_name}</p>
         {testimonial.company && (
           <p className="text-xs text-muted-foreground">{testimonial.company}</p>
+        )}
+        {isHero && (
+          <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary">
+            Homepage Hero
+          </span>
         )}
       </td>
       <td className="px-4 py-3">

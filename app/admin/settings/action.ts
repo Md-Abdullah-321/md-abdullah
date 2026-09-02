@@ -26,6 +26,7 @@ export async function saveSettings(
   const link_youtube = (formData.get("link_youtube") as string)?.trim() || null;
   const link_twitter = (formData.get("link_twitter") as string)?.trim() || null;
   const link_whatsapp = (formData.get("link_whatsapp") as string)?.trim() || null;
+  const hero_testimonial_id = (formData.get("hero_testimonial_id") as string)?.trim() || null;
   const site_title = (formData.get("site_title") as string)?.trim() ?? "";
   const site_description = (formData.get("site_description") as string)?.trim() ?? "";
 
@@ -60,6 +61,7 @@ export async function saveSettings(
       link_youtube,
       link_twitter,
       link_whatsapp,
+      hero_testimonial_id,
       site_title,
       site_description,
     });

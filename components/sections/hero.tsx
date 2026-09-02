@@ -13,7 +13,14 @@ const process = [
   ["04", "Keep people in control"],
 ] as const;
 
-export function Hero() {
+/** Data for the UpworkProof card in the hero. Rendered only when present. */
+export type HeroProofData = {
+  quote: string;
+  highlight: string | null;
+  attribution: string;
+};
+
+export function Hero({ proof }: { proof?: HeroProofData | null }) {
   return (
     <section className="relative isolate overflow-hidden border-b border-border/70 bg-background pt-8 pb-10 sm:pt-12 sm:pb-14 lg:pt-16 lg:pb-14">
       <div
@@ -127,10 +134,14 @@ export function Hero() {
                 work between the tools.
               </p>
             </Reveal>
-            <UpworkProof
-              quote="His communication is excellent..."
-              attribution="Latest project · GHL + Automation"
-            />
+            {proof ? (
+              <UpworkProof
+                quote={proof.quote}
+                highlight={proof.highlight}
+                attribution={proof.attribution}
+                variant="hero"
+              />
+            ) : null}
           </div>
           <Reveal
             variant="body"

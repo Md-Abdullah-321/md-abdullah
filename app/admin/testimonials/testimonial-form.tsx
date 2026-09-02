@@ -9,6 +9,7 @@ import { createTestimonial, updateTestimonial } from "./actions";
 interface TestimonialData {
   id?: string;
   quote: string;
+  highlight_text: string | null;
   client_name: string;
   client_role: string;
   company: string;
@@ -70,6 +71,22 @@ export function TestimonialForm({
           />
           <p className="mt-1 text-xs text-muted-foreground">
             Preserve the client&apos;s original wording. Do not rewrite or embellish.
+          </p>
+        </div>
+        <div>
+          <label htmlFor="highlight_text" className="block text-sm font-medium">
+            Highlight Text <span className="text-xs text-muted-foreground">(optional)</span>
+          </label>
+          <input
+            type="text"
+            id="highlight_text"
+            name="highlight_text"
+            defaultValue={testimonial?.highlight_text ?? ""}
+            placeholder="Would work with again"
+            className="mt-1.5 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          />
+          <p className="mt-1 text-xs text-muted-foreground">
+            Short phrase to highlight as a key client signal.
           </p>
         </div>
       </fieldset>
