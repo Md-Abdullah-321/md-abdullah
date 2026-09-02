@@ -21,6 +21,7 @@ export interface SiteSettings {
   link_upwork: string | null;
   link_youtube: string | null;
   link_twitter: string | null;
+  link_whatsapp: string | null;
   site_title: string;
   site_description: string;
   updated_at: string;
@@ -41,6 +42,7 @@ const DEFAULTS: SiteSettings = {
   link_upwork: null,
   link_youtube: null,
   link_twitter: null,
+  link_whatsapp: null,
   site_title: "Md Abdullah | Automation & Integration Engineer",
   site_description:
     "I help businesses connect their tools, automate repetitive work, and remove manual handoffs.",

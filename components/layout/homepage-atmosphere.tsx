@@ -1,9 +1,16 @@
+import { SubtleParallax } from "@/components/motion/subtle-parallax";
+
 export function HomepageAtmosphere({ children }: { children: React.ReactNode }) {
   return (
     <div className="homepage-canvas relative isolate overflow-hidden [&_.bg-surface-muted]:!bg-surface-muted/70 [&_.bg-white]:!bg-transparent">
       <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
-        <div className="absolute -right-64 -top-64 h-[42rem] w-[42rem] rounded-full bg-accent/45" />
-        <div className="absolute -left-72 top-[34rem] h-[38rem] w-[38rem] rounded-full border border-primary/[0.07] bg-primary/[0.025]" />
+        {/* The two large blobs drift very slowly — everything else stays static. */}
+        <SubtleParallax className="absolute -right-64 -top-64 h-[42rem] w-[42rem]" range={14}>
+          <div className="h-full w-full rounded-full bg-accent/45" />
+        </SubtleParallax>
+        <SubtleParallax className="absolute -left-72 top-[34rem] h-[38rem] w-[38rem]" range={10}>
+          <div className="h-full w-full rounded-full border border-primary/[0.07] bg-primary/[0.025]" />
+        </SubtleParallax>
         <div className="dot-grid absolute right-8 top-[44rem] h-36 w-36 opacity-25 [mask-image:radial-gradient(circle,black,transparent_72%)]" />
         <div className="dot-grid absolute bottom-[24rem] left-4 h-28 w-28 opacity-20 [mask-image:radial-gradient(circle,black,transparent_72%)]" />
         <svg className="absolute -right-10 top-[18rem] h-[34rem] w-[28rem] text-primary/[0.1]" viewBox="0 0 320 560" fill="none">

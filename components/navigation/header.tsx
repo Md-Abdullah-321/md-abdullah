@@ -1,15 +1,37 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BrandMark } from "@/components/ui/brand-mark";
 import { Container } from "@/components/layout/container";
 import { mainNavItems } from "@/data/navigation";
+import { cn } from "@/lib/utils";
 import { MobileMenu } from "./mobile-menu";
 import { NavLink } from "./nav-link";
 
 export function Header() {
+  // Subtle state change once the page scrolls — the bar gains a slightly
+  // stronger background, nothing else moves.
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/90 backdrop-blur-md transition-colors">
+    <header
+      className={cn(
+        "sticky top-0 z-50 w-full border-b backdrop-blur-md transition-colors",
+        scrolled
+          ? "border-border bg-background/95"
+          : "border-border/80 bg-background/90"
+      )}
+    >
       <Container>
         <div className="flex h-14 items-center justify-between">
           {/* Identity & Brand Signature */}
@@ -58,4 +80,3 @@ export function Header() {
     </header>
   );
 }
-

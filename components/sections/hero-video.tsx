@@ -169,6 +169,7 @@ export function HeroVideo({
       {isOpen && (
         <div
           className="fixed inset-0 z-[100] flex items-center justify-center bg-[#101828]/80 p-4 backdrop-blur-[2px] sm:p-8"
+          data-lenis-prevent
           role="dialog"
           aria-modal="true"
           aria-label={title}

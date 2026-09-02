@@ -1,10 +1,8 @@
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
-import { Button } from "@/components/ui/button";
 import { Body } from "@/components/ui/typography";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { getPublishedServices } from "@/lib/supabase/queries";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 
 const tools = [
   "GoHighLevel",
@@ -123,28 +121,34 @@ export async function ServicesOverview() {
 
   return (
     <Section
-      className="relative isolate overflow-hidden bg-background"
+      className="relative isolate overflow-hidden bg-background pt-16 pb-10 md:pt-24 md:pb-12 lg:pt-24"
       id="systems"
     >
       <div className="pointer-events-none absolute -left-72 top-0 -z-10 h-[42rem] w-[42rem] rounded-full bg-accent/45 blur-3xl" />
       <div className="pointer-events-none absolute -right-72 top-[42rem] -z-10 h-[38rem] w-[38rem] rounded-full border border-primary/[0.07] bg-primary/[0.025]" />
       <div className="pointer-events-none absolute bottom-24 left-1/2 -z-10 h-px w-[60vw] -translate-x-1/2 bg-primary/[0.08]" />
       <Container>
-        <header className="max-w-4xl pb-24 md:pb-40">
-          <Label>SERVICES</Label>
-          <h2 className="mt-6 max-w-4xl font-mono text-4xl font-semibold leading-[1.01] tracking-[-0.07em] text-foreground sm:text-6xl lg:text-8xl">
-            What I build when
-            <br />
-            <span className="text-primary">the work gets stuck.</span>
-          </h2>
-          <Body className="mt-8 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-            CRM, automation, integrations and AI workflows that help your team
-            spend less time moving information around.
-          </Body>
-        </header>
+        <RevealGroup as="header" className="max-w-4xl pb-24 md:pb-40">
+          <RevealItem variant="label">
+            <Label>SERVICES</Label>
+          </RevealItem>
+          <RevealItem variant="heading">
+            <h2 className="mt-6 max-w-4xl font-mono text-4xl font-semibold leading-[1.01] tracking-[-0.07em] text-foreground sm:text-6xl lg:text-8xl">
+              What I build when
+              <br />
+              <span className="text-primary">the work gets stuck.</span>
+            </h2>
+          </RevealItem>
+          <RevealItem variant="body">
+            <Body className="mt-8 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
+              CRM, automation, integrations and AI workflows that help your team
+              spend less time moving information around.
+            </Body>
+          </RevealItem>
+        </RevealGroup>
 
         <div className="space-y-32 md:space-y-52">
-          <article className="grid items-center gap-14 lg:grid-cols-[0.76fr_1.24fr] lg:gap-24">
+          <Reveal variant="section" as="article" className="grid items-center gap-14 lg:grid-cols-[0.76fr_1.24fr] lg:gap-24">
             <ServiceText
               number="01"
               title="CRM & sales systems"
@@ -152,9 +156,9 @@ export async function ServicesOverview() {
               tools="GoHighLevel · CRM · Pipelines · Follow-up"
             />
             <CrmArtifact />
-          </article>
+          </Reveal>
 
-          <article className="grid items-center gap-14 lg:grid-cols-[1.16fr_0.84fr] lg:gap-24">
+          <Reveal variant="section" as="article" className="grid items-center gap-14 lg:grid-cols-[1.16fr_0.84fr] lg:gap-24">
             <AutomationStatement />
             <ServiceText
               number="02"
@@ -162,9 +166,9 @@ export async function ServicesOverview() {
               copy="Remove the repetitive work your team keeps doing manually."
               tools="Workflows · Handoffs · Notifications · Data movement"
             />
-          </article>
+          </Reveal>
 
-          <article className="grid items-center gap-14 lg:grid-cols-[0.76fr_1.24fr] lg:gap-24">
+          <Reveal variant="section" as="article" className="grid items-center gap-14 lg:grid-cols-[0.76fr_1.24fr] lg:gap-24">
             <ServiceText
               number="03"
               title="Integrations & APIs"
@@ -172,9 +176,9 @@ export async function ServicesOverview() {
               tools="REST APIs · Webhooks · Backend logic · Data sync"
             />
             <ConnectTreatment />
-          </article>
+          </Reveal>
 
-          <article className="relative grid items-center gap-10 overflow-hidden rounded-[var(--radius-lg)] bg-accent/40 px-6 py-8 sm:px-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-24 lg:px-16 lg:py-12">
+          <Reveal variant="section" as="article" className="relative grid items-center gap-10 overflow-hidden rounded-[var(--radius-lg)] bg-accent/40 px-6 py-8 sm:px-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-24 lg:px-16 lg:py-12">
             <div className="pointer-events-none absolute -right-32 -top-32 h-80 w-80 rounded-full border border-primary/[0.1] bg-primary/[0.035]" />
             <AiStatement />
             <div className="relative">
@@ -189,10 +193,10 @@ export async function ServicesOverview() {
                 with the judgment calls.
               </p>
             </div>
-          </article>
+          </Reveal>
         </div>
 
-        <div className="mt-32 border-t border-border/80 pt-6 md:mt-52">
+        <Reveal variant="body" className="mt-12 md:mt-16">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-baseline sm:justify-between">
             <Label>TOOLS I USE</Label>
             <div className="flex flex-wrap gap-x-6 gap-y-3 font-mono text-xs text-muted-foreground">
@@ -201,14 +205,7 @@ export async function ServicesOverview() {
               ))}
             </div>
           </div>
-        </div>
-        <div className="flex justify-end pt-10">
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="/services">
-              See all services <ArrowRight className="h-4 w-4" />
-            </Link>
-          </Button>
-        </div>
+        </Reveal>
       </Container>
     </Section>
   );

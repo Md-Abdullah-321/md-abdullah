@@ -1,5 +1,6 @@
 import { Container } from "@/components/layout/container";
 import { H2 } from "@/components/ui/typography";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
 
 const capabilities = [
   {
@@ -39,23 +40,28 @@ export function SystemVisualization() {
     <section className="py-16 md:py-20 lg:py-24 bg-white">
       <Container>
         {/* Header */}
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div className="max-w-lg">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-primary">
-              What Gets Built
+        <RevealGroup className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <RevealItem>
+            <div className="max-w-lg">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-primary">
+                What Gets Built
+              </p>
+              <H2 className="mt-2">
+                What gets built when the pieces work together
+              </H2>
+            </div>
+          </RevealItem>
+          <RevealItem variant="body">
+            <p className="max-w-sm text-sm leading-relaxed text-muted-foreground md:text-right">
+              I connect CRMs, automation, APIs, AI, and internal tools into
+              one workflow your team can actually rely on.
             </p>
-            <H2 className="mt-2">
-              What gets built when the pieces work together
-            </H2>
-          </div>
-          <p className="max-w-sm text-sm leading-relaxed text-muted-foreground md:text-right">
-            I connect CRMs, automation, APIs, AI, and internal tools into
-            one workflow your team can actually rely on.
-          </p>
-        </div>
+          </RevealItem>
+        </RevealGroup>
 
-        {/* Capabilities */}
-        <div className="mt-14 divide-y divide-border">
+        {/* Capabilities — revealed as one group; per-row wrapping would break
+            the first:pt-0 / last:pb-0 rhythm of the divided list. */}
+        <Reveal variant="section" className="mt-14 divide-y divide-border">
           {capabilities.map((cap) => (
             <div
               key={cap.number}
@@ -82,14 +88,14 @@ export function SystemVisualization() {
               </div>
             </div>
           ))}
-        </div>
+        </Reveal>
 
         {/* Tech context */}
-        <div className="mt-12 border-t border-border pt-8">
+        <Reveal variant="body" className="mt-12 border-t border-border pt-8">
           <p className="text-xs text-muted-foreground/50">
             Built with GoHighLevel, n8n, Make, OpenAI, Stripe, and custom APIs. The tool comes later. First I need to understand the problem.
           </p>
-        </div>
+        </Reveal>
       </Container>
     </section>
   );

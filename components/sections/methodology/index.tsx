@@ -1,5 +1,6 @@
 import { Container } from "@/components/layout/container";
 import { H2 } from "@/components/ui/typography";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
 
 const todaySteps = [
   ["Website enquiry", "New lead arrives", false],
@@ -34,25 +35,34 @@ export function Methodology() {
       />
 
       <Container>
-        <div className="max-w-4xl">
-          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.13em] text-primary">
-            How I build systems
-          </p>
-          <H2 className="mt-3 max-w-3xl text-[2rem] leading-[1.08] tracking-[-0.035em] sm:text-[2.8rem] md:text-[3.4rem]">
-            I don&apos;t start with the tool.
-            <br />
-            <span className="text-primary">
-              I start with how the business works.
-            </span>
-          </H2>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-[1.0625rem]">
-            First I understand what happens today. Then I find where work gets
-            stuck, decide what should run automatically, and connect the systems
-            around it.
-          </p>
-        </div>
+        <RevealGroup className="max-w-4xl">
+          <RevealItem variant="label">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.13em] text-primary">
+              How I build systems
+            </p>
+          </RevealItem>
+          <RevealItem variant="heading">
+            <H2 className="mt-3 max-w-3xl text-[2rem] leading-[1.08] tracking-[-0.035em] sm:text-[2.8rem] md:text-[3.4rem]">
+              I don&apos;t start with the tool.
+              <br />
+              <span className="text-primary">
+                I start with how the business works.
+              </span>
+            </H2>
+          </RevealItem>
+          <RevealItem variant="body">
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-[1.0625rem]">
+              First I understand what happens today. Then I find where work gets
+              stuck, decide what should run automatically, and connect the
+              systems around it.
+            </p>
+          </RevealItem>
+        </RevealGroup>
 
-        <div className="relative mt-12 overflow-hidden rounded-2xl border border-border bg-surface/80 p-5 shadow-xs sm:p-7 lg:mt-14 lg:p-10">
+        <Reveal
+          variant="section"
+          className="relative mt-12 overflow-hidden rounded-2xl border border-border bg-surface/80 p-5 shadow-xs sm:p-7 lg:mt-14 lg:p-10"
+        >
           <div
             className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgb(228_232_227_/_0.38)_1px,transparent_1px),linear-gradient(to_bottom,rgb(228_232_227_/_0.38)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:linear-gradient(to_bottom,black,transparent_80%)]"
             aria-hidden="true"
@@ -73,7 +83,7 @@ export function Methodology() {
             <span className="text-border">→</span>
             <span className="text-primary">AUTOMATED</span>
           </div>
-        </div>
+        </Reveal>
       </Container>
     </section>
   );

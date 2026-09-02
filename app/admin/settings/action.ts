@@ -25,6 +25,7 @@ export async function saveSettings(
   const link_upwork = (formData.get("link_upwork") as string)?.trim() || null;
   const link_youtube = (formData.get("link_youtube") as string)?.trim() || null;
   const link_twitter = (formData.get("link_twitter") as string)?.trim() || null;
+  const link_whatsapp = (formData.get("link_whatsapp") as string)?.trim() || null;
   const site_title = (formData.get("site_title") as string)?.trim() ?? "";
   const site_description = (formData.get("site_description") as string)?.trim() ?? "";
 
@@ -37,7 +38,7 @@ export async function saveSettings(
   }
 
   // Validate URLs
-  const urls = [profile_image_url, booking_url, link_linkedin, link_github, link_upwork, link_youtube, link_twitter];
+  const urls = [profile_image_url, booking_url, link_linkedin, link_github, link_upwork, link_youtube, link_twitter, link_whatsapp];
   for (const url of urls) {
     if (url && !url.startsWith("http://") && !url.startsWith("https://")) {
       return { success: false, error: `Invalid URL: ${url}. Must start with http:// or https://` };
@@ -58,6 +59,7 @@ export async function saveSettings(
       link_upwork,
       link_youtube,
       link_twitter,
+      link_whatsapp,
       site_title,
       site_description,
     });
@@ -68,6 +70,7 @@ export async function saveSettings(
 
   revalidatePath("/");
   revalidatePath("/about");
+  revalidatePath("/contact");
   revalidatePath("/admin/settings");
   return { success: true };
 }

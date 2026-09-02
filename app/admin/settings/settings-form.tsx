@@ -143,6 +143,11 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
             <input type="url" id="link_linkedin" name="link_linkedin" defaultValue={settings.link_linkedin ?? ""} placeholder="https://linkedin.com/in/..." className="mt-1.5 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
           </div>
           <div>
+            <label htmlFor="link_whatsapp" className="block text-sm font-medium">WhatsApp</label>
+            <input type="url" id="link_whatsapp" name="link_whatsapp" defaultValue={settings.link_whatsapp ?? ""} placeholder="https://wa.me/15551234567" className="mt-1.5 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+            <p className="mt-1 text-xs text-muted-foreground">Use https://wa.me/ followed by the number in international format — opens a direct chat on desktop and mobile.</p>
+          </div>
+          <div>
             <label htmlFor="link_github" className="block text-sm font-medium">GitHub</label>
             <input type="url" id="link_github" name="link_github" defaultValue={settings.link_github ?? ""} placeholder="https://github.com/..." className="mt-1.5 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
           </div>

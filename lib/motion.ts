@@ -67,3 +67,72 @@ export const fadeUp = {
     transition: transitions.moderate,
   },
 } as const;
+
+/** Viewport preset for scroll-triggered reveals (see components/motion/reveal.tsx) */
+export const viewportOnce = { once: true, amount: 0.2 } as const;
+
+export type RevealVariantName =
+  | "label"
+  | "heading"
+  | "body"
+  | "media"
+  | "section"
+  | "item"
+  | "container";
+
+/** Variant names usable on single elements (everything except the stagger container) */
+export type RevealElementVariantName = Exclude<RevealVariantName, "container">;
+
+/**
+ * Scroll-reveal variants.
+ *
+ * Movement is intentionally tiny (0–16px / 0.985→1 scale) so content feels
+ * like it settles into place rather than animating onto the screen.
+ *
+ * `isMobile` reduces distances and stagger so phones feel faster and native.
+ * `visible` is a function so callers can pass a per-instance delay via
+ * `custom` (e.g. hero sequencing) without breaking variant orchestration.
+ */
+export function revealVariants(isMobile = false) {
+  const d = isMobile ? 0.6 : 1;
+  const visible = (delay = 0, duration: number = durations.slow) => ({
+    opacity: 1,
+    x: 0,
+    y: 0,
+    scale: 1,
+    transition: { duration, ease: easings.out, delay },
+  });
+
+  return {
+    label: {
+      hidden: { opacity: 0, x: -(5 * d) },
+      visible: (delay: number = 0) => visible(delay, durations.moderate),
+    },
+    heading: {
+      hidden: { opacity: 0, y: 15 * d },
+      visible: (delay: number = 0) => visible(delay, durations.slow),
+    },
+    body: {
+      hidden: { opacity: 0, y: 10 * d },
+      visible: (delay: number = 0) => visible(delay, durations.moderate),
+    },
+    media: {
+      hidden: { opacity: 0, scale: 1 - 0.015 * d },
+      visible: (delay: number = 0) => visible(delay, durations.slow),
+    },
+    section: {
+      hidden: { opacity: 0, y: 16 * d },
+      visible: (delay: number = 0) => visible(delay, durations.slow),
+    },
+    item: {
+      hidden: { opacity: 0, y: 8 * d },
+      visible: (delay: number = 0) => visible(delay, durations.normal),
+    },
+    container: {
+      hidden: {},
+      visible: {
+        transition: { staggerChildren: isMobile ? 0.04 : 0.06 },
+      },
+    },
+  } as const;
+}

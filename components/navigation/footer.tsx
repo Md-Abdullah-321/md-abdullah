@@ -1,7 +1,4 @@
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/layout/container";
-import { Button } from "@/components/ui/button";
 import { getSiteSettings } from "@/lib/supabase/settings";
 
 export async function Footer() {
@@ -18,34 +15,6 @@ export async function Footer() {
   return (
     <footer className="border-t border-border bg-surface-muted">
       <Container>
-        {/* ─── Primary CTA Area ─── */}
-        <div className="py-16 md:py-20">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-primary">
-            Next step
-          </p>
-          <h2 className="mt-3 max-w-[900px] font-heading text-[2.5rem] font-semibold leading-[1.02] tracking-[-0.02em] md:text-[3.5rem] lg:text-[4rem]">
-            Have a process
-            <br />
-            <span className="text-primary">that needs fixing?</span>
-          </h2>
-          <p className="mt-5 max-w-[620px] text-base leading-relaxed text-muted-foreground md:text-[17px]">
-            If work is still moving between people, spreadsheets, inboxes, and
-            tools that don&apos;t talk to each other, tell me what&apos;s
-            happening. We can figure out where to start.
-          </p>
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Button size="lg" asChild>
-              <Link href="/contact">
-                Start a Conversation
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-            <Button variant="ghost" size="lg" asChild>
-              <Link href="/work">See My Work</Link>
-            </Button>
-          </div>
-        </div>
-
         {/* ─── Identity + Links ─── */}
         <div className="border-t border-border py-10 md:flex md:items-start md:justify-between md:gap-12">
           {/* Identity */}

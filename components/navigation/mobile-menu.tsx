@@ -49,6 +49,7 @@ export function MobileMenu() {
           {/* Backdrop */}
           <div
             className="fixed inset-0 top-14 z-40 bg-background/80 backdrop-blur-sm"
+            data-lenis-prevent
             onClick={() => setIsOpen(false)}
             aria-hidden="true"
           />
@@ -58,6 +59,7 @@ export function MobileMenu() {
             id="mobile-nav"
             role="dialog"
             aria-label="Mobile navigation"
+            data-lenis-prevent
             className="fixed inset-x-0 top-14 z-50 border-b border-border bg-background p-5 shadow-lg"
           >
             <div className="flex flex-col gap-1">

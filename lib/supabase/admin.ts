@@ -51,10 +51,15 @@ export async function getTestimonials() {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("testimonials")
-    .select("*, projects(title, slug)")
+    // Two FKs link testimonials ↔ projects (011 added projects.testimonial_id),
+    // so PostgREST needs the relationship named explicitly.
+    .select("*, projects!testimonials_project_id_fkey(title, slug)")
     .order("sort_order", { ascending: true });
 
-  if (error) throw error;
+  if (error) {
+    console.error("[Admin] getTestimonials error:", error);
+    throw error;
+  }
   return data;
 }
 

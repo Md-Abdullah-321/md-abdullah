@@ -11,6 +11,7 @@ export default async function AdminTestimonialsPage() {
   try {
     testimonials = await getTestimonials();
   } catch (e) {
+    console.error("[Admin] Failed to load testimonials:", e);
     error = e instanceof Error ? e.message : "Failed to load testimonials.";
   }
 

@@ -1,11 +1,24 @@
 import { Container } from "@/components/layout/container";
-import { Section } from "@/components/layout/section";
+import { HomepageAtmosphere } from "@/components/layout/homepage-atmosphere";
 import { VideoEmbed } from "@/components/media/video-embed";
-import { Button } from "@/components/ui/button";
-import { RichText } from "@/components/ui/rich-text";
-import { Body } from "@/components/ui/typography";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
+import {
+  CaseLabel,
+  CaseSection,
+  SectionHeading,
+  StorySplit,
+  StoryWide,
+} from "@/components/sections/case-study/editorial";
+import {
+  ArchitectureFlow,
+  WorkflowSteps,
+} from "@/components/sections/case-study/sequences";
+import { TheShift } from "@/components/sections/case-study/the-shift";
+import { FinalCTA } from "@/components/sections/final-cta";
+import { UpworkProof } from "@/components/sections/upworkproof";
+import { renderInline, RichText, stripInlineMarkdown } from "@/components/ui/rich-text";
 import { getProjectBySlugWithRelations } from "@/lib/supabase/project-relations";
-import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from "lucide-react";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -18,247 +31,211 @@ export async function generateMetadata(
   if (!project) return { title: "Not Found" };
   return {
     title: project.title,
-    description: project.short_description || project.problem || "",
+    description: stripInlineMarkdown(
+      project.short_description || project.problem || "",
+    ),
   };
-}
-function Label({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="font-mono text-[11px] font-semibold tracking-[0.18em] text-primary">
-      {children}
-    </p>
-  );
-}
-function Story({
-  number,
-  label,
-  title,
-  content,
-  className = "",
-}: {
-  number: string;
-  label: string;
-  title: string;
-  content?: string | null;
-  className?: string;
-}) {
-  if (!content) return null;
-  return (
-    <section
-      className={`border-t border-border/80 py-14 md:py-20 ${className}`}
-    >
-      <Container>
-        <div className="grid gap-10 md:grid-cols-2 md:gap-14">
-          <div>
-            <Label>
-              {number} / {label}
-            </Label>
-            <h2 className="mt-4 max-w-sm font-mono text-3xl font-semibold leading-tight tracking-[-0.06em] sm:text-5xl">
-              {title}
-            </h2>
-          </div>
-          <RichText content={content} />
-        </div>
-      </Container>
-    </section>
-  );
 }
 
 export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
   const { slug } = await props.params;
   const project = await getProjectBySlugWithRelations(slug);
   if (!project) notFound();
+
+  const tools = (project.technologies ?? []).flatMap((tech: string) =>
+    tech
+      .split("·")
+      .map((tool) => tool.trim())
+      .filter(Boolean),
+  );
+
   return (
-    <main className="relative isolate overflow-hidden bg-background">
-      <div className="pointer-events-none absolute -right-72 top-0 -z-10 h-[42rem] w-[42rem] rounded-full bg-accent/45 blur-3xl" />
-      <Section className="pt-14 md:pt-24 lg:pt-32">
+    <HomepageAtmosphere>
+      {/* ─── Intro + project video ─── */}
+      <section className="pt-12 md:pt-20 lg:pt-24">
         <Container>
-          <Link
-            href="/work"
-            className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.14em] text-muted-foreground hover:text-primary"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" /> BACK TO WORK
-          </Link>
-          <header className="mt-14 max-w-5xl">
-            <div className="flex flex-wrap items-center gap-4">
-              <Label>CASE STUDY</Label>
-              {project.category && (
-                <span className="font-mono text-[11px] tracking-[0.14em] text-muted-foreground">
-                  {project.category}
-                </span>
-              )}
-            </div>
-            <h1 className="mt-6 font-mono text-4xl font-semibold leading-[1.02] tracking-[-0.07em] sm:text-6xl lg:text-8xl">
-              {project.title}
-            </h1>
+          <Reveal variant="body" inView={false} delay={0}>
+            <Link
+              href="/work"
+              className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.14em] text-muted-foreground hover:text-primary"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" /> BACK TO WORK
+            </Link>
+          </Reveal>
+
+          <RevealGroup as="header" className="mt-12 sm:mt-14" inView={false} stagger={0.08}>
+            <RevealItem variant="label">
+              <div className="flex flex-col gap-3">
+                <div className="inline-flex items-center gap-3">
+                  <span className="h-px w-8 bg-primary" aria-hidden="true" />
+                  <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.09em] text-foreground/90 sm:text-[12px]">
+                    CASE STUDY
+                  </span>
+                </div>
+                {project.category && (
+                  <CaseLabel>{renderInline(project.category, "project-category")}</CaseLabel>
+                )}
+              </div>
+            </RevealItem>
+            <RevealItem variant="heading">
+              <h1 className="mt-6 max-w-4xl font-mono text-[2.6rem] font-semibold leading-[0.96] tracking-[-0.035em] text-foreground text-balance sm:text-[3.4rem] lg:text-[4.5rem]">
+                {renderInline(project.title, "project-title")}
+              </h1>
+            </RevealItem>
             {project.short_description && (
-              <Body className="mt-8 max-w-2xl text-lg sm:text-xl">
-                {project.short_description}
-              </Body>
+              <RevealItem variant="body">
+                <RichText
+                  content={project.short_description}
+                  className="mt-7 max-w-[50ch] font-sans text-[1.0625rem] leading-[1.62] sm:text-[1.125rem] sm:leading-[1.62]"
+                />
+              </RevealItem>
             )}
             {project.website_url && (
-              <a
-                href={project.website_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-8 inline-flex items-center gap-2 font-mono text-xs font-semibold tracking-[0.08em] text-primary"
-              >
-                {project.website_label || "Visit Website"}{" "}
-                <ArrowUpRight className="h-4 w-4" />
-              </a>
+              <RevealItem variant="body">
+                <a
+                  href={project.website_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-primary"
+                >
+                  {renderInline(
+                    project.website_label || "Visit Website",
+                    "website-label"
+                  )}{" "}
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
+              </RevealItem>
             )}
-          </header>
+          </RevealGroup>
+
+          {project.video && (
+            <Reveal variant="media" inView={false} delay={0.3} className="mt-12 md:mt-16">
+              <VideoEmbed
+                provider={project.video.provider as "youtube" | "loom"}
+                videoId={project.video.video_id}
+                title={project.video.title}
+                thumbnail={project.video.thumbnail_url ?? undefined}
+              />
+            </Reveal>
+          )}
         </Container>
-      </Section>
-      <Story
-        number="01"
-        label="CONTEXT"
-        title="The situation"
-        content={project.context}
-        className="bg-surface-muted/45"
-      />
-      <Story
-        number="02"
-        label="PROBLEM"
-        title="Where the work got stuck"
-        content={project.problem}
-        className="bg-warning/[0.045]"
-      />
+      </section>
+
+      {/* ─── 01 / CONTEXT ─── */}
+      {project.context && (
+        <StorySplit
+          narrow
+          label="01 / CONTEXT"
+          title="The situation"
+          content={project.context}
+        />
+      )}
+
+      {/* ─── 02 / PROBLEM — feels like "Common patterns" ─── */}
+      {project.problem && (
+        <StorySplit
+          muted
+          narrow
+          label="02 / PROBLEM"
+          title="Where the work got stuck"
+          content={project.problem}
+        />
+      )}
+
+      {/* ─── THE SHIFT ─── */}
       {(project.before_state || project.after_state) && (
-        <section className="border-y border-border/80">
-          <Container>
-            <div className="py-14 md:py-20">
-              <Label>THE SHIFT</Label>
-              <h2 className="mt-4 font-mono text-3xl font-semibold tracking-[-0.06em] sm:text-6xl">
-                From friction to flow.
-              </h2>
-              <div className="mt-10 grid gap-0 overflow-hidden rounded-[var(--radius-lg)] border border-border/80 md:grid-cols-2">
-                <div className="bg-warning/[0.04] p-7 md:p-10">
-                  <p className="font-mono text-[11px] font-semibold tracking-[0.16em] text-warning">
-                    BEFORE / THE FRICTION
-                  </p>
-                  {project.before_state && (
-                    <RichText className="mt-6" content={project.before_state} />
-                  )}
-                </div>
-                <div className="bg-accent/35 p-7 md:p-10">
-                  <p className="font-mono text-[11px] font-semibold tracking-[0.16em] text-primary">
-                    AFTER / THE SYSTEM
-                  </p>
-                  {project.after_state && (
-                    <RichText className="mt-6" content={project.after_state} />
-                  )}
-                </div>
+        <TheShift before={project.before_state} after={project.after_state} />
+      )}
+
+      {/* ─── 03 / SOLUTION — long-form editorial ─── */}
+      {project.solution && (
+        <StoryWide
+          muted
+          label="03 / SOLUTION"
+          title="What I built"
+          content={project.solution}
+        />
+      )}
+
+      {/* ─── 04 / WORKFLOW ─── */}
+      {project.workflow && <WorkflowSteps content={project.workflow} />}
+
+      {/* ─── 05 / ARCHITECTURE ─── */}
+      {project.architecture && (
+        <ArchitectureFlow content={project.architecture} />
+      )}
+
+      {/* ─── 06 / OUTCOME ─── */}
+      {project.outcome && (
+        <StorySplit
+          narrow
+          label="06 / OUTCOME"
+          title="What changed"
+          content={project.outcome}
+          footer={
+            <div className="border-y border-border/70 py-4 font-mono text-[11px] uppercase tracking-[0.13em]">
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                <span className="text-muted-foreground/65">Manual tracking</span>
+                <span className="text-border">→</span>
+                <span className="text-foreground/70">One CRM workflow</span>
+                <span className="text-border">→</span>
+                <span className="text-primary/80">Connected</span>
+                <span className="text-border">→</span>
+                <span className="font-semibold text-primary">Automated</span>
               </div>
             </div>
-          </Container>
-        </section>
+          }
+        />
       )}
-      <Story
-        number="03"
-        label="SOLUTION"
-        title="What I built"
-        content={project.solution}
-        className="bg-accent/25"
-      />
-      <Story
-        number="04"
-        label="WORKFLOW"
-        title="How it works"
-        content={project.workflow}
-      />
-      <Story
-        number="05"
-        label="ARCHITECTURE"
-        title="The system behind it"
-        content={project.architecture}
-      />
-      {project.video && (
-        <section className="border-t border-border/80 bg-surface-muted/45">
-          <Container>
-            <div className="py-14 md:py-20">
-              <Label>PROJECT VIDEO</Label>
-              <h2 className="mt-4 font-mono text-3xl font-semibold tracking-[-0.06em] sm:text-6xl">
-                See the work in motion.
-              </h2>
-              <div className="mt-10">
-                <VideoEmbed
-                  provider={project.video.provider as "youtube" | "loom"}
-                  videoId={project.video.video_id}
-                  title={project.video.title}
-                  thumbnail={project.video.thumbnail_url ?? undefined}
-                />
-              </div>
+
+      {/* ─── TOOLS IN THE SYSTEM ─── */}
+      {tools.length > 0 && (
+        <CaseSection compact>
+          <Reveal variant="body" className="flex flex-col gap-6 sm:flex-row sm:items-baseline sm:gap-x-8">
+            <CaseLabel className="shrink-0">TOOLS IN THE SYSTEM</CaseLabel>
+            <span
+              className="hidden h-px flex-1 bg-border/80 sm:block"
+              aria-hidden="true"
+            />
+            <div className="flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] tracking-[0.14em] text-muted-foreground">
+              {tools.map((tech: string, techIndex: number) => (
+                <span key={tech}>
+                  {renderInline(tech, `tool-${techIndex}`)}
+                </span>
+              ))}
             </div>
-          </Container>
-        </section>
+          </Reveal>
+        </CaseSection>
       )}
+
+      {/* ─── CLIENT PROOF ─── */}
       {project.testimonial && (
-        <section className="border-t border-border/80">
-          <Container>
-            <div className="grid gap-10 py-14 md:grid-cols-2 md:gap-14 md:py-20">
-              <div>
-                <Label>CLIENT PROOF</Label>
-                <h2 className="mt-4 font-mono text-3xl font-semibold tracking-[-0.06em] sm:text-5xl">
-                  What the client said.
-                </h2>
-              </div>
-              <blockquote className="border-l-2 border-primary/40 pl-6 text-lg leading-8 text-muted-foreground sm:text-xl sm:leading-9">
-                &quot;{project.testimonial.quote}&quot;
-                <footer className="mt-6 font-mono text-xs tracking-[0.1em] text-foreground">
-                  {project.testimonial.client_name}
-                  {project.testimonial.company
-                    ? ` · ${project.testimonial.company}`
-                    : ""}
-                </footer>
-              </blockquote>
-            </div>
-          </Container>
-        </section>
+        <CaseSection muted>
+          <SectionHeading label="CLIENT PROOF" title="What the client said." />
+          <UpworkProof
+            quote={project.testimonial.quote}
+            attribution={`${project.testimonial.client_name}${
+              project.testimonial.company
+                ? ` · ${project.testimonial.company}`
+                : ""
+            }`}
+            className="mt-10 w-full"
+            quoteClassName="max-w-none"
+          />
+        </CaseSection>
       )}
-      <Story
-        number="06"
-        label="OUTCOME"
-        title="What changed"
-        content={project.outcome}
+
+      {/* ─── NEXT STEP — the homepage CTA, project-specific copy ─── */}
+      <FinalCTA
+        label="Next step"
+        heading="Have a similar problem?"
+        body="Tell me what is happening and we can figure out what makes sense for your business."
+        primaryLabel="Start a Conversation"
+        primaryHref="/contact"
+        secondaryLabel="Back to all work"
+        secondaryHref="/work"
+        reassurance="No commitment. No pressure. Just a conversation about your process."
       />
-      {project.technologies?.length > 0 && (
-        <section className="border-t border-border/80">
-          <Container>
-            <div className="flex flex-col gap-5 py-10 sm:flex-row sm:items-baseline sm:justify-between">
-              <Label>TOOLS IN THE SYSTEM</Label>
-              <div className="flex flex-wrap gap-x-6 gap-y-3 font-mono text-xs text-muted-foreground">
-                {project.technologies.map((tech: string) => (
-                  <span className="flex items-center gap-2" key={tech}>
-                    <Check className="h-3 w-3 text-primary" />
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </Container>
-        </section>
-      )}
-      <Section className="border-t border-border/70 bg-surface-muted/45">
-        <Container>
-          <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
-            <div>
-              <Label>NEXT STEP</Label>
-              <h2 className="mt-4 font-mono text-3xl font-semibold tracking-[-0.06em] sm:text-5xl">
-                Have a similar problem?
-              </h2>
-              <p className="mt-4 max-w-md text-sm leading-6 text-muted-foreground">
-                Tell me what is happening and we can figure out what makes sense
-                for your business.
-              </p>
-            </div>
-            <Button asChild>
-              <Link href="/contact">
-                Start a conversation <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </Container>
-      </Section>
-    </main>
+    </HomepageAtmosphere>
   );
 }
