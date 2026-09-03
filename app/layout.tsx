@@ -22,6 +22,9 @@ const SITE_NAME = "Md Abdullah";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  icons: {
+    icon: "/images/favicon%20v1.png",
+  },
   title: {
     default: `${SITE_NAME} | Automation & Integration Engineer`,
     template: `%s | ${SITE_NAME}`,

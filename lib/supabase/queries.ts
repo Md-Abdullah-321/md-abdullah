@@ -92,33 +92,35 @@ export async function getPublishedServices() {
 
 /* ─── Testimonials ────────────────────────────────────── */
 
-/** Testimonial for the homepage Hero proof card.
- *  Uses the explicitly configured settings.hero_testimonial_id when it is set
- *  and published; otherwise falls back to the most recent published
- *  testimonial. Returns null only when no published testimonial exists. */
-export async function getHomepageHeroTestimonial(heroTestimonialId: string | null) {
+/** Testimonials eligible for the homepage Hero proof card, deterministically
+ *  ordered. The explicitly configured settings.hero_testimonial_id (when it is
+ *  set and still published) is returned first; otherwise — and for the
+ *  remaining entries — most recently published first, matching the previous
+ *  single-testimonial fallback. Returns an empty array only when no published
+ *  testimonial exists. */
+export async function getHomepageHeroTestimonials(heroTestimonialId: string | null) {
   try {
     const supabase = await createClient();
-    const fields = "id, quote, highlight_text, client_name, company";
-    if (heroTestimonialId) {
-      const { data } = await supabase
-        .from("testimonials")
-        .select(fields)
-        .eq("id", heroTestimonialId)
-        .eq("published", true)
-        .maybeSingle();
-      if (data) return data;
-    }
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("testimonials")
-      .select(fields)
+      .select("id, quote, highlight_text, client_name, company")
       .eq("published", true)
       .order("created_at", { ascending: false })
-      .limit(1)
-      .maybeSingle();
-    return data ?? null;
+      .order("id", { ascending: true });
+
+    if (error) {
+      console.warn("[queries] getHomepageHeroTestimonials:", error.message);
+      return [];
+    }
+
+    const rows = data ?? [];
+    if (!heroTestimonialId) return rows;
+
+    const selected = rows.find((t) => t.id === heroTestimonialId);
+    if (!selected) return rows;
+    return [selected, ...rows.filter((t) => t.id !== heroTestimonialId)];
   } catch {
-    return null;
+    return [];
   }
 }
 

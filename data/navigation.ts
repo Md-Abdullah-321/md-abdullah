@@ -18,8 +18,8 @@ export const NAV_DESTINATIONS: Record<
 };
 
 export const mainNavItems: NavItem[] = [
-  { label: "Work I've Done", href: "/#featured-work" },
   { label: "How I Build", href: "/#how-i-build" },
+  { label: "Work I've Done", href: "/#featured-work" },
   { label: "Systems", href: "/#systems" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },

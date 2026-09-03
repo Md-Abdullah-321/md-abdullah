@@ -1,16 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { Play, X } from "lucide-react";
+import { useCallback, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { pushDataLayerEvent } from "@/lib/analytics/data-layer";
 import {
   loadYouTubeApi,
   watchYouTubePlayback,
   YOUTUBE_NOCOOKIE_HOST,
+  YT_STATE,
   type YouTubePlayer,
 } from "@/lib/videos/youtube";
+import { useVideoPlayer } from "@/hooks/use-video-controller";
 
 interface HeroVideoProps {
   videoId?: string;
@@ -18,106 +18,179 @@ interface HeroVideoProps {
   className?: string;
 }
 
+/**
+ * Inline, autoplaying hero video. Loads the YouTube player directly on mount
+ * (no click-to-play thumbnail) and reports video_play / video_progress /
+ * video_complete through the existing data layer.
+ *
+ * Autoplay on mount is the hero's intentional, existing behavior and is
+ * preserved. It is routed through the global playback manager so the hero
+ * participates in single-video coordination:
+ * - Starting the hero pauses any other video that happens to be active.
+ * - When the hero leaves the viewport it is paused.
+ * - It does NOT automatically resume when scrolled back into view. The hero
+ *   keeps its native controls, so the user restarts it explicitly (which
+ *   goes back through the manager).
+ */
 export function HeroVideo({
   videoId = "avMXDXwstEE",
   title = "Md Abdullah - Automation & Integration Systems Walkthrough",
   className,
 }: HeroVideoProps) {
-  const previewRef = useRef<HTMLButtonElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const playerMountRef = useRef<HTMLDivElement>(null);
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const playerRef = useRef<YouTubePlayer | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const thumbnailUrl = "/images/client-testimonial-thumbnail.jpg";
+  const stopWatchingRef = useRef<(() => void) | null>(null);
+  const buildTokenRef = useRef(0);
+  const playReportedRef = useRef(false);
 
-  useEffect(() => {
-    if (!isOpen) return;
+  const { playbackState, autoplay, reportStatus } = useVideoPlayer({
+    provider: "youtube",
+    videoId,
+    rootRef: containerRef,
+    player: {
+      start: () => {
+        // Resume an already-built player.
+        if (playerRef.current) {
+          try {
+            playerRef.current.playVideo();
+          } catch {
+            // Player may be gone; fall through to a fresh build below.
+          }
+          return;
+        }
 
-    document.body.style.overflow = "hidden";
-    closeButtonRef.current?.focus();
+        const token = ++buildTokenRef.current;
+        loadYouTubeApi().then((YouTube) => {
+          if (token !== buildTokenRef.current) return;
+          if (!playerMountRef.current) return;
 
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setIsOpen(false);
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (!isOpen || !playerMountRef.current) return;
-    let disposed = false;
-    let stopWatching: (() => void) | null = null;
-
-    loadYouTubeApi().then((YouTube) => {
-      if (disposed || !playerMountRef.current) return;
-
-      const player = new YouTube.Player(playerMountRef.current, {
-        videoId,
-        host: YOUTUBE_NOCOOKIE_HOST,
-        playerVars: {
-          autoplay: 1,
-          cc_load_policy: 0,
-          controls: 0,
-          disablekb: 1,
-          enablejsapi: 1,
-          fs: 0,
-          iv_load_policy: 3,
-          modestbranding: 1,
-          origin: window.location.origin,
-          playsinline: 1,
-          rel: 0,
-        },
-        events: {
-          onReady: ({ target }) => {
-            target.unMute();
-            target.setVolume(100);
-            target.playVideo();
-          },
-        },
-      });
-      playerRef.current = player;
-
-      stopWatching = watchYouTubePlayback(player, {
-        onProgress: (progress_percent) => {
-          pushDataLayerEvent({
-            event: "video_progress",
-            video_name: title,
-            video_provider: "youtube",
-            progress_percent,
+          const player = new YouTube.Player(playerMountRef.current, {
+            videoId,
+            host: YOUTUBE_NOCOOKIE_HOST,
+            playerVars: {
+              autoplay: 1,
+              controls: 1,
+              rel: 0,
+              playsinline: 1,
+              origin: window.location.origin,
+              enablejsapi: 1,
+            },
+            events: {
+              onReady: ({ target }) => {
+                target.setVolume(100);
+                target.unMute();
+                target.playVideo();
+              },
+              onStateChange: ({ data }) => {
+                if (data === YT_STATE.PLAYING) {
+                  if (!playReportedRef.current) {
+                    playReportedRef.current = true;
+                    pushDataLayerEvent({
+                      event: "video_play",
+                      video_name: title,
+                      video_provider: "youtube",
+                    });
+                  }
+                  reportStatus("playing");
+                } else if (data === YT_STATE.PAUSED) {
+                  reportStatus("paused");
+                } else if (data === YT_STATE.ENDED) {
+                  reportStatus("ended");
+                }
+              },
+            },
           });
-        },
-        onComplete: () => {
-          pushDataLayerEvent({
-            event: "video_complete",
-            video_name: title,
-            video_provider: "youtube",
-          });
-        },
-      });
-    });
+          playerRef.current = player;
 
-    return () => {
-      disposed = true;
-      stopWatching?.();
-      if (playerRef.current) {
-        playerRef.current.pauseVideo();
+          stopWatchingRef.current = watchYouTubePlayback(player, {
+            onProgress: (progress_percent) => {
+              pushDataLayerEvent({
+                event: "video_progress",
+                video_name: title,
+                video_provider: "youtube",
+                progress_percent,
+              });
+            },
+            onComplete: () => {
+              pushDataLayerEvent({
+                event: "video_complete",
+                video_name: title,
+                video_provider: "youtube",
+              });
+            },
+          });
+        });
+      },
+      stop: () => {
+        const player = playerRef.current;
+        if (player) {
+          try {
+            player.pauseVideo();
+          } catch {
+            // Player may already be destroyed.
+          }
+        } else {
+          // A pause arrived before the async player finished building —
+          // cancel the pending autoplay so it cannot start later.
+          buildTokenRef.current++;
+        }
+      },
+      getStatus: () => {
+        const player = playerRef.current;
+        if (!player || typeof player.getPlayerState !== "function") return "idle";
+        const s = player.getPlayerState();
+        if (s === YT_STATE.PLAYING) return "playing";
+        if (s === YT_STATE.PAUSED) return "paused";
+        if (s === YT_STATE.ENDED) return "ended";
+        return "idle";
+      },
+    },
+  });
+
+  const phase = playbackState.phase;
+
+  const destroyPlayer = useCallback(() => {
+    buildTokenRef.current++;
+    stopWatchingRef.current?.();
+    stopWatchingRef.current = null;
+    if (playerRef.current) {
+      try {
         playerRef.current.destroy();
-        playerRef.current = null;
+      } catch {
+        // Already destroyed.
       }
-    };
-  }, [isOpen, videoId, title]);
+      playerRef.current = null;
+    }
+  }, []);
 
-  function closeModal() {
-    setIsOpen(false);
-    previewRef.current?.focus();
-  }
+  // Autoplay once on mount — the hero's existing intentional behavior. The
+  // request is delayed briefly so the router's scroll restoration / any
+  // same-page anchor jump (Lenis smooth scroll) has time to settle. The
+  // manager only starts a video that is actually in the viewport: if the
+  // user arrives at the home page somewhere other than the hero (e.g. a
+  // #section link or a restored mid-page scroll), the autoplay stays queued
+  // and fires only when the hero scrolls into view.
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      autoplay();
+    }, 600);
+    return () => window.clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Destroy the player when the video ends (session over; replay restarts).
+  useEffect(() => {
+    if (phase === "ended") destroyPlayer();
+  }, [phase, destroyPlayer]);
+
+  // Cleanup on unmount.
+  useEffect(() => {
+    return destroyPlayer;
+  }, [destroyPlayer]);
 
   return (
-    <div className={cn("w-full", className)}>
+    <div ref={containerRef} className={cn("w-full", className)}>
       <div className="mb-3 flex items-center justify-between pl-1">
         <span className="font-mono text-[10px] font-semibold uppercase tracking-widest text-foreground sm:text-[11px]">
           REAL CLIENT WORK
@@ -125,63 +198,16 @@ export function HeroVideo({
         <span className="font-mono text-[10px] text-muted-foreground/60">01</span>
       </div>
 
-      <button
-        ref={previewRef}
-        type="button"
-        onClick={() => {
-          pushDataLayerEvent({
-            event: "video_play",
-            video_name: title,
-            video_provider: "youtube",
-          });
-          setIsOpen(true);
-        }}
-        className="group relative block aspect-video w-full overflow-hidden rounded-[5px] border border-border/70 bg-[#101828] shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-        aria-label={`Open video: ${title}`}
+      <div
+        className="relative aspect-video w-full overflow-hidden rounded-[5px] border border-border/70 bg-[#101828] shadow-xs"
+        aria-label={title}
       >
-        <Image
-          src={thumbnailUrl}
-          alt={title}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 55vw, 640px"
-          priority
-          className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.01]"
-        />
-        <span className="absolute inset-0 bg-black/10 transition-colors group-hover:bg-black/20" aria-hidden="true" />
-        <span className="absolute left-1/2 top-1/2 z-10 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-primary text-primary-foreground opacity-90 transition-[opacity,transform] duration-150 group-hover:scale-105 group-hover:opacity-100 sm:h-14 sm:w-14">
-          <Play className="h-5 w-5 translate-x-0.5 fill-current text-white sm:h-6 sm:w-6" aria-hidden="true" />
-        </span>
-      </button>
+        <div ref={playerMountRef} className="absolute inset-0 h-full w-full" />
+      </div>
 
       <div className="mt-3 px-1 font-mono text-[9.5px] uppercase tracking-[0.1em] text-muted-foreground/90 sm:text-[10px]">
         CLIENT REVIEW · REAL PROJECT · 1:00
       </div>
-
-      {isOpen && (
-        <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#101828]/80 p-4 backdrop-blur-[2px] sm:p-8"
-          data-lenis-prevent
-          role="dialog"
-          aria-modal="true"
-          aria-label={title}
-          onMouseDown={(event) => {
-            if (event.target === event.currentTarget) closeModal();
-          }}
-        >
-          <div className="relative aspect-video w-[min(1100px,calc(100vw-32px))] overflow-hidden rounded-xl border border-white/15 bg-[#101828] sm:w-[min(1100px,calc(100vw-64px))]">
-            <div ref={playerMountRef} className="absolute inset-0 h-full w-full" />
-            <button
-              ref={closeButtonRef}
-              type="button"
-              onClick={closeModal}
-              className="absolute right-3 top-3 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-[#101828]/65 text-white/80 transition-colors hover:bg-[#101828] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              aria-label="Close video"
-            >
-              <X className="h-4 w-4" aria-hidden="true" />
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
