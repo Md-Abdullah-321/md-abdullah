@@ -11,6 +11,12 @@ export const metadata: Metadata = {
   title: "Contact",
   description:
     "Tell Md Abdullah what is taking too much time in your business and start a direct conversation.",
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact | Md Abdullah",
+    description:
+      "Tell Md Abdullah what is taking too much time in your business and start a direct conversation.",
+  },
 };
 
 // Brand icon paths from simple-icons (CC0) — lucide v1 no longer ships brand icons.

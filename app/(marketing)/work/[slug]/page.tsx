@@ -18,6 +18,8 @@ import { FinalCTA } from "@/components/sections/final-cta";
 import { UpworkProof } from "@/components/sections/upworkproof";
 import { renderInline, RichText, stripInlineMarkdown } from "@/components/ui/rich-text";
 import { getProjectBySlugWithRelations } from "@/lib/supabase/project-relations";
+import { generateProjectJsonLd, JsonLd } from "@/lib/seo/structured-data";
+import { SITE_URL } from "@/lib/constants";
 import { ProjectViewTracker } from "@/components/analytics/project-view-tracker";
 import { TrackLink } from "@/components/analytics/track-link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
@@ -31,11 +33,23 @@ export async function generateMetadata(
   const { slug } = await props.params;
   const project = await getProjectBySlugWithRelations(slug);
   if (!project) return { title: "Not Found" };
+  const description = stripInlineMarkdown(
+    project.short_description || project.problem || "",
+  );
+  const canonicalUrl = `${SITE_URL}/work/${project.slug}`;
   return {
-    title: project.title,
-    description: stripInlineMarkdown(
-      project.short_description || project.problem || "",
-    ),
+    title: {
+      // Renders as "<title> | Work | Md Abdullah" via the layout template.
+      absolute: `${project.title} | Work`,
+    },
+    description,
+    alternates: { canonical: `/work/${project.slug}` },
+    openGraph: {
+      title: `${project.title} | Work | Md Abdullah`,
+      description,
+      url: canonicalUrl,
+      type: "article",
+    },
   };
 }
 
@@ -52,9 +66,21 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
   );
 
   return (
-    <HomepageAtmosphere>
+    <>
+      <JsonLd
+        data={generateProjectJsonLd({
+          title: project.title,
+          slug: project.slug,
+          description: stripInlineMarkdown(
+            project.short_description || project.problem || "",
+          ),
+          authorName: "Md Abdullah",
+          authorUrl: SITE_URL,
+        })}
+      />
       <ProjectViewTracker slug={project.slug} name={project.title} category={project.category} />
-      {/* ─── Intro + project video ─── */}
+      <HomepageAtmosphere>
+        {/* ─── Intro + project video ─── */}
       <section className="pt-12 md:pt-20 lg:pt-24">
         <Container>
           <Reveal variant="body" inView={false} delay={0}>
@@ -248,6 +274,7 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
         secondaryHref="/work"
         reassurance="No commitment. No pressure. Just a conversation about your process."
       />
-    </HomepageAtmosphere>
+      </HomepageAtmosphere>
+    </>
   );
 }

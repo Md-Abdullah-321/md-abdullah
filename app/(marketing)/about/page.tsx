@@ -5,11 +5,18 @@ import { Body } from "@/components/ui/typography";
 import { ProfileImage } from "@/components/media/profile-image";
 import { getSiteSettings } from "@/lib/supabase/settings";
 import { resolveExternalImageUrl } from "@/lib/media/image-url";
+import { generatePersonJsonLd, JsonLd } from "@/lib/seo/structured-data";
 
 export const metadata: Metadata = {
   title: "About",
   description:
     "Md Abdullah is an Automation & Integration Engineer who connects business tools, automates repetitive work, and builds custom workflows.",
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About | Md Abdullah",
+    description:
+      "Md Abdullah is an Automation & Integration Engineer who connects business tools, automates repetitive work, and builds custom workflows.",
+  },
 };
 
 const automateItems = ["Routine follow-ups", "Data movement between systems", "Notifications and reminders", "Record keeping and updates", "Lead assignment and routing"];
@@ -35,7 +42,7 @@ export default async function AboutPage() {
   const settings = await getSiteSettings();
   const profileImageUrl = resolveExternalImageUrl(settings.profile_image_url);
 
-  return <main className="relative isolate overflow-hidden bg-background">
+  return <><JsonLd data={generatePersonJsonLd(settings)} /><main className="relative isolate overflow-hidden bg-background">
     <div className="pointer-events-none absolute -right-72 top-0 -z-10 h-[42rem] w-[42rem] rounded-full bg-accent/45 blur-3xl" />
     <div className="pointer-events-none absolute -left-72 top-[54rem] -z-10 h-[38rem] w-[38rem] rounded-full border border-primary/[0.07] bg-primary/[0.025]" />
 
@@ -53,5 +60,5 @@ export default async function AboutPage() {
     <Section className="border-y border-border/70 bg-background"><Container><div className="max-w-3xl"><Label>WHAT I WORK ON</Label><h2 className="mt-5 font-mono text-3xl font-semibold leading-[1.04] tracking-[-0.06em] sm:text-5xl">The business problem comes first.</h2><Body className="mt-6 text-muted-foreground">The tools change from project to project. The work is finding the gap, then building the right system around it.</Body></div><div className="mt-16 divide-y divide-border/80 border-y border-border/80">{capabilities.map(([number, title, copy]) => <article className="grid gap-5 py-8 sm:grid-cols-[64px_0.85fr_1.15fr] sm:items-start sm:gap-8" key={number}><Label>{number}</Label><h3 className="font-mono text-xl font-semibold uppercase leading-tight tracking-[-0.04em] text-foreground sm:text-2xl">{title}</h3><p className="max-w-md text-base leading-7 text-muted-foreground">{copy}</p></article>)}</div></Container></Section>
 
     <Section className="pb-20 md:pb-28"><Container><div className="flex flex-col gap-6 border-t border-border/80 pt-6 sm:flex-row sm:items-baseline sm:justify-between"><Label>TOOLS I USE</Label><div className="flex max-w-3xl flex-wrap gap-x-6 gap-y-3 font-mono text-xs text-muted-foreground">{tools.map((tool) => <span key={tool}>{tool}</span>)}</div></div></Container></Section>
-  </main>;
+  </main></>;
 }

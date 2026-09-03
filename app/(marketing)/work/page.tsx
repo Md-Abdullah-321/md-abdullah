@@ -10,6 +10,12 @@ export const metadata: Metadata = {
   title: "Work",
   description:
     "Case studies and projects showcasing automation, integration, and systems work.",
+  alternates: { canonical: "/work" },
+  openGraph: {
+    title: "Work | Md Abdullah",
+    description:
+      "Case studies and projects showcasing automation, integration, and systems work.",
+  },
 };
 
 export default async function WorkPage() {

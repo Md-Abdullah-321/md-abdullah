@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, Inter } from "next/font/google";
 import { GoogleTagManager } from "@/components/analytics/google-tag-manager";
+import { SITE_URL } from "@/lib/constants";
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -17,20 +18,24 @@ const inter = Inter({
   display: "swap",
 });
 
+const SITE_NAME = "Md Abdullah";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Md Abdullah | Automation & Integration Engineer",
-    template: "%s | Md Abdullah",
+    default: `${SITE_NAME} | Automation & Integration Engineer`,
+    template: `%s | ${SITE_NAME}`,
   },
   description:
     "Automation & Integration Engineer designing robust backend pipelines, CRM architectures, and AI-assisted workflows.",
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-  ),
   openGraph: {
     type: "website",
     locale: "en_US",
-    siteName: "Md Abdullah",
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} | Automation & Integration Engineer`,
+    description:
+      "Automation & Integration Engineer designing robust backend pipelines, CRM architectures, and AI-assisted workflows.",
+    url: SITE_URL,
   },
   twitter: {
     card: "summary_large_image",

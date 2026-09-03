@@ -8,7 +8,12 @@ import { FinalCTA } from "@/components/sections/final-cta";
 import { HomepageAtmosphere } from "@/components/layout/homepage-atmosphere";
 import { getSiteSettings } from "@/lib/supabase/settings";
 import { getHomepageHeroTestimonial } from "@/lib/supabase/queries";
-import { generatePersonJsonLd, generateWebsiteJsonLd, JsonLd } from "@/lib/seo/structured-data";
+import { generateWebsiteJsonLd, JsonLd } from "@/lib/seo/structured-data";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default async function HomePage() {
   const settings = await getSiteSettings();
@@ -22,5 +27,5 @@ export default async function HomePage() {
           : heroTestimonial.client_name,
       }
     : null;
-  return <><JsonLd data={generatePersonJsonLd(settings)} /><JsonLd data={generateWebsiteJsonLd(settings)} /><HomepageAtmosphere><Hero proof={heroProof} /><CommonPatterns /><Methodology /><SystemVisualization /><FeaturedWork /><ServicesOverview /><FinalCTA /></HomepageAtmosphere></>;
+  return <><JsonLd data={generateWebsiteJsonLd(settings)} /><HomepageAtmosphere><Hero proof={heroProof} /><CommonPatterns /><Methodology /><SystemVisualization /><FeaturedWork /><ServicesOverview /><FinalCTA /></HomepageAtmosphere></>;
 }

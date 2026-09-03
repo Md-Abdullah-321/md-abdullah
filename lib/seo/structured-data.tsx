@@ -1,10 +1,9 @@
 import type { SiteSettings } from "@/lib/supabase/settings";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+import { SITE_URL } from "@/lib/constants";
 
 /**
  * Generate Person JSON-LD structured data.
- * Used on the homepage and about page.
+ * Used on the About page.
  */
 export function generatePersonJsonLd(settings: SiteSettings) {
   const sameAs: string[] = [];
@@ -38,6 +37,41 @@ export function generateWebsiteJsonLd(settings: SiteSettings) {
     description:
       settings.site_description ||
       "Automation & Integration Engineer helping businesses connect their tools and automate repetitive work.",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${SITE_URL}/work?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  };
+}
+
+/**
+ * Generate CreativeWork JSON-LD for a project case study.
+ * Used on project detail pages (/work/[slug]).
+ */
+export function generateProjectJsonLd(input: {
+  title: string;
+  slug: string;
+  description: string;
+  authorName: string;
+  authorUrl: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: input.title,
+    url: `${SITE_URL}/work/${input.slug}`,
+    description: input.description,
+    author: {
+      "@type": "Person",
+      name: input.authorName,
+      url: input.authorUrl,
+    },
+    about: "Business process automation",
+    inLanguage: "en",
   };
 }
 
