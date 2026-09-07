@@ -63,3 +63,45 @@ export function getThumbnailUrl(
 ): string {
   return providers[provider].getThumbnailUrl(videoId);
 }
+
+interface ParsedVideo {
+  provider: VideoProvider;
+  videoId: string;
+}
+
+/**
+ * Parse a YouTube or Loom share/embed URL into its provider and video id.
+ * Returns null when the URL is not a recognizable provider link.
+ */
+export function parseVideoUrl(rawUrl: string): ParsedVideo | null {
+  let url: URL;
+  try {
+    url = new URL(rawUrl);
+  } catch {
+    return null;
+  }
+
+  const host = url.hostname.replace(/^www\./, "").toLowerCase();
+
+  // YouTube — watch, youtu.be, embed, shorts, live
+  if (host === "youtube.com" || host === "youtu.be" || host === "m.youtube.com" || host === "youtube-nocookie.com") {
+    if (host === "youtu.be") {
+      const id = url.pathname.split("/").filter(Boolean)[0];
+      return id ? { provider: "youtube", videoId: id } : null;
+    }
+    const id = url.searchParams.get("v") ?? url.pathname.split("/").filter(Boolean)[1];
+    return id ? { provider: "youtube", videoId: id } : null;
+  }
+
+  // Loom — share and embed forms
+  if (host === "loom.com" || host === "app.loom.com") {
+    const parts = url.pathname.split("/").filter(Boolean);
+    // /share/<id> and /embed/<id>
+    if (parts[0] === "share" || parts[0] === "embed") {
+      const id = parts[1];
+      return id ? { provider: "loom", videoId: id } : null;
+    }
+  }
+
+  return null;
+}

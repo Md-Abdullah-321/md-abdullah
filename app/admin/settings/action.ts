@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { updateSiteSettings } from "@/lib/supabase/settings";
+import { parseVideoUrl } from "@/lib/videos/providers";
 
 interface ActionResult {
   success: boolean;
@@ -27,6 +28,7 @@ export async function saveSettings(
   const link_twitter = (formData.get("link_twitter") as string)?.trim() || null;
   const link_whatsapp = (formData.get("link_whatsapp") as string)?.trim() || null;
   const hero_testimonial_id = (formData.get("hero_testimonial_id") as string)?.trim() || null;
+  const hero_video_url = (formData.get("hero_video_url") as string)?.trim() || null;
   const site_title = (formData.get("site_title") as string)?.trim() ?? "";
   const site_description = (formData.get("site_description") as string)?.trim() ?? "";
 
@@ -46,6 +48,14 @@ export async function saveSettings(
     }
   }
 
+  // Hero video URL must be a recognizable YouTube or Loom link.
+  if (hero_video_url && !parseVideoUrl(hero_video_url)) {
+    return {
+      success: false,
+      error: "Invalid hero video URL. Paste a YouTube or Loom share/embed link.",
+    };
+  }
+
   try {
     await updateSiteSettings(id, {
       name,
@@ -62,6 +72,7 @@ export async function saveSettings(
       link_twitter,
       link_whatsapp,
       hero_testimonial_id,
+      hero_video_url,
       site_title,
       site_description,
     });

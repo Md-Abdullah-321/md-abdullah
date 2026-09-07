@@ -24,6 +24,8 @@ export interface SiteSettings {
   link_whatsapp: string | null;
   /** Testimonial shown in the homepage Hero proof card (null = most recent published). */
   hero_testimonial_id: string | null;
+  /** Homepage Hero video (YouTube/Loom share or embed URL). Null = default. */
+  hero_video_url: string | null;
   site_title: string;
   site_description: string;
   updated_at: string;
@@ -46,6 +48,7 @@ const DEFAULTS: SiteSettings = {
   link_twitter: null,
   link_whatsapp: null,
   hero_testimonial_id: null,
+  hero_video_url: null,
   site_title: "Md Abdullah | Automation & Integration Engineer",
   site_description:
     "I help businesses connect their tools, automate repetitive work, and remove manual handoffs.",

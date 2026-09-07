@@ -10,18 +10,27 @@ import {
   YT_STATE,
   type YouTubePlayer,
 } from "@/lib/videos/youtube";
+import { getEmbedUrl } from "@/lib/videos/providers";
 import { useVideoPlayer } from "@/hooks/use-video-controller";
+import type { VideoProvider } from "@/types";
 
 interface HeroVideoProps {
   videoId?: string;
+  provider?: VideoProvider;
   title?: string;
   className?: string;
 }
 
 /**
- * Inline, autoplaying hero video. Loads the YouTube player directly on mount
- * (no click-to-play thumbnail) and reports video_play / video_progress /
+ * Inline, autoplaying hero video. Loads the player directly on mount (no
+ * click-to-play thumbnail) and reports video_play / video_progress /
  * video_complete through the existing data layer.
+ *
+ * Supports YouTube and Loom:
+ * - YouTube uses the official IFrame API so progress milestones can be
+ *   observed and volume/mute controlled for autoplay.
+ * - Loom has no public embed player API, so it autoplays via an embedded
+ *   iframe and reports only video_play (see VideoEmbed for the same policy).
  *
  * Autoplay on mount is the hero's intentional, existing behavior and is
  * preserved. It is routed through the global playback manager so the hero
@@ -34,6 +43,7 @@ interface HeroVideoProps {
  */
 export function HeroVideo({
   videoId = "avMXDXwstEE",
+  provider = "youtube",
   title = "Md Abdullah - Automation & Integration Systems Walkthrough",
   className,
 }: HeroVideoProps) {
@@ -45,12 +55,19 @@ export function HeroVideo({
   const playReportedRef = useRef(false);
 
   const { playbackState, autoplay, reportStatus } = useVideoPlayer({
-    provider: "youtube",
+    provider,
     videoId,
     rootRef: containerRef,
     player: {
       start: () => {
-        // Resume an already-built player.
+        if (provider === "loom") {
+          // Loom: autoplay is handled by the embedded iframe (mounted while
+          // playing). Report playing so the manager mounts it / claims focus.
+          reportStatus("playing");
+          return;
+        }
+
+        // YouTube — resume an already-built player.
         if (playerRef.current) {
           try {
             playerRef.current.playVideo();
@@ -123,6 +140,12 @@ export function HeroVideo({
         });
       },
       stop: () => {
+        if (provider === "loom") {
+          // Loom cannot be paused programmatically; the manager unmounts the
+          // iframe by moving it out of the "playing" phase. Nothing else to do.
+          return;
+        }
+
         const player = playerRef.current;
         if (player) {
           try {
@@ -137,6 +160,7 @@ export function HeroVideo({
         }
       },
       getStatus: () => {
+        if (provider === "loom") return "idle";
         const player = playerRef.current;
         if (!player || typeof player.getPlayerState !== "function") return "idle";
         const s = player.getPlayerState();
@@ -189,6 +213,10 @@ export function HeroVideo({
     return destroyPlayer;
   }, [destroyPlayer]);
 
+  // Loom embeds are mounted only while the hero is actively playing (they
+  // cannot be paused programmatically — unmounting is the only reliable stop).
+  const loomPlaying = provider === "loom" && phase === "playing";
+
   return (
     <div ref={containerRef} className={cn("w-full", className)}>
       <div className="mb-3 flex items-center justify-between pl-1">
@@ -202,7 +230,18 @@ export function HeroVideo({
         className="relative aspect-video w-full overflow-hidden rounded-[5px] border border-border/70 bg-[#101828] shadow-xs"
         aria-label={title}
       >
-        <div ref={playerMountRef} className="absolute inset-0 h-full w-full" />
+        {provider === "youtube" && (
+          <div ref={playerMountRef} className="absolute inset-0 h-full w-full" />
+        )}
+        {loomPlaying && (
+          <iframe
+            src={getEmbedUrl("loom", videoId, { autoplay: true })}
+            title={title}
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowFullScreen
+            className="absolute inset-0 h-full w-full"
+          />
+        )}
       </div>
 
       <div className="mt-3 px-1 font-mono text-[9.5px] uppercase tracking-[0.1em] text-muted-foreground/90 sm:text-[10px]">

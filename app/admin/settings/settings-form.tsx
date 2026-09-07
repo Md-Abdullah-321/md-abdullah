@@ -207,6 +207,23 @@ export function SettingsForm({
             published testimonial when left empty.
           </p>
         </div>
+        <div>
+          <label htmlFor="hero_video_url" className="block text-sm font-medium">
+            Homepage Hero Video URL
+          </label>
+          <input
+            type="text"
+            id="hero_video_url"
+            name="hero_video_url"
+            defaultValue={settings.hero_video_url ?? ""}
+            placeholder="https://www.youtube.com/watch?v=... or https://www.loom.com/share/..."
+            className="mt-1.5 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          />
+          <p className="mt-1 text-xs text-muted-foreground">
+            Autoplays in the Homepage Hero. Paste a YouTube or Loom share/embed
+            link; the default video is used when left empty.
+          </p>
+        </div>
       </fieldset>
 
       {/* Site Metadata */}

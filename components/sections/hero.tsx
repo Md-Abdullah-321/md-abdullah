@@ -20,13 +20,29 @@ export type HeroProofData = {
   attribution: string;
 };
 
+/** Video for the hero's autoplaying player. */
+export type HeroVideoData = {
+  provider: "youtube" | "loom";
+  videoId: string;
+  title?: string;
+};
+
+const DEFAULT_HERO_VIDEO: HeroVideoData = {
+  provider: "youtube",
+  videoId: "avMXDXwstEE",
+  title: "Md Abdullah - Automation & Integration Systems Walkthrough",
+};
+
 export function Hero({
   proof,
   proofs,
+  video,
 }: {
   proof?: HeroProofData | null;
   /** Ordered collection of eligible hero testimonials (for auto-rotation). */
   proofs?: HeroProofData[] | null;
+  /** Custom hero video from site settings. Falls back to the default. */
+  video?: HeroVideoData | null;
 }) {
   return (
     <section className="relative isolate overflow-hidden border-b border-border/70 bg-background pt-10 pb-12 sm:pt-14 sm:pb-16 lg:pt-16 lg:pb-20">
@@ -136,8 +152,9 @@ export function Hero({
           <div className="flex flex-col">
             <Reveal variant="media" inView={false} delay={0.16}>
               <HeroVideo
-                videoId="avMXDXwstEE"
-                title="Md Abdullah - Automation & Integration Systems Walkthrough"
+                provider={video?.provider ?? DEFAULT_HERO_VIDEO.provider}
+                videoId={video?.videoId ?? DEFAULT_HERO_VIDEO.videoId}
+                title={video?.title ?? DEFAULT_HERO_VIDEO.title}
               />
             </Reveal>
 
