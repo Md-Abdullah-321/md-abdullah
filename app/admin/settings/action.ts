@@ -67,15 +67,18 @@ export async function saveSettings(
     });
   } catch (e) {
     console.error("[Admin] Save settings error:", e);
-    let detail: string;
-    if (e instanceof Error) {
-      detail = e.message;
-    } else if (typeof e === "object" && e !== null && "message" in e) {
-      detail = String((e as { message: unknown }).message);
-    } else {
-      detail = typeof e === "string" ? e : JSON.stringify(e);
-    }
-    return { success: false, error: `Failed to save settings: ${detail}` };
+    const detail =
+      e instanceof Error
+        ? e.message
+        : typeof e === "object" && e !== null && "message" in e
+          ? String((e as { message: unknown }).message)
+          : typeof e === "string"
+            ? e
+            : "Unknown error";
+    return {
+      success: false,
+      error: `Failed to save settings: ${detail}`,
+    };
   }
 
   revalidatePath("/");
