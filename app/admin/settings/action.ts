@@ -67,7 +67,8 @@ export async function saveSettings(
     });
   } catch (e) {
     console.error("[Admin] Save settings error:", e);
-    return { success: false, error: "Failed to save settings." };
+    const msg = e instanceof Error ? e.message : "Unknown error";
+    return { success: false, error: `Failed to save settings: ${msg}` };
   }
 
   revalidatePath("/");
