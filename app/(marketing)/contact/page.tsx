@@ -28,6 +28,10 @@ const LINKEDIN_PATH =
   "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z";
 const FIVERR_PATH =
   "M23.004 15.588a.995.995 0 1 0 .002-1.99.995.995 0 0 0-.002 1.99zm-.996-3.705h-.85c-.546 0-.84.41-.84 1.092v2.466h-1.61v-3.558h-.684c-.547 0-.84.41-.84 1.092v2.466h-1.61v-4.874h1.61v.74c.264-.574.626-.74 1.163-.74h1.972v.74c.264-.574.625-.74 1.162-.74h.527v1.316zm-6.786 1.501h-3.359c.088.546.43.858 1.006.858.43 0 .732-.175.83-.487l1.425.4c-.351.848-1.22 1.364-2.255 1.364-1.748 0-2.549-1.355-2.549-2.515 0-1.14.703-2.505 2.45-2.505 1.856 0 2.471 1.384 2.471 2.408 0 .224-.01.37-.02.477zm-1.562-.945c-.04-.42-.342-.81-.889-.81-.508 0-.81.225-.908.81h1.797zM7.508 15.44h1.416l1.767-4.874h-1.62l-.86 2.837-.878-2.837H5.72l1.787 4.874zm-6.6 0H2.51v-3.558h1.524v3.558h1.591v-4.874H2.51v-.302c0-.332.235-.536.606-.536h.918V8.412H2.85c-1.162 0-1.943.712-1.943 1.755v.4H0v1.316h.908v3.558z";
+// Fiverr's mark is a wide wordmark, so the default 24×24 square viewBox leaves
+// large empty bands above/below and shrinks the logo. This is the path's tight
+// bounding box, so the mark fills its icon box instead of being height-limited.
+const FIVERR_VIEWBOX = "0 8.412 24 7.176";
 
 type MethodKind = "email" | "whatsapp" | "upwork" | "fiverr" | "linkedin";
 
@@ -79,10 +83,18 @@ const METHOD_COPY = {
   },
 } as const;
 
-function BrandIcon({ path, className }: { path: string; className: string }) {
+function BrandIcon({
+  path,
+  viewBox = "0 0 24 24",
+  className,
+}: {
+  path: string;
+  viewBox?: string;
+  className: string;
+}) {
   return (
     <svg
-      viewBox="0 0 24 24"
+      viewBox={viewBox}
       fill="currentColor"
       className={className}
       aria-hidden="true"
@@ -101,7 +113,7 @@ const ICON_CLASSES: Record<MethodKind, { card: string; row: string }> = {
   email: { card: "h-4 w-4", row: "h-7 w-7 lg:h-9 lg:w-9" },
   whatsapp: { card: "h-4 w-4", row: "h-7 w-7 lg:h-9 lg:w-9" },
   upwork: { card: "h-[11px] w-4", row: "h-[19px] w-7 lg:h-[27px] lg:w-10" },
-  fiverr: { card: "h-[7px] w-[22px]", row: "h-[13px] w-[42px] lg:h-[16px] lg:w-[50px]" },
+  fiverr: { card: "h-[8px] w-[26px]", row: "h-[13px] w-[42px] lg:h-[14px] lg:w-[44px]" },
   linkedin: { card: "h-4 w-4", row: "h-[27px] w-[27px] lg:h-[34px] lg:w-[34px]" },
 };
 
@@ -114,7 +126,13 @@ function ContactIcon({ kind, className }: { kind: MethodKind; className: string 
     case "upwork":
       return <BrandIcon path={UPWORK_PATH} className={className} />;
     case "fiverr":
-      return <BrandIcon path={FIVERR_PATH} className={className} />;
+      return (
+        <BrandIcon
+          path={FIVERR_PATH}
+          viewBox={FIVERR_VIEWBOX}
+          className={className}
+        />
+      );
     case "linkedin":
       return <BrandIcon path={LINKEDIN_PATH} className={className} />;
   }
