@@ -24,6 +24,7 @@ export async function saveSettings(
   const link_linkedin = (formData.get("link_linkedin") as string)?.trim() || null;
   const link_github = (formData.get("link_github") as string)?.trim() || null;
   const link_upwork = (formData.get("link_upwork") as string)?.trim() || null;
+  const link_fiverr = (formData.get("link_fiverr") as string)?.trim() || null;
   const link_youtube = (formData.get("link_youtube") as string)?.trim() || null;
   const link_twitter = (formData.get("link_twitter") as string)?.trim() || null;
   const link_whatsapp = (formData.get("link_whatsapp") as string)?.trim() || null;
@@ -41,7 +42,7 @@ export async function saveSettings(
   }
 
   // Validate URLs
-  const urls = [profile_image_url, booking_url, link_linkedin, link_github, link_upwork, link_youtube, link_twitter, link_whatsapp];
+  const urls = [profile_image_url, booking_url, link_linkedin, link_github, link_upwork, link_fiverr, link_youtube, link_twitter, link_whatsapp];
   for (const url of urls) {
     if (url && !url.startsWith("http://") && !url.startsWith("https://")) {
       return { success: false, error: `Invalid URL: ${url}. Must start with http:// or https://` };
@@ -68,6 +69,7 @@ export async function saveSettings(
       link_linkedin,
       link_github,
       link_upwork,
+      link_fiverr,
       link_youtube,
       link_twitter,
       link_whatsapp,

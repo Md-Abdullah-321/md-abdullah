@@ -171,6 +171,10 @@ export function SettingsForm({
             <input type="url" id="link_upwork" name="link_upwork" defaultValue={settings.link_upwork ?? ""} placeholder="https://upwork.com/..." className="mt-1.5 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
           </div>
           <div>
+            <label htmlFor="link_fiverr" className="block text-sm font-medium">Fiverr</label>
+            <input type="url" id="link_fiverr" name="link_fiverr" defaultValue={settings.link_fiverr ?? ""} placeholder="https://www.fiverr.com/..." className="mt-1.5 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+          </div>
+          <div>
             <label htmlFor="link_youtube" className="block text-sm font-medium">YouTube</label>
             <input type="url" id="link_youtube" name="link_youtube" defaultValue={settings.link_youtube ?? ""} placeholder="https://youtube.com/..." className="mt-1.5 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
           </div>

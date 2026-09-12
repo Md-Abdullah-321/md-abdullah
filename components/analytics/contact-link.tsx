@@ -18,7 +18,7 @@ export function ContactLink({
   ...rest
 }: {
   href: string;
-  contactMethod: "email" | "whatsapp" | "upwork" | "linkedin";
+  contactMethod: "email" | "whatsapp" | "upwork" | "fiverr" | "linkedin";
   location: "contact_page" | "footer";
   external?: boolean;
   className?: string;

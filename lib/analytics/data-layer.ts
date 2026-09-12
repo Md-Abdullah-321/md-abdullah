@@ -40,7 +40,7 @@ export type DataLayerEvent =
     }
   | {
       event: "contact_click";
-      contact_method: "email" | "whatsapp" | "upwork" | "linkedin";
+      contact_method: "email" | "whatsapp" | "upwork" | "fiverr" | "linkedin";
       location: "contact_page" | "footer";
     }
   | {

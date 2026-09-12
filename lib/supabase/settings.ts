@@ -19,6 +19,7 @@ export interface SiteSettings {
   link_linkedin: string | null;
   link_github: string | null;
   link_upwork: string | null;
+  link_fiverr: string | null;
   link_youtube: string | null;
   link_twitter: string | null;
   link_whatsapp: string | null;
@@ -44,6 +45,7 @@ const DEFAULTS: SiteSettings = {
   link_linkedin: null,
   link_github: null,
   link_upwork: null,
+  link_fiverr: null,
   link_youtube: null,
   link_twitter: null,
   link_whatsapp: null,
