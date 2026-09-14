@@ -113,7 +113,7 @@ const ICON_CLASSES: Record<MethodKind, { card: string; row: string }> = {
   email: { card: "h-4 w-4", row: "h-7 w-7 lg:h-9 lg:w-9" },
   whatsapp: { card: "h-4 w-4", row: "h-7 w-7 lg:h-9 lg:w-9" },
   upwork: { card: "h-[11px] w-4", row: "h-[19px] w-7 lg:h-[27px] lg:w-10" },
-  fiverr: { card: "h-[8px] w-[26px]", row: "h-[13px] w-[42px] lg:h-[14px] lg:w-[44px]" },
+  fiverr: { card: "h-[9px] w-[30px]", row: "h-[13px] w-[42px] lg:h-[14px] lg:w-[44px]" },
   linkedin: { card: "h-4 w-4", row: "h-[27px] w-[27px] lg:h-[34px] lg:w-[34px]" },
 };
 

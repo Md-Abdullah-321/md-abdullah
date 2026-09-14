@@ -165,7 +165,7 @@ export function Hero({
               className="mt-8"
             >
               {/* GHL experience — compact editorial credential signature */}
-              <div className="flex items-center bg-surface-muted py-5 rounded-2xl shadow-sm">
+              <div className="flex items-center border-y border-border/80 py-5">
                 {ghlProof.map(([value, label, suffix], index) => {
                   const last = index === ghlProof.length - 1;
                   return (
@@ -173,8 +173,8 @@ export function Hero({
                       key={label}
                       className={
                         last
-                          ? "min-w-0 flex-1 pl-5"
-                          : "relative min-w-0 flex-1 pl-5"
+                          ? "min-w-0 flex-1 pl-4 sm:pl-5"
+                          : "relative min-w-0 flex-1 pl-4 sm:pl-5"
                       }
                     >
                       {!last ? (
@@ -183,14 +183,10 @@ export function Hero({
                           aria-hidden="true"
                         />
                       ) : null}
-                      <p className="flex items-baseline gap-1 font-sans text-[26px] font-semibold leading-none tracking-[-0.02em] text-foreground sm:text-[28px]">
+                      <p className="font-mono text-[26px] font-semibold leading-none tracking-[-0.05em] text-foreground sm:text-[28px]">
                         {value}
-                        <span
-                          className="ml-1 h-[5px] w-[5px] rounded-full bg-primary"
-                          aria-hidden="true"
-                        />
                       </p>
-                      <p className="mt-2.5 font-mono text-[10px] font-medium uppercase leading-[1.35] tracking-[0.16em] text-foreground/70 sm:text-[11px]">
+                      <p className="mt-2.5 font-mono text-[9px] font-medium uppercase leading-[1.35] tracking-[0.12em] text-foreground/70 sm:text-[10px]">
                         {label}
                         <br />
                         {suffix}

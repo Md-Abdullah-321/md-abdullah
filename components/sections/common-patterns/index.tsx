@@ -12,17 +12,17 @@ export function CommonPatterns() {
       <Container>
         <RevealGroup className="max-w-4xl">
           <RevealItem variant="label">
-            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-primary">Common patterns</p>
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-primary">From manual to connected</p>
           </RevealItem>
           <RevealItem variant="heading">
-            <H2 className="mt-3 max-w-3xl text-[1.75rem] sm:text-[2.25rem] md:text-[2.75rem]">The problem usually isn&apos;t the tool.</H2>
+            <H2 className="mt-3 max-w-3xl text-[1.75rem] sm:text-[2.25rem] md:text-[2.75rem]">The gaps between tools slow work down.</H2>
           </RevealItem>
           <RevealItem variant="body">
-            <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-[1.0625rem]">Most businesses already have the tools they need. The problem is what happens between them. Someone has to notice, pass it along, and remember the next step.</p>
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-[1.0625rem]">When information stops between one step and the next, someone has to notice, pass it along, and remember what happens after.</p>
           </RevealItem>
         </RevealGroup>
         <Reveal variant="body">
-          <p className="mt-10 font-heading text-sm font-semibold text-foreground/80 sm:mt-12">A lead comes in. What happens next?</p>
+          <p className="mt-10 font-heading text-sm font-semibold text-foreground/80 sm:mt-12">One process. Two possible experiences.</p>
         </Reveal>
         <Reveal variant="section" className="mt-6 hidden md:block"><ProcessDesktop /></Reveal>
         <Reveal variant="section" className="mt-6 md:hidden"><ProcessMobile /></Reveal>

@@ -2,99 +2,48 @@ import { Container } from "@/components/layout/container";
 import { H2 } from "@/components/ui/typography";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
 
-const capabilities = [
-  {
-    number: "01",
-    title: "Capture",
-    headline: "Every entry point feeds one place",
-    description: "Your website, forms, chatbots, voice AI, and email all connect to your CRM. No one has to copy the data in by hand.",
-  },
-  {
-    number: "02",
-    title: "Process",
-    headline: "Routine work runs on its own",
-    description: "Follow-ups go out. Leads get assigned. Tasks get created. Messages get sent. Without someone pressing a button each time.",
-  },
-  {
-    number: "03",
-    title: "Connect",
-    headline: "Your tools share what they need to",
-    description: "CRM, calendar, payments, messaging, and internal tools talk to each other through APIs and automation.",
-  },
-  {
-    number: "04",
-    title: "Decide",
-    headline: "AI handles the simple decisions",
-    description: "Lead qualification, routing, responses, and knowledge lookup. I use AI where it actually helps, not where it just adds complexity.",
-  },
-  {
-    number: "05",
-    title: "Involve",
-    headline: "Your team gets the right work",
-    description: "People step in for judgment calls, complex conversations, and decisions. The system handles everything else.",
-  },
-];
+const systems = [
+  { number: "01", title: "CRM & sales systems", pattern: ["Lead", "Qualification", "Follow-up", "Appointment"] },
+  { number: "02", title: "AI automation", pattern: ["Conversation", "Decision", "Action", "Human handoff"] },
+  { number: "03", title: "Integrations", pattern: ["Website", "API", "CRM", "Automation"] },
+  { number: "04", title: "Operations", pattern: ["Request", "Processing", "Team", "Completion"] },
+] as const;
 
 export function SystemVisualization() {
   return (
-    <section className="py-16 md:py-20 lg:py-24 bg-white">
+    <section className="bg-white py-16 md:py-20 lg:py-24" id="systems">
       <Container>
-        {/* Header */}
         <RevealGroup className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <RevealItem>
             <div className="max-w-lg">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-primary">
-                What Gets Built
-              </p>
-              <H2 className="mt-2">
-                What gets built when the pieces work together
-              </H2>
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-primary">What I build</p>
+              <H2 className="mt-3 max-w-xl">Systems that keep work moving.</H2>
             </div>
           </RevealItem>
           <RevealItem variant="body">
-            <p className="max-w-sm text-sm leading-relaxed text-muted-foreground md:text-right">
-              I connect CRMs, automation, APIs, AI, and internal tools into
-              one workflow your team can actually rely on.
-            </p>
+            <p className="max-w-sm text-sm leading-relaxed text-muted-foreground md:text-right">Common system patterns, shaped around the way your business already works.</p>
           </RevealItem>
         </RevealGroup>
 
-        {/* Capabilities — revealed as one group; per-row wrapping would break
-            the first:pt-0 / last:pb-0 rhythm of the divided list. */}
         <Reveal variant="section" className="mt-14 divide-y divide-border">
-          {capabilities.map((cap) => (
-            <div
-              key={cap.number}
-              className="grid gap-4 py-8 first:pt-0 last:pb-0 md:grid-cols-[60px_140px_1fr] md:gap-8 md:py-10"
-            >
-              {/* Number */}
-              <span className="font-heading text-3xl font-semibold text-border/80 md:text-4xl">
-                {cap.number}
-              </span>
-
-              {/* Title */}
-              <span className="font-heading text-base font-semibold text-foreground md:pt-2">
-                {cap.title}
-              </span>
-
-              {/* Content */}
-              <div className="md:pt-1">
-                <p className="font-heading text-lg font-semibold leading-snug text-foreground md:text-xl">
-                  {cap.headline}
-                </p>
-                <p className="mt-2 max-w-lg text-sm leading-relaxed text-muted-foreground">
-                  {cap.description}
-                </p>
+          {systems.map((system) => (
+            <div key={system.number} className="grid gap-5 py-7 first:pt-0 last:pb-0 sm:grid-cols-[3.5rem_minmax(11rem,0.8fr)_minmax(0,1.2fr)] sm:items-start sm:gap-8 sm:py-9">
+              <span className="font-mono text-[11px] font-semibold tracking-[0.12em] text-primary">{system.number}</span>
+              <h3 className="font-mono text-lg font-semibold uppercase leading-snug tracking-[-0.04em] text-foreground sm:text-xl">{system.title}</h3>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground sm:pt-1">
+                {system.pattern.map((step, index) => (
+                  <span key={step} className="inline-flex items-center gap-x-3">
+                    {index > 0 && <span className="text-primary/60" aria-hidden="true">→</span>}
+                    <span>{step}</span>
+                  </span>
+                ))}
               </div>
             </div>
           ))}
         </Reveal>
 
-        {/* Tech context */}
         <Reveal variant="body" className="mt-12 border-t border-border pt-8">
-          <p className="text-xs text-muted-foreground/50">
-            Built with GoHighLevel, n8n, Make, OpenAI, Stripe, and custom APIs. The tool comes later. First I need to understand the problem.
-          </p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground/65">The process comes first. The tools support it.</p>
         </Reveal>
       </Container>
     </section>
