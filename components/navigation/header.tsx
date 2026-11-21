@@ -13,7 +13,7 @@ const wrap =
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 h-16 w-full overflow-x-clip border-b border-border bg-background/92 backdrop-saturate-150">
+    <header className="sticky top-0 z-50 h-16 w-full overflow-x-clip border-b border-border bg-background">
       <div className={wrap}>
         <Logo />
 

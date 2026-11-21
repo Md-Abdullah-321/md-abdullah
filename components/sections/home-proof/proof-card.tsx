@@ -97,9 +97,9 @@ export function ProofCard({
                 aria-hidden={!on}
               >
                 <p className="line-clamp-4">&ldquo;{quote.quote}&rdquo;</p>
-                <footer className="mt-3.5 font-mono text-[11px] tracking-[0.1em] text-ink-faint uppercase not-italic">
+                <p className="mt-3.5 font-mono text-[11px] tracking-[0.1em] text-ink-faint uppercase not-italic">
                   {quote.attribution}
-                </footer>
+                </p>
               </blockquote>
             );
           })
