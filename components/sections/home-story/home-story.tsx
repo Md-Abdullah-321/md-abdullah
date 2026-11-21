@@ -231,7 +231,7 @@ export function HomeStory() {
                   className="group h-12 w-full rounded-[6px] border-border bg-white px-5 text-[14.5px] hover:translate-y-0 hover:border-foreground hover:bg-white lg:w-auto lg:px-[22px] lg:text-[15px]"
                 >
                   <TrackLink
-                    href="/work"
+                    href="/#work"
                     event={{
                       event: "cta_click",
                       cta_name: "see_my_work",
@@ -334,7 +334,7 @@ export function HomeStory() {
                 Five tools working as one system. That is the work I do, built around how your business already runs.
               </p>
               <Link
-                href="/work"
+                href="/#work"
                 className="mt-6 inline-flex gap-2 border-b border-current pb-0.5 font-mono text-[13px] text-green-deep"
               >
                 See systems I&apos;ve built ↓

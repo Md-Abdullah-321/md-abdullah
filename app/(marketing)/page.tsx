@@ -1,4 +1,5 @@
 import { HomeStory } from "@/components/sections/home-story/home-story";
+import { HomeWork } from "@/components/sections/home-work/home-work";
 import { getSiteSettings } from "@/lib/supabase/settings";
 import { generateWebsiteJsonLd, JsonLd } from "@/lib/seo/structured-data";
 import type { Metadata } from "next";
@@ -13,6 +14,7 @@ export default async function HomePage() {
     <>
       <JsonLd data={generateWebsiteJsonLd(settings)} />
       <HomeStory />
+      <HomeWork />
     </>
   );
 }
