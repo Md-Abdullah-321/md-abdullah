@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
-import { Body } from "@/components/ui/typography";
 import { AboutPortrait } from "@/components/sections/about/portrait";
 import { getSiteSettings } from "@/lib/supabase/settings";
 import { resolveExternalImageUrl } from "@/lib/media/image-url";
@@ -21,12 +20,11 @@ export const metadata: Metadata = {
 
 const automateItems = ["Routine follow-ups", "Data movement between systems", "Notifications and reminders", "Record keeping and updates", "Lead assignment and routing"];
 const humanItems = ["Relationship conversations", "Complex judgment calls", "Exception handling", "Strategic decisions", "Creative problem solving"];
-const capabilities = [
-  ["01", "CRM & sales systems", "I set up the CRM around how the team actually works."],
-  ["02", "Automation", "I remove repetitive handoffs, follow-ups, and manual updates."],
-  ["03", "Integrations & APIs", "I connect systems that need to share data but do not have a direct link."],
-  ["04", "AI automation", "I use AI when it can handle a useful part of the process without making things harder to manage."],
-  ["05", "Custom software", "I build the missing pieces when existing platforms are not enough."],
+const steps = [
+  ["01", "Start with the work", "I look at how the business actually operates before choosing a tool."],
+  ["02", "Find the gap", "The hardest part is usually the handoff between systems, people, and steps."],
+  ["03", "Connect what is already there", "Sometimes that is a CRM workflow, sometimes an integration, sometimes a small piece of software."],
+  ["04", "Leave the human decisions", "Repetitive updates can run on their own. Judgement, exceptions, and relationships stay with people."],
 ];
 const tools = ["GoHighLevel", "n8n", "Make", "Zapier", "OpenAI", "Stripe", "NMI", "WordPress", "Node.js", "Supabase", "React", "Next.js"];
 
@@ -89,7 +87,21 @@ export default async function AboutPage() {
 
     <Section className="relative bg-surface-muted/45"><Container><div className="grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24"><div className="max-w-md"><Label>HOW I THINK</Label><h2 className="mt-5 font-mono text-3xl font-semibold leading-[1.04] tracking-[-0.06em] sm:text-5xl">Automation is not about automating everything.</h2></div><div><p className="max-w-2xl text-xl leading-8 text-foreground sm:text-2xl sm:leading-9">The best systems remove the repetitive work so people can focus on the decisions that actually require them.</p><p className="mt-7 max-w-xl text-base leading-7 text-muted-foreground">I start by understanding how the business operates. Sometimes the answer is a CRM workflow. Sometimes it is an API integration. Sometimes it is custom software. And sometimes the best answer is to leave something alone.</p><div className="mt-12 grid gap-10 sm:grid-cols-2"><ListColumn title="AUTOMATE" items={automateItems} accent /><ListColumn title="KEEP HUMAN" items={humanItems} /></div></div></div></Container></Section>
 
-    <Section className="border-y border-border/70 bg-background"><Container><div className="max-w-3xl"><Label>WHAT I WORK ON</Label><h2 className="mt-5 font-mono text-3xl font-semibold leading-[1.04] tracking-[-0.06em] sm:text-5xl">The business problem comes first.</h2><Body className="mt-6 text-muted-foreground">The tools change from project to project. The work is finding the gap, then building the right system around it.</Body></div><div className="mt-16 divide-y divide-border/80 border-y border-border/80">{capabilities.map(([number, title, copy]) => <article className="grid gap-5 py-8 sm:grid-cols-[64px_0.85fr_1.15fr] sm:items-start sm:gap-8" key={number}><Label>{number}</Label><h3 className="font-mono text-xl font-semibold uppercase leading-tight tracking-[-0.04em] text-foreground sm:text-2xl">{title}</h3><p className="max-w-md text-base leading-7 text-muted-foreground">{copy}</p></article>)}</div></Container></Section>
+    <section className="border-t border-border">
+      <div className="mx-auto w-full max-w-6xl px-[clamp(20px,4vw,56px)] py-14 md:py-20">
+        <p className="flex items-center gap-3 font-mono text-[11px] font-medium tracking-[0.14em] text-green-deep uppercase"><span className="h-px w-5 bg-primary" aria-hidden="true" />How I work</p>
+        <h2 className="mt-4 font-sans text-[1.75rem] font-semibold tracking-[-0.035em] sm:text-[2.25rem]">The business problem comes first.</h2>
+        <ol className="mt-8 border-t border-foreground">
+          {steps.map(([number, title, copy]) => (
+            <li key={number} className="grid gap-2 border-b border-border py-5 sm:grid-cols-[4rem_14rem_minmax(0,1fr)] sm:gap-6">
+              <span className="font-mono text-[13px] text-green-deep">{number}</span>
+              <span className="font-sans text-lg font-semibold tracking-[-0.02em]">{title}</span>
+              <span className="text-[15px] leading-7 text-muted-foreground">{copy}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
 
     <Section className="pb-20 md:pb-28"><Container><div className="flex flex-col gap-6 border-t border-border/80 pt-6 sm:flex-row sm:items-baseline sm:justify-between"><Label>TOOLS I USE</Label><div className="flex max-w-3xl flex-wrap gap-x-6 gap-y-3 font-mono text-xs text-muted-foreground">{tools.map((tool) => <span key={tool}>{tool}</span>)}</div></div></Container></Section>
   </div></>;
