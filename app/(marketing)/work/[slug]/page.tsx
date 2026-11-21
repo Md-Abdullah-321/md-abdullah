@@ -9,6 +9,7 @@ import {
   StorySplit,
   StoryWide,
 } from "@/components/sections/case-study/editorial";
+import { CaseSnapshot, snapshotRows } from "@/components/sections/case-study/snapshot";
 import {
   ArchitectureFlow,
   WorkflowSteps,
@@ -82,7 +83,7 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
       <HomepageAtmosphere>
         {/* ─── Intro + project video ─── */}
       <section className="pt-12 md:pt-20 lg:pt-24">
-        <Container>
+        <Container className="px-[clamp(20px,4vw,56px)] sm:px-[clamp(20px,4vw,56px)] lg:px-[clamp(20px,4vw,56px)]">
           <Reveal variant="body" inView={false} delay={0}>
             <Link
               href="/work"
@@ -107,15 +108,18 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
               </div>
             </RevealItem>
             <RevealItem variant="heading">
-              <h1 className="mt-6 max-w-4xl font-mono text-[2.6rem] font-semibold leading-[0.96] tracking-[-0.035em] text-foreground text-balance sm:text-[3.4rem] lg:text-[4.5rem]">
+              <h1 className="mt-6 max-w-4xl font-sans text-[2.15rem] font-semibold leading-[1.05] tracking-[-0.04em] text-foreground text-balance sm:text-[2.75rem] lg:text-[3.25rem]">
                 {renderInline(project.title, "project-title")}
               </h1>
+            </RevealItem>
+            <RevealItem variant="body">
+              <CaseSnapshot rows={snapshotRows(project)} />
             </RevealItem>
             {project.short_description && (
               <RevealItem variant="body">
                 <RichText
                   content={project.short_description}
-                  className="mt-7 max-w-[50ch] font-sans text-[1.0625rem] leading-[1.62] sm:text-[1.125rem] sm:leading-[1.62]"
+                  className="mt-7 max-w-[62ch] font-sans text-[1.0625rem] leading-[1.62] sm:text-[1.125rem] sm:leading-[1.62]"
                 />
               </RevealItem>
             )}
