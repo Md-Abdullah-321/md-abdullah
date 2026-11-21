@@ -5,17 +5,11 @@ import {
   CaseLabel,
   CaseSection,
   SectionHeading,
-  StorySplit,
 } from "@/components/sections/case-study/editorial";
 import { CaseSnapshot, snapshotRows } from "@/components/sections/case-study/snapshot";
 import { CaseProblem } from "@/components/sections/case-study/problem";
 import { CaseBuilt } from "@/components/sections/case-study/built";
 import { CaseChanged } from "@/components/sections/case-study/changed";
-import {
-  ArchitectureFlow,
-  WorkflowSteps,
-} from "@/components/sections/case-study/sequences";
-import { TheShift } from "@/components/sections/case-study/the-shift";
 import { CaseContactCta, CaseNeighbors } from "@/components/sections/case-study/close";
 import { getPublishedProjects } from "@/lib/supabase/queries";
 import { UpworkProof } from "@/components/sections/upworkproof";
@@ -156,22 +150,8 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
         </Container>
       </section>
 
-      {/* ─── 01 / CONTEXT ─── */}
-      {project.context && (
-        <StorySplit
-          narrow
-          label="01 / CONTEXT"
-          title="The situation"
-          content={project.context}
-        />
-      )}
-
-      {/* ─── 02 / PROBLEM — feels like "Common patterns" ─── */}
-      {project.problem && <CaseProblem content={project.problem} />}
-
-      {/* ─── THE SHIFT ─── */}
-      {(project.before_state || project.after_state) && (
-        <TheShift before={project.before_state} after={project.after_state} />
+      {project.problem && (
+        <CaseProblem context={project.context} content={project.problem} />
       )}
 
       {/* ─── 03 / SOLUTION — long-form editorial ─── */}
@@ -194,35 +174,12 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
         />
       )}
 
-      {/* ─── 04 / WORKFLOW ─── */}
-      {project.workflow && <WorkflowSteps content={project.workflow} />}
-
-      {/* ─── 05 / ARCHITECTURE ─── */}
-      {project.architecture && (
-        <ArchitectureFlow content={project.architecture} />
-      )}
-
-      {/* ─── 06 / OUTCOME ─── */}
-      {project.outcome && <CaseChanged content={project.outcome} />}
-
-      {/* ─── TOOLS IN THE SYSTEM ─── */}
-      {tools.length > 0 && (
-        <CaseSection compact>
-          <Reveal variant="body" className="flex flex-col gap-6 sm:flex-row sm:items-baseline sm:gap-x-8">
-            <CaseLabel className="shrink-0">TOOLS IN THE SYSTEM</CaseLabel>
-            <span
-              className="hidden h-px flex-1 bg-border/80 sm:block"
-              aria-hidden="true"
-            />
-            <div className="flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] tracking-[0.14em] text-muted-foreground">
-              {tools.map((tech: string, techIndex: number) => (
-                <span key={tech}>
-                  {renderInline(tech, `tool-${techIndex}`)}
-                </span>
-              ))}
-            </div>
-          </Reveal>
-        </CaseSection>
+      {project.outcome && (
+        <CaseChanged
+          content={project.outcome}
+          before={project.before_state}
+          after={project.after_state}
+        />
       )}
 
       {/* ─── CLIENT PROOF ─── */}
