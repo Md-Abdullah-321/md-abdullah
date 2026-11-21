@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Body } from "@/components/ui/typography";
-import { ProfileImage } from "@/components/media/profile-image";
+import { AboutPortrait } from "@/components/sections/about/portrait";
 import { getSiteSettings } from "@/lib/supabase/settings";
 import { resolveExternalImageUrl } from "@/lib/media/image-url";
 import { generatePersonJsonLd, JsonLd } from "@/lib/seo/structured-data";
@@ -42,16 +42,25 @@ export default async function AboutPage() {
   const settings = await getSiteSettings();
   const profileImageUrl = resolveExternalImageUrl(settings.profile_image_url);
 
-  return <><JsonLd data={generatePersonJsonLd(settings)} /><main className="relative isolate overflow-hidden bg-background">
-    <div className="pointer-events-none absolute -right-72 top-0 -z-10 h-[42rem] w-[42rem] rounded-full bg-accent/45 blur-3xl" />
-    <div className="pointer-events-none absolute -left-72 top-[54rem] -z-10 h-[38rem] w-[38rem] rounded-full border border-primary/[0.07] bg-primary/[0.025]" />
-
-    <Section className="pt-14 md:pt-20 lg:pt-24">
-      <Container><div className="grid items-end gap-12 lg:grid-cols-[1fr_360px] lg:gap-20 xl:grid-cols-[1fr_420px]">
-        <div className="max-w-4xl"><Label>ABOUT</Label><h1 className="mt-5 font-mono text-3xl font-semibold leading-[1.03] tracking-[-0.06em] text-foreground sm:text-5xl lg:text-7xl">I build systems that make businesses <span className="text-primary">easier to run.</span></h1><p className="mt-6 font-mono text-xs tracking-[0.12em] text-muted-foreground">{settings.name} · {settings.title}</p><div className="mt-6 max-w-xl space-y-4 text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">{settings.bio ? <p>{settings.bio}</p> : <p>I work on automation, integrations, CRM systems, APIs, and custom software.</p>}<p>I started with software development and gradually moved closer to the business side of the problem. Good tools are only useful when they fit the way people actually work.</p></div></div>
-        <div className="border-b border-border/80 pb-5"><ProfileImage src={profileImageUrl ?? ""} name={settings.name} /><p className="mt-4 font-mono text-[10px] tracking-[0.14em] text-muted-foreground">MD ABDULLAH / AUTOMATION &amp; INTEGRATION ENGINEER</p></div>
-      </div></Container>
-    </Section>
+  return <><JsonLd data={generatePersonJsonLd(settings)} /><div className="bg-background">
+    <section className="pt-14 md:pt-20">
+      <div className="mx-auto grid w-full max-w-6xl items-start gap-10 px-[clamp(20px,4vw,56px)] lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-16">
+        <div>
+          <p className="flex items-center gap-3 font-mono text-[11px] font-medium tracking-[0.14em] text-green-deep uppercase">
+            <span className="h-px w-5 bg-primary" aria-hidden="true" />
+            About
+          </p>
+          <h1 className="mt-4 max-w-3xl font-sans text-[2.15rem] leading-[1.08] font-semibold tracking-[-0.04em] text-foreground sm:text-5xl">
+            GoHighLevel Automation &amp; Integration Engineer.
+          </h1>
+          <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg">
+            Based in Dhaka. I work with businesses in the US, the UK and Australia.
+          </p>
+          {settings.bio ? <p className="mt-4 max-w-xl text-base leading-7 text-muted-foreground">{settings.bio}</p> : null}
+        </div>
+        <AboutPortrait src={profileImageUrl} name={settings.name} />
+      </div>
+    </section>
 
     <Section className="relative bg-surface-muted/45"><Container><div className="grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24"><div className="max-w-md"><Label>HOW I THINK</Label><h2 className="mt-5 font-mono text-3xl font-semibold leading-[1.04] tracking-[-0.06em] sm:text-5xl">Automation is not about automating everything.</h2></div><div><p className="max-w-2xl text-xl leading-8 text-foreground sm:text-2xl sm:leading-9">The best systems remove the repetitive work so people can focus on the decisions that actually require them.</p><p className="mt-7 max-w-xl text-base leading-7 text-muted-foreground">I start by understanding how the business operates. Sometimes the answer is a CRM workflow. Sometimes it is an API integration. Sometimes it is custom software. And sometimes the best answer is to leave something alone.</p><div className="mt-12 grid gap-10 sm:grid-cols-2"><ListColumn title="AUTOMATE" items={automateItems} accent /><ListColumn title="KEEP HUMAN" items={humanItems} /></div></div></div></Container></Section>
 
@@ -60,5 +69,5 @@ export default async function AboutPage() {
     <Section className="border-y border-border/70 bg-background"><Container><div className="max-w-3xl"><Label>WHAT I WORK ON</Label><h2 className="mt-5 font-mono text-3xl font-semibold leading-[1.04] tracking-[-0.06em] sm:text-5xl">The business problem comes first.</h2><Body className="mt-6 text-muted-foreground">The tools change from project to project. The work is finding the gap, then building the right system around it.</Body></div><div className="mt-16 divide-y divide-border/80 border-y border-border/80">{capabilities.map(([number, title, copy]) => <article className="grid gap-5 py-8 sm:grid-cols-[64px_0.85fr_1.15fr] sm:items-start sm:gap-8" key={number}><Label>{number}</Label><h3 className="font-mono text-xl font-semibold uppercase leading-tight tracking-[-0.04em] text-foreground sm:text-2xl">{title}</h3><p className="max-w-md text-base leading-7 text-muted-foreground">{copy}</p></article>)}</div></Container></Section>
 
     <Section className="pb-20 md:pb-28"><Container><div className="flex flex-col gap-6 border-t border-border/80 pt-6 sm:flex-row sm:items-baseline sm:justify-between"><Label>TOOLS I USE</Label><div className="flex max-w-3xl flex-wrap gap-x-6 gap-y-3 font-mono text-xs text-muted-foreground">{tools.map((tool) => <span key={tool}>{tool}</span>)}</div></div></Container></Section>
-  </main></>;
+  </div></>;
 }
