@@ -62,9 +62,32 @@ export default async function AboutPage() {
       </div>
     </section>
 
-    <Section className="relative bg-surface-muted/45"><Container><div className="grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24"><div className="max-w-md"><Label>HOW I THINK</Label><h2 className="mt-5 font-mono text-3xl font-semibold leading-[1.04] tracking-[-0.06em] sm:text-5xl">Automation is not about automating everything.</h2></div><div><p className="max-w-2xl text-xl leading-8 text-foreground sm:text-2xl sm:leading-9">The best systems remove the repetitive work so people can focus on the decisions that actually require them.</p><p className="mt-7 max-w-xl text-base leading-7 text-muted-foreground">I start by understanding how the business operates. Sometimes the answer is a CRM workflow. Sometimes it is an API integration. Sometimes it is custom software. And sometimes the best answer is to leave something alone.</p><div className="mt-12 grid gap-10 sm:grid-cols-2"><ListColumn title="AUTOMATE" items={automateItems} accent /><ListColumn title="KEEP HUMAN" items={humanItems} /></div></div></div></Container></Section>
+    <section className="border-t border-border">
+      <div className="mx-auto w-full max-w-6xl px-[clamp(20px,4vw,56px)] py-14 md:py-20">
+        <p className="flex items-center gap-3 font-mono text-[11px] font-medium tracking-[0.14em] text-green-deep uppercase">
+          <span className="h-px w-5 bg-primary" aria-hidden="true" />
+          Timeline
+        </p>
+        <h2 className="mt-4 font-sans text-[1.75rem] font-semibold tracking-[-0.035em] sm:text-[2.25rem]">How I got here.</h2>
+        <ol className="mt-8 border-t border-foreground">
+          {[
+            ["01", "AttoExa Solutions", "Software Engineer"],
+            ["02", "Aptoro", "GoHighLevel and AI automation"],
+            ["03", "Independent", "Top Rated on Upwork"],
+          ].map(([n, place, role]) => (
+            <li key={n} className="grid gap-1 border-b border-border py-5 sm:grid-cols-[4rem_minmax(0,1fr)] sm:gap-6">
+              <span className="font-mono text-[13px] text-green-deep">{n}</span>
+              <span>
+                <span className="block font-sans text-lg font-semibold tracking-[-0.02em]">{place}</span>
+                <span className="mt-1 block text-[15px] text-muted-foreground">{role}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
 
-    <Section><Container><div className="grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:gap-24"><div><Label>BACKGROUND</Label><h2 className="mt-5 font-mono text-3xl font-semibold leading-[1.04] tracking-[-0.06em] sm:text-5xl">How I got here.</h2></div><div className="max-w-2xl space-y-5 text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8"><p>I started from software development and gradually moved closer to the business process itself. The more systems I worked with, the more I noticed that the hardest problems were rarely about writing code.</p><p>They were about making different systems, people, and processes work together. That is what pushed me toward automation and integrations.</p></div></div></Container></Section>
+    <Section className="relative bg-surface-muted/45"><Container><div className="grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24"><div className="max-w-md"><Label>HOW I THINK</Label><h2 className="mt-5 font-mono text-3xl font-semibold leading-[1.04] tracking-[-0.06em] sm:text-5xl">Automation is not about automating everything.</h2></div><div><p className="max-w-2xl text-xl leading-8 text-foreground sm:text-2xl sm:leading-9">The best systems remove the repetitive work so people can focus on the decisions that actually require them.</p><p className="mt-7 max-w-xl text-base leading-7 text-muted-foreground">I start by understanding how the business operates. Sometimes the answer is a CRM workflow. Sometimes it is an API integration. Sometimes it is custom software. And sometimes the best answer is to leave something alone.</p><div className="mt-12 grid gap-10 sm:grid-cols-2"><ListColumn title="AUTOMATE" items={automateItems} accent /><ListColumn title="KEEP HUMAN" items={humanItems} /></div></div></div></Container></Section>
 
     <Section className="border-y border-border/70 bg-background"><Container><div className="max-w-3xl"><Label>WHAT I WORK ON</Label><h2 className="mt-5 font-mono text-3xl font-semibold leading-[1.04] tracking-[-0.06em] sm:text-5xl">The business problem comes first.</h2><Body className="mt-6 text-muted-foreground">The tools change from project to project. The work is finding the gap, then building the right system around it.</Body></div><div className="mt-16 divide-y divide-border/80 border-y border-border/80">{capabilities.map(([number, title, copy]) => <article className="grid gap-5 py-8 sm:grid-cols-[64px_0.85fr_1.15fr] sm:items-start sm:gap-8" key={number}><Label>{number}</Label><h3 className="font-mono text-xl font-semibold uppercase leading-tight tracking-[-0.04em] text-foreground sm:text-2xl">{title}</h3><p className="max-w-md text-base leading-7 text-muted-foreground">{copy}</p></article>)}</div></Container></Section>
 
