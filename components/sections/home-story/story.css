@@ -160,3 +160,76 @@
     transform: none;
   }
 }
+
+/* Scroll beats. The active beat is opaque immediately so a fast scroll
+   never leaves the column blank. The outgoing beat can fade. */
+.hl-beat {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hl-beat.is-on {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hl-rail-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: calc((100% - 6px) * var(--f, 0));
+  background: var(--primary);
+}
+
+.hl-log {
+  position: absolute;
+  right: clamp(20px, 4vw, 56px);
+  bottom: 40px;
+  z-index: 4;
+  min-width: 250px;
+  border-left: 1px solid var(--border);
+  padding-left: 14px;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  line-height: 1.9;
+  transition: opacity 200ms linear;
+}
+
+.hl-log.is-off {
+  opacity: 0;
+}
+
+.hl-log-h {
+  margin-bottom: 4px;
+  color: var(--ink-faint);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hl-log-l {
+  display: none;
+  white-space: nowrap;
+}
+
+.hl-log-l.is-on {
+  display: block;
+}
+
+.hl-log-l b {
+  color: var(--green-deep);
+  font-weight: 500;
+}
+
+.hl-log-l s {
+  color: var(--ink-faint);
+  text-decoration: none;
+}
+
+@media (max-width: 1023px) {
+  .hl-log {
+    display: none;
+  }
+}
