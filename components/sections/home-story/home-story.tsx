@@ -211,7 +211,7 @@ export function HomeStory() {
                   className="group h-12 w-full rounded-[6px] px-5 text-[14.5px] hover:translate-y-0 lg:w-auto lg:px-[22px] lg:text-[15px]"
                 >
                   <TrackLink
-                    href="/contact"
+                    href="/#contact"
                     event={{
                       event: "cta_click",
                       cta_name: "start_a_conversation",

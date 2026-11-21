@@ -53,7 +53,7 @@ export function Header() {
             className="h-[34px] rounded-[6px] px-3 text-[12.5px] hover:translate-y-0 lg:h-[38px] lg:px-4 lg:text-sm"
           >
             <Link
-              href="/contact"
+              href="/#contact"
               onClick={() =>
                 pushDataLayerEvent({
                   event: "cta_click",

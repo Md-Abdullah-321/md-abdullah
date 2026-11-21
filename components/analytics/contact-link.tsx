@@ -19,7 +19,7 @@ export function ContactLink({
 }: {
   href: string;
   contactMethod: "email" | "whatsapp" | "upwork" | "fiverr" | "linkedin";
-  location: "contact_page" | "footer";
+  location: "contact_page" | "footer" | "home_proof" | "home_contact";
   external?: boolean;
   className?: string;
   children: React.ReactNode;
