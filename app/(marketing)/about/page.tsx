@@ -26,7 +26,11 @@ const steps = [
   ["03", "Connect what is already there", "Sometimes that is a CRM workflow, sometimes an integration, sometimes a small piece of software."],
   ["04", "Leave the human decisions", "Repetitive updates can run on their own. Judgement, exceptions, and relationships stay with people."],
 ];
-const tools = ["GoHighLevel", "n8n", "Make", "Zapier", "OpenAI", "Stripe", "NMI", "WordPress", "Node.js", "Supabase", "React", "Next.js"];
+const toolGroups = [
+  ["Core", ["GoHighLevel", "n8n"]],
+  ["Connected tools", ["Twilio", "Xero", "Zapier", "Make", "Stripe", "NMI", "ElevenLabs", "OpenAI", "WordPress"]],
+  ["When the platform is not enough", ["React", "Next.js", "Node.js", "Supabase"]],
+] as const;
 
 function Label({ children }: { children: React.ReactNode }) {
   return <p className="font-mono text-[11px] font-semibold tracking-[0.18em] text-primary">{children}</p>;
@@ -103,6 +107,21 @@ export default async function AboutPage() {
       </div>
     </section>
 
-    <Section className="pb-20 md:pb-28"><Container><div className="flex flex-col gap-6 border-t border-border/80 pt-6 sm:flex-row sm:items-baseline sm:justify-between"><Label>TOOLS I USE</Label><div className="flex max-w-3xl flex-wrap gap-x-6 gap-y-3 font-mono text-xs text-muted-foreground">{tools.map((tool) => <span key={tool}>{tool}</span>)}</div></div></Container></Section>
+    <section className="border-t border-border">
+      <div className="mx-auto w-full max-w-6xl px-[clamp(20px,4vw,56px)] py-14 md:py-20">
+        <p className="flex items-center gap-3 font-mono text-[11px] font-medium tracking-[0.14em] text-green-deep uppercase"><span className="h-px w-5 bg-primary" aria-hidden="true" />Tools</p>
+        <h2 className="mt-4 font-sans text-[1.75rem] font-semibold tracking-[-0.035em] sm:text-[2.25rem]">Grouped by how often I use them.</h2>
+        <div className="mt-8 grid gap-8 sm:grid-cols-3">
+          {toolGroups.map(([group, names]) => (
+            <div key={group}>
+              <p className="font-mono text-[11px] tracking-[0.14em] text-ink-faint uppercase">{group}</p>
+              <ul className="mt-3 space-y-2 text-[15px]">
+                {names.map((name) => <li key={name}>{name}</li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   </div></>;
 }
