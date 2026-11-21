@@ -10,6 +10,7 @@ import {
   StoryWide,
 } from "@/components/sections/case-study/editorial";
 import { CaseSnapshot, snapshotRows } from "@/components/sections/case-study/snapshot";
+import { CaseProblem } from "@/components/sections/case-study/problem";
 import {
   ArchitectureFlow,
   WorkflowSteps,
@@ -173,15 +174,7 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
       )}
 
       {/* ─── 02 / PROBLEM — feels like "Common patterns" ─── */}
-      {project.problem && (
-        <StorySplit
-          muted
-          narrow
-          label="02 / PROBLEM"
-          title="Where the work got stuck"
-          content={project.problem}
-        />
-      )}
+      {project.problem && <CaseProblem content={project.problem} />}
 
       {/* ─── THE SHIFT ─── */}
       {(project.before_state || project.after_state) && (
