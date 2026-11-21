@@ -16,7 +16,8 @@ import {
   WorkflowSteps,
 } from "@/components/sections/case-study/sequences";
 import { TheShift } from "@/components/sections/case-study/the-shift";
-import { FinalCTA } from "@/components/sections/final-cta";
+import { CaseContactCta, CaseNeighbors } from "@/components/sections/case-study/close";
+import { getPublishedProjects } from "@/lib/supabase/queries";
 import { UpworkProof } from "@/components/sections/upworkproof";
 import { renderInline, RichText, stripInlineMarkdown } from "@/components/ui/rich-text";
 import { getProjectBySlugWithRelations } from "@/lib/supabase/project-relations";
@@ -59,6 +60,10 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
   const { slug } = await props.params;
   const project = await getProjectBySlugWithRelations(slug);
   if (!project) notFound();
+  const published = await getPublishedProjects();
+  const here = published.findIndex((item) => item.slug === project.slug);
+  const previous = here > 0 ? published[here - 1] : null;
+  const following = here >= 0 && here < published.length - 1 ? published[here + 1] : null;
 
   const tools = (project.technologies ?? []).flatMap((tech: string) =>
     tech
@@ -225,7 +230,7 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
         <CaseSection muted>
           <SectionHeading label="CLIENT PROOF" title="What the client said." />
           <UpworkProof
-            quote={project.testimonial.quote}
+            quote={project.testimonial.quote.replaceAll("enthusistic", "enthusiastic")}
             highlight={project.testimonial.highlight_text ?? null}
             attribution={`${project.testimonial.client_name}${
               project.testimonial.company
@@ -239,16 +244,11 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
       )}
 
       {/* ─── NEXT STEP — the homepage CTA, project-specific copy ─── */}
-      <FinalCTA
-        label="Next step"
-        heading="Have a similar problem?"
-        body="Tell me what is happening and we can figure out what makes sense for your business."
-        primaryLabel="Start a Conversation"
-        primaryHref="/contact"
-        secondaryLabel="Back to all work"
-        secondaryHref="/work"
-        reassurance="No commitment. No pressure. Just a conversation about your process."
+      <CaseNeighbors
+        previous={previous ? { slug: previous.slug, title: previous.title } : null}
+        next={following ? { slug: following.slug, title: following.title } : null}
       />
+      <CaseContactCta />
       </HomepageAtmosphere>
     </>
   );
