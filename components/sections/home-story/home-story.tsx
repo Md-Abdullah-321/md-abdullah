@@ -163,7 +163,7 @@ export function HomeStory() {
           <LeadCanvas progressRef={progressRef} />
         </div>
 
-        <div className="relative mx-auto h-full w-full max-w-[1240px] px-[clamp(20px,4vw,56px)]">
+        <div className="relative mx-auto h-full w-full max-w-[1240px]">
         <div
           ref={logRef}
           className="hl-log is-off"
@@ -183,14 +183,14 @@ export function HomeStory() {
           ))}
         </div>
 
-          <div className="absolute inset-x-0 top-[40vh] bottom-0 lg:top-0 lg:right-auto lg:left-0 lg:w-[min(520px,40vw)]">
+          <div className="absolute top-[40vh] right-[clamp(20px,4vw,56px)] bottom-0 left-[clamp(20px,4vw,56px)] pb-5 lg:top-0 lg:right-auto lg:w-[min(520px,40vw)] lg:pb-0">
             <div
               ref={(el) => {
                 beatRefs.current[0] = el;
               }}
               className="hl-beat is-on absolute inset-x-0 top-0 lg:top-1/2 lg:-translate-y-[calc(50%+10px)]"
             >
-              <p className="flex items-center gap-2.5 font-mono text-[10.5px] font-medium tracking-[0.1em] text-green-deep uppercase lg:gap-3 lg:text-xs lg:tracking-[0.14em]">
+              <p className="flex min-w-0 items-center gap-2.5 font-mono text-[10.5px] font-medium tracking-[0.1em] wrap-break-word text-green-deep uppercase lg:gap-3 lg:text-xs lg:tracking-[0.14em]">
                 <span className="h-px w-[18px] bg-primary lg:w-7" aria-hidden="true" />
                 GoHighLevel Automation &amp; Integration Engineer
               </p>

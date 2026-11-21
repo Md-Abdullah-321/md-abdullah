@@ -28,6 +28,8 @@ interface VideoEmbedProps {
   /** Optional project context, pushed alongside video events when present. */
   projectName?: string;
   projectSlug?: string;
+  /** Eager-load the poster. Use on the first visible thumbnail only. */
+  priority?: boolean;
 }
 
 const aspectRatioClass: Record<AspectRatio, string> = {
@@ -74,6 +76,7 @@ export function VideoEmbed({
   className,
   projectName,
   projectSlug,
+  priority = false,
 }: VideoEmbedProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const playerMountRef = useRef<HTMLDivElement>(null);
@@ -280,6 +283,7 @@ export function VideoEmbed({
             src={thumbUrl}
             alt={`Thumbnail for ${title}`}
             fill
+            priority={priority}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1000px"
             className="object-cover transition-transform duration-[var(--duration-normal)] ease-[var(--ease-out)] group-hover:scale-[1.02]"
           />

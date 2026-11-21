@@ -1,20 +1,17 @@
 import { Container } from "@/components/layout/container";
 import { HomepageAtmosphere } from "@/components/layout/homepage-atmosphere";
-import { VideoEmbed } from "@/components/media/video-embed";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
 import {
   CaseLabel,
   CaseSection,
   SectionHeading,
-  StorySplit,
-  StoryWide,
 } from "@/components/sections/case-study/editorial";
-import {
-  ArchitectureFlow,
-  WorkflowSteps,
-} from "@/components/sections/case-study/sequences";
-import { TheShift } from "@/components/sections/case-study/the-shift";
-import { FinalCTA } from "@/components/sections/final-cta";
+import { CaseSnapshot, snapshotRows } from "@/components/sections/case-study/snapshot";
+import { CaseProblem } from "@/components/sections/case-study/problem";
+import { CaseBuilt } from "@/components/sections/case-study/built";
+import { CaseChanged } from "@/components/sections/case-study/changed";
+import { CaseContactCta, CaseNeighbors } from "@/components/sections/case-study/close";
+import { getPublishedProjects } from "@/lib/supabase/queries";
 import { UpworkProof } from "@/components/sections/upworkproof";
 import { renderInline, RichText, stripInlineMarkdown } from "@/components/ui/rich-text";
 import { getProjectBySlugWithRelations } from "@/lib/supabase/project-relations";
@@ -57,6 +54,10 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
   const { slug } = await props.params;
   const project = await getProjectBySlugWithRelations(slug);
   if (!project) notFound();
+  const published = await getPublishedProjects();
+  const here = published.findIndex((item) => item.slug === project.slug);
+  const previous = here > 0 ? published[here - 1] : null;
+  const following = here >= 0 && here < published.length - 1 ? published[here + 1] : null;
 
   const tools = (project.technologies ?? []).flatMap((tech: string) =>
     tech
@@ -82,7 +83,7 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
       <HomepageAtmosphere>
         {/* ─── Intro + project video ─── */}
       <section className="pt-12 md:pt-20 lg:pt-24">
-        <Container>
+        <Container className="px-[clamp(20px,4vw,56px)] sm:px-[clamp(20px,4vw,56px)] lg:px-[clamp(20px,4vw,56px)]">
           <Reveal variant="body" inView={false} delay={0}>
             <Link
               href="/work"
@@ -107,15 +108,18 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
               </div>
             </RevealItem>
             <RevealItem variant="heading">
-              <h1 className="mt-6 max-w-4xl font-mono text-[2.6rem] font-semibold leading-[0.96] tracking-[-0.035em] text-foreground text-balance sm:text-[3.4rem] lg:text-[4.5rem]">
+              <h1 className="mt-6 max-w-4xl font-sans text-[2.15rem] font-semibold leading-[1.05] tracking-[-0.04em] text-foreground text-balance sm:text-[2.75rem] lg:text-[3.25rem]">
                 {renderInline(project.title, "project-title")}
               </h1>
+            </RevealItem>
+            <RevealItem variant="body">
+              <CaseSnapshot rows={snapshotRows(project)} />
             </RevealItem>
             {project.short_description && (
               <RevealItem variant="body">
                 <RichText
                   content={project.short_description}
-                  className="mt-7 max-w-[50ch] font-sans text-[1.0625rem] leading-[1.62] sm:text-[1.125rem] sm:leading-[1.62]"
+                  className="mt-7 max-w-[62ch] font-sans text-[1.0625rem] leading-[1.62] sm:text-[1.125rem] sm:leading-[1.62]"
                 />
               </RevealItem>
             )}
@@ -143,106 +147,39 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
             )}
           </RevealGroup>
 
-          {project.video && (
-            <Reveal variant="media" inView={false} delay={0.3} className="mt-12 md:mt-16">
-              <VideoEmbed
-                provider={project.video.provider as "youtube" | "loom"}
-                videoId={project.video.video_id}
-                title={project.video.title}
-                thumbnail={project.video.thumbnail_url ?? undefined}
-                projectName={project.title}
-                projectSlug={project.slug}
-              />
-            </Reveal>
-          )}
         </Container>
       </section>
 
-      {/* ─── 01 / CONTEXT ─── */}
-      {project.context && (
-        <StorySplit
-          narrow
-          label="01 / CONTEXT"
-          title="The situation"
-          content={project.context}
-        />
-      )}
-
-      {/* ─── 02 / PROBLEM — feels like "Common patterns" ─── */}
       {project.problem && (
-        <StorySplit
-          muted
-          narrow
-          label="02 / PROBLEM"
-          title="Where the work got stuck"
-          content={project.problem}
-        />
-      )}
-
-      {/* ─── THE SHIFT ─── */}
-      {(project.before_state || project.after_state) && (
-        <TheShift before={project.before_state} after={project.after_state} />
+        <CaseProblem context={project.context} content={project.problem} />
       )}
 
       {/* ─── 03 / SOLUTION — long-form editorial ─── */}
       {project.solution && (
-        <StoryWide
-          muted
-          label="03 / SOLUTION"
-          title="What I built"
+        <CaseBuilt
           content={project.solution}
-        />
-      )}
-
-      {/* ─── 04 / WORKFLOW ─── */}
-      {project.workflow && <WorkflowSteps content={project.workflow} />}
-
-      {/* ─── 05 / ARCHITECTURE ─── */}
-      {project.architecture && (
-        <ArchitectureFlow content={project.architecture} />
-      )}
-
-      {/* ─── 06 / OUTCOME ─── */}
-      {project.outcome && (
-        <StorySplit
-          narrow
-          label="06 / OUTCOME"
-          title="What changed"
-          content={project.outcome}
-          footer={
-            <div className="border-y border-border/70 py-4 font-mono text-[11px] uppercase tracking-[0.13em]">
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-                <span className="text-muted-foreground/65">Manual tracking</span>
-                <span className="text-border">→</span>
-                <span className="text-foreground/70">One CRM workflow</span>
-                <span className="text-border">→</span>
-                <span className="text-primary/80">Connected</span>
-                <span className="text-border">→</span>
-                <span className="font-semibold text-primary">Automated</span>
-              </div>
-            </div>
+          tools={tools}
+          video={
+            project.video
+              ? {
+                  provider: project.video.provider as "youtube" | "loom",
+                  video_id: project.video.video_id,
+                  title: project.video.title,
+                  thumbnail_url: project.video.thumbnail_url,
+                }
+              : null
           }
+          projectName={project.title}
+          projectSlug={project.slug}
         />
       )}
 
-      {/* ─── TOOLS IN THE SYSTEM ─── */}
-      {tools.length > 0 && (
-        <CaseSection compact>
-          <Reveal variant="body" className="flex flex-col gap-6 sm:flex-row sm:items-baseline sm:gap-x-8">
-            <CaseLabel className="shrink-0">TOOLS IN THE SYSTEM</CaseLabel>
-            <span
-              className="hidden h-px flex-1 bg-border/80 sm:block"
-              aria-hidden="true"
-            />
-            <div className="flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] tracking-[0.14em] text-muted-foreground">
-              {tools.map((tech: string, techIndex: number) => (
-                <span key={tech}>
-                  {renderInline(tech, `tool-${techIndex}`)}
-                </span>
-              ))}
-            </div>
-          </Reveal>
-        </CaseSection>
+      {project.outcome && (
+        <CaseChanged
+          content={project.outcome}
+          before={project.before_state}
+          after={project.after_state}
+        />
       )}
 
       {/* ─── CLIENT PROOF ─── */}
@@ -250,7 +187,7 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
         <CaseSection muted>
           <SectionHeading label="CLIENT PROOF" title="What the client said." />
           <UpworkProof
-            quote={project.testimonial.quote}
+            quote={project.testimonial.quote.replaceAll("enthusistic", "enthusiastic")}
             highlight={project.testimonial.highlight_text ?? null}
             attribution={`${project.testimonial.client_name}${
               project.testimonial.company
@@ -264,16 +201,11 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
       )}
 
       {/* ─── NEXT STEP — the homepage CTA, project-specific copy ─── */}
-      <FinalCTA
-        label="Next step"
-        heading="Have a similar problem?"
-        body="Tell me what is happening and we can figure out what makes sense for your business."
-        primaryLabel="Start a Conversation"
-        primaryHref="/contact"
-        secondaryLabel="Back to all work"
-        secondaryHref="/work"
-        reassurance="No commitment. No pressure. Just a conversation about your process."
+      <CaseNeighbors
+        previous={previous ? { slug: previous.slug, title: previous.title } : null}
+        next={following ? { slug: following.slug, title: following.title } : null}
       />
+      <CaseContactCta />
       </HomepageAtmosphere>
     </>
   );
