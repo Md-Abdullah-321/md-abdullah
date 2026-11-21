@@ -1,16 +1,15 @@
 import { Container } from "@/components/layout/container";
 import { HomepageAtmosphere } from "@/components/layout/homepage-atmosphere";
-import { VideoEmbed } from "@/components/media/video-embed";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
 import {
   CaseLabel,
   CaseSection,
   SectionHeading,
   StorySplit,
-  StoryWide,
 } from "@/components/sections/case-study/editorial";
 import { CaseSnapshot, snapshotRows } from "@/components/sections/case-study/snapshot";
 import { CaseProblem } from "@/components/sections/case-study/problem";
+import { CaseBuilt } from "@/components/sections/case-study/built";
 import {
   ArchitectureFlow,
   WorkflowSteps,
@@ -148,18 +147,6 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
             )}
           </RevealGroup>
 
-          {project.video && (
-            <Reveal variant="media" inView={false} delay={0.3} className="mt-12 md:mt-16">
-              <VideoEmbed
-                provider={project.video.provider as "youtube" | "loom"}
-                videoId={project.video.video_id}
-                title={project.video.title}
-                thumbnail={project.video.thumbnail_url ?? undefined}
-                projectName={project.title}
-                projectSlug={project.slug}
-              />
-            </Reveal>
-          )}
         </Container>
       </section>
 
@@ -183,11 +170,21 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
 
       {/* ─── 03 / SOLUTION — long-form editorial ─── */}
       {project.solution && (
-        <StoryWide
-          muted
-          label="03 / SOLUTION"
-          title="What I built"
+        <CaseBuilt
           content={project.solution}
+          tools={tools}
+          video={
+            project.video
+              ? {
+                  provider: project.video.provider as "youtube" | "loom",
+                  video_id: project.video.video_id,
+                  title: project.video.title,
+                  thumbnail_url: project.video.thumbnail_url,
+                }
+              : null
+          }
+          projectName={project.title}
+          projectSlug={project.slug}
         />
       )}
 
