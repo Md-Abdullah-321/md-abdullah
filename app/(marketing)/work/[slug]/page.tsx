@@ -10,6 +10,7 @@ import {
 import { CaseSnapshot, snapshotRows } from "@/components/sections/case-study/snapshot";
 import { CaseProblem } from "@/components/sections/case-study/problem";
 import { CaseBuilt } from "@/components/sections/case-study/built";
+import { CaseChanged } from "@/components/sections/case-study/changed";
 import {
   ArchitectureFlow,
   WorkflowSteps,
@@ -197,27 +198,7 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
       )}
 
       {/* ─── 06 / OUTCOME ─── */}
-      {project.outcome && (
-        <StorySplit
-          narrow
-          label="06 / OUTCOME"
-          title="What changed"
-          content={project.outcome}
-          footer={
-            <div className="border-y border-border/70 py-4 font-mono text-[11px] uppercase tracking-[0.13em]">
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-                <span className="text-muted-foreground/65">Manual tracking</span>
-                <span className="text-border">→</span>
-                <span className="text-foreground/70">One CRM workflow</span>
-                <span className="text-border">→</span>
-                <span className="text-primary/80">Connected</span>
-                <span className="text-border">→</span>
-                <span className="font-semibold text-primary">Automated</span>
-              </div>
-            </div>
-          }
-        />
-      )}
+      {project.outcome && <CaseChanged content={project.outcome} />}
 
       {/* ─── TOOLS IN THE SYSTEM ─── */}
       {tools.length > 0 && (
