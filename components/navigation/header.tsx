@@ -1,101 +1,74 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Container } from "@/components/layout/container";
 import { mainNavItems, NAV_DESTINATIONS } from "@/data/navigation";
-import { cn } from "@/lib/utils";
 import { pushDataLayerEvent } from "@/lib/analytics/data-layer";
 import { Logo } from "./logo";
 import { MobileMenu } from "./mobile-menu";
 import { NavLink } from "./nav-link";
 
+const wrap =
+  "mx-auto flex h-full w-full max-w-[1240px] items-center justify-between gap-3 px-[clamp(20px,4vw,56px)]";
+
 export function Header() {
-  // Subtle state change once the page scrolls — the bar gains a slightly
-  // stronger background, nothing else moves.
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 w-full border-b backdrop-blur-md transition-colors",
-        scrolled
-          ? "border-border bg-background/95"
-          : "border-border/70 bg-background/85"
-      )}
-    >
-      <Container>
-        <div className="flex h-[4.25rem] items-center justify-between md:h-[4.6rem]">
-          {/* Identity & Brand Signature */}
-          <Logo />
+    <header className="sticky top-0 z-50 h-16 w-full overflow-x-clip border-b border-border bg-background/92 backdrop-saturate-150">
+      <div className={wrap}>
+        <Logo />
 
-          {/* Desktop nav */}
-          <nav
-            className="hidden items-center md:flex"
-            aria-label="Main navigation"
+        <nav className="hidden lg:block" aria-label="Main navigation">
+          <ul className="flex items-center gap-8">
+            {mainNavItems.map((item) => {
+              const destination = NAV_DESTINATIONS[item.href];
+              return (
+                <li key={item.href}>
+                  <NavLink
+                    href={item.href}
+                    className="px-0 text-sm font-normal text-foreground/75 hover:text-green-deep"
+                    onClick={
+                      destination
+                        ? () =>
+                            pushDataLayerEvent({
+                              event: "nav_click",
+                              destination,
+                              location: "header",
+                            })
+                        : undefined
+                    }
+                  >
+                    {item.label}
+                  </NavLink>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+          <Button
+            size="md"
+            variant="primary"
+            asChild
+            className="h-[34px] rounded-[6px] px-3 text-[12.5px] hover:translate-y-0 lg:h-[38px] lg:px-4 lg:text-sm"
           >
-            <div className="flex items-center gap-0.5 lg:gap-1">
-              {mainNavItems
-                .filter((item) => item.href !== "/contact")
-                .map((item) => {
-                  const destination = NAV_DESTINATIONS[item.href];
-                  return (
-                    <NavLink
-                      key={item.href}
-                      href={item.href}
-                      onClick={
-                        destination
-                          ? () =>
-                              pushDataLayerEvent({
-                                event: "nav_click",
-                                destination,
-                                location: "header",
-                              })
-                          : undefined
-                      }
-                    >
-                      {item.label}
-                    </NavLink>
-                  );
-                })}
-            </div>
-          </nav>
-
-          {/* Desktop CTA + Mobile toggle */}
-          <div className="flex items-center gap-4 md:gap-5">
-            <Button
-              size="md"
-              variant="primary"
-              asChild
-              className="hidden px-4 md:inline-flex"
+            <Link
+              href="/contact"
+              onClick={() =>
+                pushDataLayerEvent({
+                  event: "cta_click",
+                  cta_name: "start_a_conversation",
+                  location: "header",
+                })
+              }
             >
-              <Link
-                href="/contact"
-                onClick={() =>
-                  pushDataLayerEvent({
-                    event: "cta_click",
-                    cta_name: "start_a_conversation",
-                    location: "header",
-                  })
-                }
-              >
-                Start a Conversation
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-            <MobileMenu />
-          </div>
+              Start a Conversation
+              <span aria-hidden="true">→</span>
+            </Link>
+          </Button>
+          <MobileMenu />
         </div>
-      </Container>
+      </div>
     </header>
   );
 }

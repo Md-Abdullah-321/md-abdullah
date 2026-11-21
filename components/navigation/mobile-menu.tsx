@@ -59,19 +59,19 @@ export function MobileMenu() {
         ref={openButtonRef}
         type="button"
         onClick={open}
-        className="rounded-md p-2 text-foreground/80 transition-colors hover:bg-surface-muted hover:text-foreground md:hidden"
+        className="hidden rounded-md p-1.5 text-foreground/80 transition-colors hover:bg-surface-muted hover:text-foreground sm:inline-flex lg:hidden"
         aria-label="Open menu"
         aria-expanded={isOpen}
         aria-controls="mobile-nav"
       >
-        <Menu className="h-6 w-6" />
+        <Menu className="h-5 w-5" />
       </button>
 
       <AnimatePresence>
         {isOpen && (
           <motion.div
             key="mobile-menu"
-            className="fixed inset-0 z-[60] flex flex-col bg-background md:hidden"
+            className="fixed inset-0 z-[60] flex flex-col bg-background lg:hidden"
             style={{ height: "100dvh" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
