@@ -37,10 +37,12 @@ export function ProjectRow({
   project,
   index,
   viewLabel = "View project",
+  priority = false,
 }: {
   project: ProjectRowData;
   index: number;
   viewLabel?: string;
+  priority?: boolean;
 }) {
   const technologies = project.technologies ?? [];
 
@@ -55,6 +57,7 @@ export function ProjectRow({
             thumbnail={project.video.thumbnail_url ?? undefined}
             projectName={project.title}
             projectSlug={project.slug}
+            priority={priority}
           />
         </Reveal>
       )}

@@ -50,6 +50,7 @@ export default async function WorkPage() {
                 project={project}
                 index={index}
                 viewLabel="View case study"
+                priority={index === 0}
               />
             ))
           )}
