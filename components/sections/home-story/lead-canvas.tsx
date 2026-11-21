@@ -90,13 +90,39 @@ export function LeadCanvas({
       requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
       cancelIdleCallback?: (id: number) => void;
     };
-    const idleId = browser.requestIdleCallback
-      ? browser.requestIdleCallback(() => start(), { timeout: 600 })
-      : 0;
-    const timeoutId = browser.requestIdleCallback ? 0 : window.setTimeout(start, 200);
+    const mobile = window.matchMedia("(max-width: 1023px)").matches;
+    let idleId = 0;
+    let timeoutId = 0;
+    let started = false;
+    const begin = () => {
+      if (started) return;
+      started = true;
+      window.removeEventListener("scroll", begin);
+      window.removeEventListener("pointerdown", begin);
+      if (timeoutId) window.clearTimeout(timeoutId);
+      if (browser.cancelIdleCallback && idleId) browser.cancelIdleCallback(idleId);
+      timeoutId = 0;
+      idleId = 0;
+      start();
+    };
+
+    if (mobile) {
+      // Phones get the drawing on the first scroll, or a few seconds after
+      // load. Starting it immediately keeps the main thread busy through the
+      // opening paint.
+      window.addEventListener("scroll", begin, { passive: true });
+      window.addEventListener("pointerdown", begin, { passive: true });
+      timeoutId = window.setTimeout(begin, 5000);
+    } else if (browser.requestIdleCallback) {
+      idleId = browser.requestIdleCallback(begin, { timeout: 800 });
+    } else {
+      timeoutId = window.setTimeout(begin, 200);
+    }
 
     return () => {
       cancelled = true;
+      window.removeEventListener("scroll", begin);
+      window.removeEventListener("pointerdown", begin);
       if (browser.cancelIdleCallback && idleId) browser.cancelIdleCallback(idleId);
       if (timeoutId) window.clearTimeout(timeoutId);
       cancelAnimationFrame(raf);

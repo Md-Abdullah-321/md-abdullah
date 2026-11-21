@@ -41,7 +41,7 @@ export type DataLayerEvent =
   | {
       event: "contact_click";
       contact_method: "email" | "whatsapp" | "upwork" | "fiverr" | "linkedin";
-      location: "contact_page" | "footer";
+      location: "contact_page" | "footer" | "home_proof" | "home_contact";
     }
   | {
       event: "nav_click";

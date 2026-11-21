@@ -13,7 +13,7 @@ const wrap =
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 h-16 w-full overflow-x-clip border-b border-border bg-background/92 backdrop-saturate-150">
+    <header className="sticky top-0 z-50 h-16 w-full overflow-x-clip border-b border-border bg-background">
       <div className={wrap}>
         <Logo />
 
@@ -53,7 +53,7 @@ export function Header() {
             className="h-[34px] rounded-[6px] px-3 text-[12.5px] hover:translate-y-0 lg:h-[38px] lg:px-4 lg:text-sm"
           >
             <Link
-              href="/contact"
+              href="/#contact"
               onClick={() =>
                 pushDataLayerEvent({
                   event: "cta_click",

@@ -106,7 +106,7 @@ export function MobileMenu() {
                 className="flex flex-col"
               >
                 {mainNavItems
-                  .filter((item) => item.href !== "/contact")
+                  .filter((item) => item.href !== "/contact" && item.href !== "/#contact")
                   .map((item, index) => {
                     const destination = NAV_DESTINATIONS[item.href];
                     const isActive =
