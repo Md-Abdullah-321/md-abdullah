@@ -1,0 +1,162 @@
+/* Technical-drawing styles for the homepage lead diagram.
+   Prefixed so they don't leak into inner pages. */
+
+.hl-tag {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.hl-tag.hl-below {
+  flex-direction: column-reverse;
+}
+
+.hl-t {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: #fff;
+  padding: 5px 9px 5px 8px;
+  color: var(--foreground);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  box-shadow: 0 1px 0 rgb(16 24 40 / 0.04);
+}
+
+.hl-t small {
+  color: var(--ink-faint);
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.hl-d {
+  width: 7px;
+  height: 7px;
+  border: 1.5px solid var(--ink-faint);
+  border-radius: 50%;
+}
+
+.hl-tag.is-on .hl-d {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+
+.hl-lead {
+  width: 1px;
+  height: 22px;
+  background: var(--ink-faint);
+  opacity: 0.7;
+}
+
+.hl-tag.hl-end .hl-t {
+  border-color: var(--foreground);
+  background: var(--foreground);
+  color: #fff;
+}
+
+.hl-tag.hl-end .hl-t small {
+  color: #b7c0cc;
+}
+
+.hl-tag.hl-end .hl-d {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+
+.hl-tag.hl-lost .hl-t {
+  border-style: dashed;
+  background: transparent;
+  color: var(--muted-foreground);
+  font-weight: 500;
+}
+
+.hl-tag.hl-lost .hl-lead {
+  background: none;
+  border-left: 1px dashed var(--ink-faint);
+}
+
+.hl-mark {
+  position: relative;
+  color: var(--primary);
+}
+
+.hl-mark::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.06em;
+  height: 3px;
+  background: var(--primary);
+  opacity: 0.35;
+  transform-origin: left;
+  animation: hl-under 1.1s 0.25s cubic-bezier(0.6, 0, 0.2, 1) both;
+}
+
+@keyframes hl-under {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.hl-hint-bar {
+  display: block;
+  width: 1px;
+  height: 26px;
+  background: linear-gradient(var(--ink-faint), transparent);
+  animation: hl-hint 2.2s ease-in-out infinite;
+}
+
+@keyframes hl-hint {
+  0%,
+  100% {
+    transform: scaleY(0.4);
+    transform-origin: top;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+}
+
+@media (max-width: 1023px) {
+  .hl-t {
+    gap: 5px;
+    padding: 3px 6px;
+    font-size: 9.5px;
+  }
+
+  .hl-t small {
+    display: none;
+  }
+
+  .hl-lead {
+    height: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hl-mark::after,
+  .hl-hint-bar {
+    animation: none;
+  }
+
+  .hl-mark::after {
+    transform: none;
+  }
+}

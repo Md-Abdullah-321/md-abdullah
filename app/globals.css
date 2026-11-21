@@ -19,6 +19,8 @@
   --color-destructive: var(--destructive);
   --color-success: var(--success);
   --color-warning: var(--warning);
+  --color-green-deep: var(--green-deep);
+  --color-ink-faint: var(--ink-faint);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
@@ -70,6 +72,9 @@
   --success: #2e9e45;
   --warning: #b45309;
   --ring: #2e9e45;
+  /* Small green text. #2e9e45 is 3.45:1 on white; this clears AA. */
+  --green-deep: #23803a;
+  --ink-faint: #98a2b3;
   --radius: 0.75rem;
 }
 

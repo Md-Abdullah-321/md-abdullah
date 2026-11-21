@@ -45,13 +45,7 @@ export type DataLayerEvent =
     }
   | {
       event: "nav_click";
-      destination:
-        | "home"
-        | "work"
-        | "how_i_build"
-        | "systems"
-        | "about"
-        | "contact";
+      destination: "home" | "work" | "reviews" | "about" | "contact";
       location: "header" | "mobile_menu" | "footer";
     }
   | {

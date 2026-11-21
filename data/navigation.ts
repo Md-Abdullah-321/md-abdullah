@@ -7,20 +7,20 @@ import type { NavItem } from "@/types";
  */
 export const NAV_DESTINATIONS: Record<
   string,
-  "home" | "work" | "how_i_build" | "systems" | "about" | "contact"
+  "home" | "work" | "reviews" | "about" | "contact"
 > = {
   "/": "home",
-  "/#featured-work": "work",
-  "/#how-i-build": "how_i_build",
-  "/#systems": "systems",
+  "/#work": "work",
+  "/work": "work",
+  "/#reviews": "reviews",
   "/about": "about",
   "/contact": "contact",
+  "/#contact": "contact",
 };
 
 export const mainNavItems: NavItem[] = [
-  { label: "How I Build", href: "/#how-i-build" },
-  { label: "Work I've Done", href: "/#featured-work" },
-  { label: "Systems", href: "/#systems" },
+  { label: "Work", href: "/#work" },
+  { label: "Reviews", href: "/#reviews" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
