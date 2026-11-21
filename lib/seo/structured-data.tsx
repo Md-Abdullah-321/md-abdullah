@@ -12,15 +12,24 @@ export function generatePersonJsonLd(settings: SiteSettings) {
   if (settings.link_upwork) sameAs.push(settings.link_upwork);
   if (settings.link_youtube) sameAs.push(settings.link_youtube);
   if (settings.link_twitter) sameAs.push(settings.link_twitter);
+  if (settings.link_fiverr) sameAs.push(settings.link_fiverr);
 
   return {
     "@context": "https://schema.org",
     "@type": "Person",
     name: settings.name || "Md Abdullah",
-    jobTitle: settings.title || "Automation & Integration Engineer",
+    jobTitle: "GoHighLevel Automation & Integration Engineer",
     url: SITE_URL,
     ...(settings.profile_image_url && { image: settings.profile_image_url }),
-    ...(settings.public_email && { email: `mailto:${settings.public_email}` }),
+    ...(settings.public_email && { email: settings.public_email }),
+    knowsAbout: [
+      "GoHighLevel",
+      "Business process automation",
+      "CRM integrations",
+      "n8n",
+      "AI voice agents",
+    ],
+    areaServed: ["US", "GB", "AU"],
     ...(sameAs.length > 0 && { sameAs }),
   };
 }

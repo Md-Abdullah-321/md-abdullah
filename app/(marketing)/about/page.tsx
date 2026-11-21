@@ -123,5 +123,35 @@ export default async function AboutPage() {
         </div>
       </div>
     </section>
+
+    <section className="border-t border-border">
+      <div className="mx-auto w-full max-w-6xl px-[clamp(20px,4vw,56px)] py-14 md:py-20">
+        <p className="flex items-center gap-3 font-mono text-[11px] font-medium tracking-[0.14em] text-green-deep uppercase"><span className="h-px w-5 bg-primary" aria-hidden="true" />Credentials</p>
+        <h2 className="mt-4 font-sans text-[1.75rem] font-semibold tracking-[-0.035em] sm:text-[2.25rem]">Study</h2>
+        <ul className="mt-6 max-w-xl space-y-3 text-[15px] leading-7">
+          <li>Diploma in Computer Science</li>
+          <li>BCompSc in progress</li>
+        </ul>
+        <div className="mt-12 border-t border-foreground">
+          {contactRows(settings).map((row, index) => (
+            <a key={row.href} href={row.href} className="grid gap-1 border-b border-border py-4 sm:grid-cols-[3rem_8rem_minmax(0,1fr)] sm:items-baseline" {...(row.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+              <span className="font-mono text-[13px] text-green-deep">{String(index + 1).padStart(2, "0")}</span>
+              <span className="font-mono text-[12px] tracking-[0.12em]">{row.label}</span>
+              <span className="text-[15px] text-muted-foreground">{row.detail}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
   </div></>;
+}
+
+function contactRows(settings: Awaited<ReturnType<typeof getSiteSettings>>) {
+  const rows: { label: string; detail: string; href: string; external?: boolean }[] = [];
+  if (settings.public_email) rows.push({ label: "EMAIL", detail: settings.public_email, href: `mailto:${settings.public_email}` });
+  if (settings.link_whatsapp) rows.push({ label: "WHATSAPP", detail: "Start a direct conversation.", href: settings.link_whatsapp, external: true });
+  if (settings.link_upwork) rows.push({ label: "UPWORK", detail: "Client work and reviews", href: settings.link_upwork, external: true });
+  if (settings.link_fiverr) rows.push({ label: "FIVERR", detail: "Hire me through Fiverr", href: settings.link_fiverr, external: true });
+  if (settings.link_linkedin) rows.push({ label: "LINKEDIN", detail: "Professional connection", href: settings.link_linkedin, external: true });
+  return rows;
 }
